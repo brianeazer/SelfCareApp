@@ -16,7 +16,7 @@ public class MainController {
 	
 	@RequestMapping("/")
 	public ModelAndView index() {
-		//apiService.getGfycatAccessToken(null);
+		apiService.getGfycatAccessToken(null);
 		return new ModelAndView("index");
 	}
 	
