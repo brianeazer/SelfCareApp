@@ -31,7 +31,6 @@ public class ApiService {
 	public Response getGfycatAccessToken(String code) {
 		Request request = new Request("client_credentials", "2_iD1qPC",
 				clientSecret);
-		System.out.println("This is the client secret: " + clientSecret);
 		RestTemplate rest = new RestTemplate();
 		
 		@SuppressWarnings("unchecked")
