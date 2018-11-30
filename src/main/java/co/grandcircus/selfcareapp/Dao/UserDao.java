@@ -19,5 +19,7 @@ public class UserDao {
 		return em.createQuery("FROM  WHERE username = :username", User.class).setParameter("username", username)
 				.getResultList();
 	}
+	
+	
 
 }

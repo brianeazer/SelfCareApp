@@ -5,51 +5,57 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="user_emotions")
 public class UserEmotion {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) 
 	@Column(name= "id")
 	private Long id;
-	@Column(name= "user_id")
-	private String userId;
-	@Column(name= "emotion_id")
-	private String emotionId;
+	@ManyToOne
+	private User user;
+	@ManyToOne
+	private Emotion emotion;
 	
+	public UserEmotion() {}
+	
+	public UserEmotion(Long id, User user, Emotion emotion) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.emotion = emotion;
+	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getUserId() {
-		return userId;
+
+	public User getUser() {
+		return user;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+
+	public void setUser(User user) {
+		this.user = user;
 	}
-	public String getEmotionId() {
-		return emotionId;
+
+	public Emotion getEmotion() {
+		return emotion;
 	}
-	public void setEmotionId(String emotionId) {
-		this.emotionId = emotionId;
+
+	public void setEmotion(Emotion emotion) {
+		this.emotion = emotion;
 	}
+
 	@Override
 	public String toString() {
-		return "UserEmotion [id=" + id + ", userId=" + userId + ", emotionId=" + emotionId + "]";
+		return "UserEmotion [id=" + id + ", user=" + user + ", emotion=" + emotion + "]";
 	}
-	public UserEmotion() {
-		super();
-	}
-	public UserEmotion(Long id, String userId, String emotionId) {
-		super();
-		this.id = id;
-		this.userId = userId;
-		this.emotionId = emotionId;
-	}
-	
-	
-	
 	
 }
