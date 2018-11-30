@@ -20,7 +20,7 @@
 	</p>
 
 	<p>
-		Password: <input name="password" />
+		Password: <input name="password" type="password" />
 	</p>
 
 	<form action="/mood">
