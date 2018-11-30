@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.selfcareapp.apiservice.ApiService;
 
+
 @Controller
 public class MainController {
 	
@@ -16,8 +17,12 @@ public class MainController {
 	@RequestMapping("/")
 	public ModelAndView index() {
 		apiService.getGfycatAccessToken(null);
-		
 		return new ModelAndView("index");
+	}
+	
+	@RequestMapping("/register")
+	public ModelAndView registration() {
+		return new ModelAndView ("register");
 	}
 
 	@RequestMapping("/register")

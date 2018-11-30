@@ -16,20 +16,20 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class ApiService {
 
-	@Value("${client_secret}")
-	private String clientSecret;
-
-	public String getGfycatAccessToken(String code) {
-		Map<String, String> params = new HashMap<>();
-		params.put("code", code);
-		params.put("client_id", "5kTbDwUR-RJeKzHxSVr9Q1O3hTKGyqQun8LGLbGOOPP9plqq7BHDLxcl_zt45Grv");
-		params.put("client_secret", clientSecret);
-		RestTemplate rest = new RestTemplate();
-		@SuppressWarnings("unchecked")
-		Map<String, String> response = rest.postForObject("https://api.gfycat.com/v1", params, Map.class);
-		System.out.println(response.get("access_token"));
-		return response.get("access_token");
-	}
+//	@Value("${client_secret}")
+//	private String clientSecret;
+//
+//	public String getGfycatAccessToken(String code) {
+//		Map<String, String> params = new HashMap<>();
+//		params.put("code", code);
+//		params.put("client_id", "5kTbDwUR-RJeKzHxSVr9Q1O3hTKGyqQun8LGLbGOOPP9plqq7BHDLxcl_zt45Grv");
+//		params.put("client_secret", clientSecret);
+//		RestTemplate rest = new RestTemplate();
+//		@SuppressWarnings("unchecked")
+//		Map<String, String> response = rest.postForObject("https://api.gfycat.com/v1", params, Map.class);
+//		System.out.println(response.get("access_token"));
+//		return response.get("access_token");
+//	}
 
 /**
  * Make an HTTP request to Github's server. Use the access token to get the user details.
@@ -40,8 +40,8 @@ public getResponseFromGfyCatApi(String accessToken) {
 	String uri = "https://api.github.com/user?access_token=" + accessToken;
 	Response response = rest.getForObject(uri, Response.class);
 	
-	response.getResponse();
-	return response;
+	
+	return response.getResponse();
 }
 
 }
