@@ -1,12 +1,11 @@
 package co.grandcircus.selfcareapp.apiservice;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import co.grandcircus.selfcareapp.model.Request;
 import co.grandcircus.selfcareapp.model.Response;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;

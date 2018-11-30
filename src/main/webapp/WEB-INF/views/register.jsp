@@ -27,14 +27,7 @@
 
 			</p>
 			<p>
-				Last Name:<input type="text" name="lastname" required minlength="2"
-					maxlength="16">
-			</p>
-			<p>
-				email:<input type="email" name="email">
-			</p>
-			<p>
-				Phone Number:<input name="phonenumber" type="tel" />
+				Username:<input type="username" name="username">
 			</p>
 			<p>
 				Password (First letter must be capitalized(only numbers and
@@ -45,8 +38,6 @@
 				Re-Enter Password:<input name="password2" type="password" required
 					pattern="[A-Z][a-z0-9]*">
 			</p>
-
-
 			<p>
 				<button class="button">Submit</button>
 			</p>

@@ -16,7 +16,7 @@
 	<h1>Welcome</h1>
 
 	<p>
-		Email: <input name="email" />
+		Username: <input name="username" />
 	</p>
 
 	<p>
