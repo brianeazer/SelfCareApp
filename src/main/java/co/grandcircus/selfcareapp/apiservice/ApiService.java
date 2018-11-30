@@ -1,21 +1,9 @@
 package co.grandcircus.selfcareapp.apiservice;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.ws.Response;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 @Component
 public class ApiService {
-
 //	@Value("${client_secret}")
 //	private String clientSecret;
 //
@@ -30,18 +18,18 @@ public class ApiService {
 //		System.out.println(response.get("access_token"));
 //		return response.get("access_token");
 //	}
-
-/**
- * Make an HTTP request to Github's server. Use the access token to get the user details.
- */
-public getResponseFromGfyCatApi(String accessToken) {
-	// We'll talk more about rest template in the coming days.
-	RestTemplate rest = new RestTemplate();
-	String uri = "https://api.github.com/user?access_token=" + accessToken;
-	Response response = rest.getForObject(uri, Response.class);
-	
-	
-	return response.getResponse();
-}
+//
+///**
+// * Make an HTTP request to Github's server. Use the access token to get the user details.
+// */
+//public getResponseFromGfyCatApi(String accessToken) {
+//	// We'll talk more about rest template in the coming days.
+//	RestTemplate rest = new RestTemplate();
+//	String uri = "https://api.github.com/user?access_token=" + accessToken;
+//	Response response = rest.getForObject(uri, Response.class);
+//	
+//	
+//	return response.getResponse();
+//}
 
 }

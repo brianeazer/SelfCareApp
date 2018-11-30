@@ -5,9 +5,9 @@ public class Reqeust {
 	private String client_id;
 	private String client_secret;
 	
-	Request(){
-		
-	}
+//	Request(){
+//		
+//	}
 
 	public Reqeust(String grant_type, String client_id, String client_secret) {
 		super();
