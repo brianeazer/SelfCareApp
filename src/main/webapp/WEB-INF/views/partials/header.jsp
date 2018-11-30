@@ -17,7 +17,7 @@
 
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-*"
-		style="background-color: black ; padding: 30px; font-size: 1em;">
+		style="background-color: black; padding: 30px; font-size: 1em;">
 		<a class="navbar-brand" href="/" style="font-size: 2em;"></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarNav" aria-controls="navbarNav"
@@ -27,18 +27,18 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="">Welcome ${ user.username }</a></li>
-				<li class="nav-item"><a class="nav-link" href="/menu">Menu</a>
-				</li>
-				<li class="nav-item"><a class="nav-link"
-					href="/cart/your-items">Your cart</a></li>
-				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a>
-				</li>
-				<li class="nav-item"><a class="nav-link" href="/menu">Menu</a>
-				</li>
+
+				<li class="nav-item"><a class="nav-link" href="/Register">Register</a></li>
+
+
 				<li class="nav-item"><a class="nav-link" href="/login">Login</a>
 				</li>
-				<li class="nav-item"><a class="nav-link" href="/Register">Sign
-						Up</a></li>
+
+				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a>
+				</li>
+				<li class="nav-item"><a class="nav-link" href="/mood">Mood</a>
+				</li>
+
 			</ul>
 		</div>
 	</nav>

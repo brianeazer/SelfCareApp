@@ -30,5 +30,5 @@ public class MainController {
 		ModelAndView mav = new ModelAndView("mood");
 		return mav;
 	}
-	
+
 }
