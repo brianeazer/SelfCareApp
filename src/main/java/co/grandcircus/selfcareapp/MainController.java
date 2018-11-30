@@ -5,18 +5,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import co.grandcircus.selfcareapp.apiservice.ApiService;
 
 @Controller
 public class MainController {
 	
-	@Autowired
-	ApiService apiService;
+//	@Autowired
+//	ApiService apiService;
 	
 	@RequestMapping("/")
 	public ModelAndView index() {
-		apiService.getGfycatAccessToken(null);
+//		apiService.getGfycatAccessToken(null);
 		return new ModelAndView("index");
+	}
+	
+	@RequestMapping("/register")
+	public ModelAndView registration() {
+		return new ModelAndView ("register");
 	}
 
 	
