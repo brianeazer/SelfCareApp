@@ -16,9 +16,19 @@ public class MainController {
 	@RequestMapping("/")
 	public ModelAndView index() {
 		apiService.getGfycatAccessToken(null);
+		
 		return new ModelAndView("index");
 	}
 
+	@RequestMapping("/register")
+	public ModelAndView registerUser() {
+		ModelAndView mav = new ModelAndView("register");
+		return mav;
+	}
 	
+	@RequestMapping("/mood")
+	public ModelAndView findUserMood() {
+		ModelAndView mav = new ModelAndView("mood");
+	}
 	
 }
