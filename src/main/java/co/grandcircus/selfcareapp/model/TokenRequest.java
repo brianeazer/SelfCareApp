@@ -1,16 +1,16 @@
 package co.grandcircus.selfcareapp.model;
 
-public class Request {
+public class TokenRequest {
 	private String grant_type;
 	private String client_id;
 	private String client_secret;
 	
 
-	public Request(){
+	public TokenRequest(){
 		
 	}
 
-	public Request(String grant_type, String client_id, String client_secret) {
+	public TokenRequest(String grant_type, String client_id, String client_secret) {
 		super();
 		this.grant_type = grant_type;
 		this.client_id = client_id;

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import co.grandcircus.selfcareapp.model.Category;
-import co.grandcircus.selfcareapp.model.Request;
+import co.grandcircus.selfcareapp.model.TokenRequest;
 import co.grandcircus.selfcareapp.model.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -29,7 +29,7 @@ public class ApiService {
 	private String clientSecret;
 
 	public Response getGfycatAccessToken(String code) {
-		Request request = new Request("client_credentials", "2_iD1qPC",
+		TokenRequest request = new TokenRequest("client_credentials", "2_iD1qPC",
 				clientSecret);
 		System.out.println("This is the client secret: " + clientSecret);
 		RestTemplate rest = new RestTemplate();
@@ -53,7 +53,7 @@ public class ApiService {
 
 public void getAllCategories(String accessToken) {
 	// We'll talk more about rest template in the coming days.
-	String theUrl = "https://api.gfycat.com/v1/reactions/populated";
+	String theUrl = "https://api.gfycat.com/v1/gfycats/vibrantuniquekiwi";
 	RestTemplate restTemplate = new RestTemplate();
 	try {
         HttpHeaders headers = createHttpHeaders("fred","1234");
@@ -65,6 +65,10 @@ public void getAllCategories(String accessToken) {
     catch (Exception eek) {
         System.out.println("** Exception: "+ eek.getMessage());
     }
+}
+
+public String getAPI(String accessToken) {
+	return accessToken;
 }
 
 
