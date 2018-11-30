@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class apiService {
+public class ApiService {
 
-	@Value("${gfycat.client_secret}")
+	@Value("${client_secret}")
 	private String clientSecret;
 
 	public String getGfycatAccessToken(String code) {
@@ -27,6 +27,7 @@ public class apiService {
 		RestTemplate rest = new RestTemplate();
 		@SuppressWarnings("unchecked")
 		Map<String, String> response = rest.postForObject("https://api.gfycat.com/v1", params, Map.class);
+		System.out.println(response.get("access_token"));
 		return response.get("access_token");
 	}
 
