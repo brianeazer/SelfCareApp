@@ -28,7 +28,7 @@
 			<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="">Welcome ${ user.username }</a></li>
 
-				<li class="nav-item"><a class="nav-link" href="/Register">Register</a></li>
+				<li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
 
 
 				<li class="nav-item"><a class="nav-link" href="/login">Login</a>

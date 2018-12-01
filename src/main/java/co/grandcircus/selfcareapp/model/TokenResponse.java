@@ -1,11 +1,11 @@
 package co.grandcircus.selfcareapp.model;
 
-public class Response {
+public class TokenResponse {
 	private String token_type;
 	private String scope;
 	private String expires_in;
 	private String access_token;
-	public Response(String token_type, String scope, String expires_in, String access_token) {
+	public TokenResponse(String token_type, String scope, String expires_in, String access_token) {
 		super();
 		this.token_type = token_type;
 		this.scope = scope;
@@ -13,7 +13,7 @@ public class Response {
 		this.access_token = access_token;
 	}
 	
-	public Response() {
+	public TokenResponse() {
 		
 	}
 
