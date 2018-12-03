@@ -35,7 +35,8 @@ public class MainController {
 	@RequestMapping("/")
 	public ModelAndView index() {
 		String token = apiService.getGfycatAccessToken("").getAccess_token();
-		apiService.getGifInCategory("cat+halloween");
+		//apiService.getGifInCategory("cat, halloween");
+		apiService.getGifInCategory("halloween ,frog");
 		return new ModelAndView("index");
 	}
 	
