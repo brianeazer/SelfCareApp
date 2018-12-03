@@ -5,6 +5,7 @@ public class TokenResponse {
 	private String scope;
 	private String expires_in;
 	private String access_token;
+	
 	public TokenResponse(String token_type, String scope, String expires_in, String access_token) {
 		super();
 		this.token_type = token_type;

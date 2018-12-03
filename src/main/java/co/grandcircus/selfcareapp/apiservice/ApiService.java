@@ -1,16 +1,14 @@
 package co.grandcircus.selfcareapp.apiservice;
 
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Base64;
+import java.util.List;
 
-
-import co.grandcircus.selfcareapp.model.Category;
-import co.grandcircus.selfcareapp.model.GfyItem;
 import co.grandcircus.selfcareapp.model.GifResponse;
 import co.grandcircus.selfcareapp.model.TokenRequest;
-
-import co.grandcircus.selfcareapp.model.TokenRequest;
 import co.grandcircus.selfcareapp.model.TokenResponse;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +23,8 @@ public class ApiService {
 
 	@Value("${client_secret}")
 	private String clientSecret;
+	
+	private RestTemplate restTemplate = new RestTemplate();
 
 	public TokenResponse getGfycatAccessToken(String code) {
 		TokenRequest request = new TokenRequest("client_credentials", "2_iD1qPC",
@@ -48,37 +48,52 @@ public class ApiService {
 	}
 
 
-public void getAllCategories(String accessToken) {
-	// We'll talk more about rest template in the coming days.
-	String theUrl = "https://api.gfycat.com/v1/gfycats/vibrantuniquekiwi";
-	RestTemplate restTemplate = new RestTemplate();
-	try {
-        HttpHeaders headers = createHttpHeaders("fred","1234");
-        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-        ResponseEntity<String> response = restTemplate.exchange(theUrl, HttpMethod.GET, entity, String.class);
-        //System.out.println("Result - status ("+ response.getStatusCode() + ") has body: " + response.hasBody());
-        System.out.println(response.getBody());
-    }
-    catch (Exception eek) {
-        System.out.println("** Exception: "+ eek.getMessage());
-    }
-}
+	public void getAllCategories(String accessToken) {
+		// We'll talk more about rest template in the coming days.
+		String theUrl = "https://api.gfycat.com/v1/gfycats/vibrantuniquekiwi";
+		
+		try {
+	        HttpHeaders headers = createHttpHeaders("fred","1234");
+	        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+	        ResponseEntity<String> response = restTemplate.exchange(theUrl, HttpMethod.GET, entity, String.class);
+	        //System.out.println("Result - status ("+ response.getStatusCode() + ") has body: " + response.hasBody());
+	        System.out.println(response.getBody());
+	    }
+	    catch (Exception eek) {
+	        System.out.println("** Exception: "+ eek.getMessage());
+	    }
+	}
+	
+	public GifResponse getAGif(String gifId) {
+		String url = "https://api.gfycat.com/v1/gfycats/" + gifId;
+		HttpHeaders headers = createHttpHeaders("fred","1234");
+	    HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+		ResponseEntity<GifResponse> response = restTemplate
+				.exchange(url, HttpMethod.GET, entity, GifResponse.class);
+		GifResponse gifResponse = response.getBody();
+		//GfyItem gif = gifResponse.getGfyItem();
+		return gifResponse;
+	}
+	
+	public String getAPI(String accessToken) {
+		return accessToken;
+	}
+	
+	public void getGifInCategory(String keyword) {
+		String url = "https://api.gfycat.com/v1/gfycats/";
+		String charset = java.nio.charset.StandardCharsets.UTF_8.name();  
+		String search_text = keyword;
+		String count = "1";
+		String cursor = "20";
 
-public GifResponse getAGif(String gifId) {
-	String url = "https://api.gfycat.com/v1/gfycats/" + gifId;
-	RestTemplate restTemplate = new RestTemplate();
-	HttpHeaders headers = createHttpHeaders("fred","1234");
-    HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-	ResponseEntity<GifResponse> response = restTemplate
-			.exchange(url, HttpMethod.GET, entity, GifResponse.class);
-	GifResponse gifResponse = response.getBody();
-	//GfyItem gif = gifResponse.getGfyItem();
-	return gifResponse;
-}
-
-public String getAPI(String accessToken) {
-	return accessToken;
-}
-
+		try {
+			String query = String.format("param1=%s&param2=%s", 
+			     URLEncoder.encode(search_text, charset), 
+			     URLEncoder.encode(count, charset), URLEncoder.encode(cursor, charset));
+			System.out.println(query);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

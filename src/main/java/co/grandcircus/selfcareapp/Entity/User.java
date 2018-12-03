@@ -23,7 +23,18 @@ public class User {
 	private String password;
 	@OneToMany(mappedBy="user")
 	private List<UserEmotion> userEmotions;
+	@OneToMany(mappedBy="user")
+	private List<UserLikes> userLikes;
 	
+	public User(Long id, String username, String password) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+	}
+	public User() {
+		super();		
+	}
 	public Long getId() {
 		return id;
 	}
@@ -42,17 +53,16 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public User(Long id, String username, String password) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.password = password;
+	public List<UserEmotion> getUserEmotions() {
+		return userEmotions;
 	}
-	public User() {
-		super();		
+	public void setUserEmotions(List<UserEmotion> userEmotions) {
+		this.userEmotions = userEmotions;
 	}
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
+	public List<UserLikes> getUserLikes() {
+		return userLikes;
+	}
+	public void setUserLikes(List<UserLikes> userLikes) {
+		this.userLikes = userLikes;
 	}
 }

@@ -1,7 +1,9 @@
 package co.grandcircus.selfcareapp.model;
 
 public class GfyItem {
+	
 	private String gifUrl;
+	
 
 	
 	public GfyItem(String gifUrl) {
