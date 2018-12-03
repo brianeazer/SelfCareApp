@@ -15,7 +15,13 @@ public class UserDao {
 	private EntityManager em;
 
 	public List<User> findByUsername(String username) {
-		return em.createQuery("FROM  WHERE username = :username", User.class).setParameter("username", username)
+		return em.createQuery("FROM  WHERE username = :username", User.class)
+				.setParameter("username", username)
+				.getResultList();
+	}
+	public List<User> findByPassword(String password) {
+		return em.createQuery("FROM  WHERE password = :password", User.class)
+				.setParameter("password", password)
 				.getResultList();
 	}
 	
