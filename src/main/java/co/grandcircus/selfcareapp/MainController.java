@@ -72,8 +72,6 @@ public class MainController {
 	public ModelAndView addToDatabase(@RequestParam(name = "like") boolean like) {
 		
 		System.out.println(like);
-		
-		
 		return new ModelAndView("redirect:/flavorprofile");
 	}
 	
