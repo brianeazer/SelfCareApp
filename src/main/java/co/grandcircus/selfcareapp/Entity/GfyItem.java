@@ -1,4 +1,4 @@
-package co.grandcircus.selfcareapp.model;
+package co.grandcircus.selfcareapp.Entity;
 
 public class GfyItem {
 	

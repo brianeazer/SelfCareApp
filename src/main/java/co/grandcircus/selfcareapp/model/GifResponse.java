@@ -1,5 +1,7 @@
 package co.grandcircus.selfcareapp.model;
 
+import co.grandcircus.selfcareapp.Entity.GfyItem;
+
 public class GifResponse {
 	private GfyItem gfyItem;
 

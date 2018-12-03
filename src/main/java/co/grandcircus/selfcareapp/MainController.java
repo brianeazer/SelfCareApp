@@ -10,8 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import co.grandcircus.selfcareapp.apiservice.ApiService;
-import co.grandcircus.selfcareapp.model.GifResponse;
+import co.grandcircus.selfcareapp.apiservice.ApiService; 
 
 @Controller
 public class MainController {
@@ -22,7 +21,7 @@ public class MainController {
 	@RequestMapping("/")
 	public ModelAndView index() {
 		String token = apiService.getGfycatAccessToken("").getAccess_token();
-		apiService.getGifInCategory("cat");
+		apiService.getGifInCategory("cat+halloween");
 		return new ModelAndView("index");
 	}
 	

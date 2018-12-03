@@ -18,6 +18,7 @@ public class Like {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+	private String tag;
 	@OneToMany(mappedBy="like")
 	private List<UserLikes> userLikes;
 
@@ -36,4 +37,13 @@ public class Like {
 	public void setUserLikes(List<UserLikes> userLikes) {
 		this.userLikes = userLikes;
 	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+	
 }
