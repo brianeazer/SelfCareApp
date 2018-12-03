@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.grandcircus.selfcareapp.Dao.LikeDao;
 import co.grandcircus.selfcareapp.Dao.UserDao;
@@ -68,9 +69,17 @@ public class MainController {
 	}
 	
 	@RequestMapping("/flavorprofile")
-	public ModelAndView getUserProfile(User user, HttpSession session) {
-		if (session.getAttribute("count") == null) {
+	public ModelAndView getUserProfile(User user, HttpSession session, 
+			RedirectAttributes redir) {
+		
+		if (userDao.findByUsername(user.getUsername()) == null) {
 			userDao.create(user);
+		}
+		else {
+			redir.addFlashAttribute("message", "Username taken, please pick another");
+			return new ModelAndView("redirect:/register");
+		}
+		if (session.getAttribute("count") == null) {
 			session.setAttribute("user", user);
 			session.setAttribute("count", 0);
 		}

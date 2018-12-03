@@ -14,9 +14,10 @@
 
 </head>
 <body>
+
 	<div class="container">
 		<h1>Please fill out information</h1>
-
+		<p class = "message"> ${message}</p>
 		<form action="/flavorprofile" method="get">
 			<!-- GET/POST: Get is default. Post will clear out the URL -->
 			<!-- using min & max sets the requirements on user input -->
