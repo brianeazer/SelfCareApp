@@ -25,13 +25,10 @@
 				Username:<input type="username" name="username">
 			</p>
 			<p>
-				Password (only numbers and
-				letters):<input name="password" type="password" required
-					pattern="[a-z0-9]*">
+				Password:<input name="password" type="password">
 			</p>
 			<p>
-				Re-Enter Password:<input name="password2" type="password" required
-					pattern="[a-z0-9]*">
+				Re-Enter Password:<input name="password2" type="password">
 			</p>
 			<p>
 				<button class="button">Submit</button>
