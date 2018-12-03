@@ -4,6 +4,7 @@ import co.grandcircus.selfcareapp.Entity.GfyItem;
 
 public class GifResponse {
 	private GfyItem gfyItem;
+	
 
 	public GifResponse(GfyItem gfyItem) {
 		super();

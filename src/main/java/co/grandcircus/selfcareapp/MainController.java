@@ -37,7 +37,7 @@ public class MainController {
 	public ModelAndView index() {
 		String token = apiService.getGfycatAccessToken("").getAccess_token();
 		//apiService.getGifInCategory("cat, halloween");
-		apiService.getGifInCategory("halloween , cat, dog");
+		apiService.options("cats");
 		return new ModelAndView("index");
 	}
 	
@@ -83,14 +83,12 @@ public class MainController {
 	}
 	@RequestMapping("/store-info") 
 	public ModelAndView addToDatabase(@RequestParam(name = "count", required=false) Integer count) {
-		System.out.println(count);
 		User user = userDao.findById(1L);
 		Like like = likeDao.findById(1L);
 		UserLikes userLikes = likeDao.getUserLikes(user, like);
 		int num = userLikes.getCount();
 		userLikes.setCount(num+count);
 		likeDao.update(userLikes);
-		System.out.println(userLikes.getCount());
 		
 		return new ModelAndView("redirect:/flavorprofile");
 	}

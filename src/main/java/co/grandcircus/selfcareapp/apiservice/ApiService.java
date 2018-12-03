@@ -80,12 +80,12 @@ public class ApiService {
 		return accessToken;
 	}
 
-	public void getGifInCategory(String keyword) {
+	public void options(String keyword) {
 		String url = "https://api.gfycat.com/v1/gfycats/";
 		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
 		String search_text = keyword;
-		String count = "10";
-		String cursor = "30";
+		String count = "4";
+		String cursor = "20";
 
 		try {
 			String query = String.format("search_text=%s&count=%s&cursor=%s", URLEncoder.encode(search_text, charset),
@@ -95,7 +95,7 @@ public class ApiService {
 			connection.setRequestProperty("Accept-Charset", charset);
 			InputStream response = connection.getInputStream();
 			try (Scanner scanner = new Scanner(response)) {
-				String responseBody = scanner.useDelimiter("\\A").next();
+				String responseBody = scanner.useDelimiter("}").next();
 				System.out.println(responseBody);
 			}
 		} catch (IOException e) {
