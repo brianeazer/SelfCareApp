@@ -10,8 +10,8 @@
 <h1>Let's find out what you like</h1>
 <form action="/store-info">
 <img src="${gif }">
-<a href="/store-info?like=true" class="btn btn-secondary mb-2">Like</a>
-<a href="/store-info?like=false" class="btn btn-secondary mb-2">Dislike</a>
+<a href="/store-info?count=1" class="btn btn-secondary mb-2">Like</a>
+<a href="/store-info?count=-1" class="btn btn-secondary mb-2">Dislike</a>
 </form>
 </body>
 </html>

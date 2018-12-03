@@ -22,6 +22,16 @@ public class Like {
 	@OneToMany(mappedBy="like")
 	private List<UserLikes> userLikes;
 
+	public Like() {
+		
+	}
+	
+	public Like(Long id, String tag) {
+		super();
+		this.id = id;
+		this.tag = tag;
+	}
+
 	public Long getId() {
 		return id;
 	}

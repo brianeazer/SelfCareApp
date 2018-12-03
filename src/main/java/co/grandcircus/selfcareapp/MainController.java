@@ -12,13 +12,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import co.grandcircus.selfcareapp.Dao.LikeDao;
+import co.grandcircus.selfcareapp.Dao.UserDao;
+import co.grandcircus.selfcareapp.Entity.Like;
+import co.grandcircus.selfcareapp.Entity.User;
 import co.grandcircus.selfcareapp.apiservice.ApiService; 
 
 @Controller
 public class MainController {
-	
+//	User user = new User(1L, "Brian", "password");
+//	Like like = new Like(1L, "cat");
 	@Autowired
 	ApiService apiService;
+	
+	@Autowired
+	LikeDao likeDao;
+	
+	@Autowired
+	UserDao userDao;
 	
 	@RequestMapping("/")
 	public ModelAndView index() {
@@ -68,9 +80,12 @@ public class MainController {
 		return new ModelAndView("flavorProfile", "gif", gifUrl);
 	}
 	@RequestMapping("/store-info") 
-	public ModelAndView addToDatabase(@RequestParam(name = "like") boolean like) {
+	public ModelAndView addToDatabase(@RequestParam(name = "count", required=false) Integer count) {
+		User user = userDao.findById(1L);
+		Like like = likeDao.findById(1L);
 		
-		System.out.println(like);
+		Integer sum = likeDao.getCount(user, like);
+		System.out.println(count + "   " + sum);
 		return new ModelAndView("redirect:/flavorprofile");
 	}
 	

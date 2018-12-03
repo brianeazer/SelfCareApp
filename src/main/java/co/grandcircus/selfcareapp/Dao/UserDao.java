@@ -24,6 +24,11 @@ public class UserDao {
 				.setParameter("password", password)
 				.getResultList();
 	}
+	public User findById(Long id) {
+		return em.createQuery("FROM User WHERE id = :id", User.class)
+				.setParameter("id", id)
+				.getSingleResult();
+	}
 	
 	
 
