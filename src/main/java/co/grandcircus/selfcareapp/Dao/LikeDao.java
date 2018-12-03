@@ -21,23 +21,25 @@ public class LikeDao {
 	private EntityManager em;
 
 	public void updateCount(User user, Like like, Integer count) {
-		em.createQuery("update v.count FROM UserLikes as v WHERE v.user=:user AND v.like=:like", UserLikes.class)
-		.setParameter("v.user", user).setParameter("v.like", like);
+		em.merge("update count FROM UserLikes WHERE user=:user AND like=:like", UserLikes.class)
+		.setParameter("user", user);
 	}
 	
 	@SuppressWarnings("unused")
-	public Integer getCount(User user, Like like) {
-		Integer count;
+	public UserLikes getUserLikes(User user, Like like) {
+		
 //		try {
-		count = em.createQuery("SELECT v.count FROM UserLikes as v WHERE v.user.id=:user AND v.like.id=:like", Integer.class)
-		.setParameter("v.user.id", user).setParameter("v.like.id", like).getFirstResult();
+		return em.createQuery("FROM UserLikes AS ul WHERE ul.user.id=:user AND ul.like.id=:like", UserLikes.class)
+		.setParameter("user", user.getId()).setParameter("like", like.getId()).getSingleResult();
+//		List<UserLikes> x = em.createQuery("FROM UserLikes As ul WHERE ul.user.id=1", UserLikes.class).getResultList();
+//		System.out.println(x);
 //		} catch(MismatchedTokenException ex) {
 //			count = 0;
 //		}
-		if (count == null) {
-			count = 0;
-		}
-		return count;
+//		if (count == null) {
+//			count = 0;
+//		}
+//		return count;
 	}
 	
 	public Like findById(Long id) {
