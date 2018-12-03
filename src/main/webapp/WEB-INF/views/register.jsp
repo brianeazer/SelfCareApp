@@ -14,29 +14,22 @@
 
 </head>
 <body>
+
 	<div class="container">
 		<h1>Please fill out information</h1>
-
-		<form action="/mood" method="get">
+		<p class = "message"> ${message}</p>
+		<form action="/flavorprofile" method="get">
 			<!-- GET/POST: Get is default. Post will clear out the URL -->
 			<!-- using min & max sets the requirements on user input -->
 
 			<p>
-				First Name:<input type="text" name="firstname" required
-					minlength="2" maxlength="16" />
-
-			</p>
-			<p>
 				Username:<input type="username" name="username">
 			</p>
 			<p>
-				Password (First letter must be capitalized(only numbers and
-				letters)):<input name="password" type="password" required
-					pattern="[A-Z][a-z0-9]*">
+				Password:<input name="password" type="password">
 			</p>
 			<p>
-				Re-Enter Password:<input name="password2" type="password" required
-					pattern="[A-Z][a-z0-9]*">
+				Re-Enter Password:<input name="password2" type="password">
 			</p>
 			<p>
 				<button class="button">Submit</button>

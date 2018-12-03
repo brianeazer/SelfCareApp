@@ -2,6 +2,8 @@ package co.grandcircus.selfcareapp.Dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
@@ -14,10 +16,14 @@ public class UserDao {
 	@PersistenceContext
 	private EntityManager em;
 
-	public List<User> findByUsername(String username) {
-		return em.createQuery("FROM  WHERE username = :username", User.class)
+	public User findByUsername(String username) {
+		try {
+			return em.createQuery("FROM User WHERE username = :username", User.class)
 				.setParameter("username", username)
-				.getResultList();
+				.getSingleResult();
+		} catch (NoResultException | NonUniqueResultException ex) {
+			return null;
+		}
 	}
 	public List<User> findByPassword(String password) {
 		return em.createQuery("FROM  WHERE password = :password", User.class)
@@ -28,6 +34,9 @@ public class UserDao {
 		return em.createQuery("FROM User WHERE id = :id", User.class)
 				.setParameter("id", id)
 				.getSingleResult();
+	}
+	public void create(User user) {
+		em.persist(user);
 	}
 	
 	
