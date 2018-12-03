@@ -47,7 +47,6 @@ public class ApiService {
 	    return headers;
 	}
 
-
 	public void getAllCategories(String accessToken) {
 		// We'll talk more about rest template in the coming days.
 		String theUrl = "https://api.gfycat.com/v1/gfycats/vibrantuniquekiwi";
@@ -85,7 +84,6 @@ public class ApiService {
 		String search_text = keyword;
 		String count = "1";
 		String cursor = "20";
-
 		try {
 			String query = String.format("param1=%s&param2=%s", 
 			     URLEncoder.encode(search_text, charset), 

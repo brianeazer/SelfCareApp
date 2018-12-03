@@ -1,7 +1,13 @@
 package co.grandcircus.selfcareapp;
 
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import co.grandcircus.selfcareapp.apiservice.ApiService;
@@ -33,9 +39,32 @@ public class MainController {
 	
 	@RequestMapping("/test")
 	public ModelAndView testGifs() {
-		String gifId = "vibrantuniquekiwi";
-		String gifUrl = apiService.getAGif(gifId).getGfyItem().getGifUrl();
-		return new ModelAndView("test", "gif", gifUrl);
+		String[] gifIds = {"vibrantuniquekiwi", "enviousimmaculateflatcoatretriever", "tightfluffyaustraliankelpie", "masculinecalmeelelephant"};
+		ArrayList<String> gifUrls = new ArrayList<>();
+		for (String s : gifIds) {
+			String url = apiService.getAGif(s).getGfyItem().getGifUrl();
+			gifUrls.add(url);
+			System.out.println(url);
+		}
+		for (String s: gifUrls) {
+			System.out.println(s);
+		}
+		return new ModelAndView("test", "gifs", gifUrls);
 	}
-
+	
+	@RequestMapping("/flavorprofile")
+	public ModelAndView getUserProfile(HttpSession session) {
+		if (session.getAttribute("count") == null) {
+			session.setAttribute("count", 0);
+		}
+		else {
+			session.setAttribute("count", (int)(session.getAttribute("count"))+1);
+		}
+		int count = (int) session.getAttribute("count");
+		String[] gifIds = {"vibrantuniquekiwi", "enviousimmaculateflatcoatretriever", "tightfluffyaustraliankelpie", "masculinecalmeelelephant"};
+		String gifId = gifIds[count];
+		String gifUrl = apiService.getAGif(gifId).getGfyItem().getGifUrl();
+		return new ModelAndView("flavorProfile", "gif", gifUrl);
+	}
+	
 }
