@@ -17,6 +17,7 @@ import co.grandcircus.selfcareapp.Dao.LikeDao;
 import co.grandcircus.selfcareapp.Dao.UserDao;
 import co.grandcircus.selfcareapp.Entity.Like;
 import co.grandcircus.selfcareapp.Entity.User;
+import co.grandcircus.selfcareapp.Entity.UserLikes;
 import co.grandcircus.selfcareapp.apiservice.ApiService; 
 
 @Controller
@@ -81,11 +82,14 @@ public class MainController {
 	}
 	@RequestMapping("/store-info") 
 	public ModelAndView addToDatabase(@RequestParam(name = "count", required=false) Integer count) {
+		System.out.println(count);
 		User user = userDao.findById(1L);
 		Like like = likeDao.findById(1L);
+		UserLikes userLikes = likeDao.getUserLikes(user, like);
+		int num = userLikes.getCount();
+		userLikes.setCount(num+count);
+		System.out.println(userLikes.getCount());
 		
-		Integer sum = likeDao.getCount(user, like);
-		System.out.println(count + "   " + sum);
 		return new ModelAndView("redirect:/flavorprofile");
 	}
 	
