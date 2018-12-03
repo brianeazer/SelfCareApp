@@ -14,7 +14,7 @@ public class EmotionDao {
 	@PersistenceContext
 	private EntityManager em;
 	
-	public List<Emotion> findByEmotiopn(String emotion) {
+	public List<Emotion> findByEmotion(String emotion) {
 		return em.createQuery("FROM  WHERE emotion = :emotion", Emotion.class)
 				.setParameter("emotion", emotion)
 				.getResultList();
