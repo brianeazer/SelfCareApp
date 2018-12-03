@@ -24,7 +24,7 @@ public class EmotionDao {
 				.setParameter("date", date)
 				.getResultList();
 	}
-	public List<Emotion> findByEmotionDate(String emotion) {
+	public List<Emotion> findByEmotionDate(String emotion, String date) {
 		return em.createQuery("FROM  WHERE date = :date", Emotion.class)
 				.setParameter("emotion", emotion)
 				.getResultList();

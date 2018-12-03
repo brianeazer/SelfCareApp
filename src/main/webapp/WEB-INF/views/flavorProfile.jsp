@@ -8,12 +8,14 @@
 </head>
 <body>
 <h1>Let's find out what you like</h1>
+<form action="store-info">
 <img src="${gif }">
-<div id="like">
+<div name="like" id="like">
 	<a href="/flavorprofile">Like</a>
 </div>
-<div id="dislike">
+<div name="dislike" id="dislike">
 	<a href="/flavorprofile">Dislike</a>
 </div>
+</form>
 </body>
 </html>
