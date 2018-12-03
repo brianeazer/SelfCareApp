@@ -68,8 +68,10 @@ public class MainController {
 	}
 	
 	@RequestMapping("/flavorprofile")
-	public ModelAndView getUserProfile(HttpSession session) {
+	public ModelAndView getUserProfile(User user, HttpSession session) {
 		if (session.getAttribute("count") == null) {
+			userDao.create(user);
+			session.setAttribute("user", user);
 			session.setAttribute("count", 0);
 		}
 		else {

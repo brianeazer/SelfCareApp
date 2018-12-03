@@ -30,6 +30,10 @@ public class UserDao {
 				.getSingleResult();
 	}
 	
+	public void create(User user) {
+		em.persist(user);
+	}
+	
 	
 
 }
