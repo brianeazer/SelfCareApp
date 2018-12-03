@@ -1,9 +1,13 @@
 package co.grandcircus.selfcareapp.Entity;
 
+import java.util.List;
+
+import co.grandcircus.selfcareapp.Entity.UserLikes;
+
 public class GfyItem {
 	
 	private String gifUrl;
-	
+	private List<UserLikes> userLikes;
 
 	
 	public GfyItem(String gifUrl) {
