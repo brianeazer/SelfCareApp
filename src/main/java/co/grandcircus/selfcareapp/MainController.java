@@ -89,6 +89,7 @@ public class MainController {
 		UserLikes userLikes = likeDao.getUserLikes(user, like);
 		int num = userLikes.getCount();
 		userLikes.setCount(num+count);
+		likeDao.update(userLikes);
 		System.out.println(userLikes.getCount());
 		
 		return new ModelAndView("redirect:/flavorprofile");
