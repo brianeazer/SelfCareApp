@@ -84,8 +84,8 @@ public class ApiService {
 		String url = "https://api.gfycat.com/v1/gfycats/";
 		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
 		String search_text = keyword;
-		String count = "1";
-		String cursor = "20";
+		String count = "10";
+		String cursor = "30";
 
 		try {
 			String query = String.format("search_text=%s&count=%s&cursor=%s", URLEncoder.encode(search_text, charset),

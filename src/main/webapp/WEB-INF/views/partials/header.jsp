@@ -26,7 +26,7 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link" href="">Welcome ${ user.username }</a></li>
+				<li class="nav-item"><a class="nav-link" href="/">Welcome ${ user.username }</a></li>
 
 				<li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
 
@@ -36,7 +36,7 @@
 
 				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a>
 				</li>
-				<li class="nav-item"><a class="nav-link" href="/mood">Mood</a>
+				<li class="nav-item"><a class="nav-link" href="/flavorprofile">Mood</a>
 				</li>
 
 			</ul>

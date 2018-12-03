@@ -36,7 +36,7 @@ public class MainController {
 	public ModelAndView index() {
 		String token = apiService.getGfycatAccessToken("").getAccess_token();
 		//apiService.getGifInCategory("cat, halloween");
-		apiService.getGifInCategory("halloween ,frog");
+		apiService.getGifInCategory("halloween , cat, dog");
 		return new ModelAndView("index");
 	}
 	
@@ -53,7 +53,7 @@ public class MainController {
 	
 	@RequestMapping("/test")
 	public ModelAndView testGifs() {
-		String[] gifIds = {"vibrantuniquekiwi", "enviousimmaculateflatcoatretriever", "tightfluffyaustraliankelpie", "masculinecalmeelelephant"};
+		String[] gifIds = {"KeenBriefDairycow","FatherlyClassicGadwall","vibrantuniquekiwi", "enviousimmaculateflatcoatretriever", "tightfluffyaustraliankelpie", "masculinecalmeelelephant"};
 		ArrayList<String> gifUrls = new ArrayList<>();
 		for (String s : gifIds) {
 			String url = apiService.getAGif(s).getGfyItem().getGifUrl();
@@ -75,7 +75,7 @@ public class MainController {
 			session.setAttribute("count", (int)(session.getAttribute("count"))+1);
 		}
 		int count = (int) session.getAttribute("count");
-		String[] gifIds = {"vibrantuniquekiwi", "enviousimmaculateflatcoatretriever", "tightfluffyaustraliankelpie", "masculinecalmeelelephant"};
+		String[] gifIds = {"KeenBriefDairycow","FatherlyClassicGadwall","vibrantuniquekiwi", "enviousimmaculateflatcoatretriever", "tightfluffyaustraliankelpie", "masculinecalmeelelephant"};
 		String gifId = gifIds[count];
 		String gifUrl = apiService.getAGif(gifId).getGfyItem().getGifUrl();
 		return new ModelAndView("flavorProfile", "gif", gifUrl);

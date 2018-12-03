@@ -8,6 +8,8 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
+<%@include file="partials/header.jsp"%>
+
 <body>
 <h1>Let's find out what you like</h1>
 <form action="/store-info">
