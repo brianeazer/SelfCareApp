@@ -92,36 +92,39 @@ public class ApiService {
 		return accessToken;
 	}
 
-	public void options(String keyword) {
+	public void options(String keyword) throws UnsupportedEncodingException {
 		String url = "https://api.gfycat.com/v1/gfycats/";
 		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
 		String search_text = keyword;
 		String count = "4";
-
-		try {
-			String query = String.format("search_text=%s&count=%s", URLEncoder.encode(search_text, charset),
-					URLEncoder.encode(count, charset));
-
-			URLConnection connection = new URL(url + "search?" + query).openConnection();
-			connection.setRequestProperty("Accept-Charset", charset);
-			InputStream response = connection.getInputStream();
-			try (Scanner scanner = new Scanner(response)) {
-				String responseBody = scanner.useDelimiter("\\A").next();
-				System.out.println(responseBody);
-				splitData(responseBody);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		String query = String.format("search_text=%s&count=%s", URLEncoder.encode(search_text, charset),
+				URLEncoder.encode(count, charset));
+		String fullUrl = url + "search?" + query;
+		HttpHeaders headers = createHttpHeaders("Fred", "1234");
+		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+		List<GifResponse> gifsInCategory = new ArrayList<>();
+		for (int i = 0; i < 100; i++) {
+			ResponseEntity<GifResponse> response = restTemplate.exchange(fullUrl, HttpMethod.GET, entity, GifResponse.class);
+			GifResponse gifResponse = response.getBody();
+			gifsInCategory.add(gifResponse);
+			System.out.println("Inside: " + gifResponse);
+		}
+		for (int i = 0; i < gifsInCategory.size(); i++) {
+			System.out.println("Outside: " + gifsInCategory.get(i));
 		}
     }
 
 
-	public void splitData(String responseBody) {
-		
-		String[] gfyItems = new String[100];
-			
-		gfyItems = responseBody.split("\\},\\{");
-		
-		System.out.println(gfyItems);
-	}
+//	public void splitData(String responseBody) {
+//		
+//		String[] gfyItems = new String[100];
+//			
+//		gfyItems = responseBody.split("\\},\\{");
+//		String[] gifs = new String[100];
+//		
+//		for (int i = 0; i < gfyItems.length; i++) {
+//			GifResponse gifresponse = getForObject(gfyItems[i]);
+//			g
+//		}
+//	}
 }

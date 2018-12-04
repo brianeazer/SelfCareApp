@@ -1,5 +1,6 @@
 package co.grandcircus.selfcareapp;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class MainController {
 	UserDao userDao;
 
 	@RequestMapping("/")
-	public ModelAndView index() {
+	public ModelAndView index() throws UnsupportedEncodingException {
 		String token = apiService.getGfycatAccessToken("").getAccess_token();
 		// apiService.options("cat,halloween");
 		apiService.options("cat");
