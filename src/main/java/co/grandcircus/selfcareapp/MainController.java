@@ -41,13 +41,13 @@ public class MainController {
 	@RequestMapping("/")
 	public ModelAndView index() throws UnsupportedEncodingException {
 		String token = apiService.getGfycatAccessToken("").getAccess_token();
-				apiService.options("cat");
+		apiService.options("cat");
 		return new ModelAndView("index");
 	}
-	
+
 	@PostMapping("/")
-	public ModelAndView submitLogin(@RequestParam(name="username") String username, 
-			@RequestParam(name="password") String password, RedirectAttributes redir, HttpSession session) {
+	public ModelAndView submitLogin(@RequestParam(name = "username") String username,
+			@RequestParam(name = "password") String password, RedirectAttributes redir, HttpSession session) {
 		User user = userDao.findByUsername(username);
 		if (user == null) {
 			redir.addFlashAttribute("message", "Incorrect username or password");
@@ -57,7 +57,7 @@ public class MainController {
 			return new ModelAndView("redirect:/");
 		} else {
 			session.setAttribute("user", user);
-			return new ModelAndView ("redirect:/mood");
+			return new ModelAndView("redirect:/mood");
 		}
 	}
 
@@ -91,8 +91,8 @@ public class MainController {
 
 	@RequestMapping("/test")
 	public ModelAndView testGifs() {
-		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra",
-				"mildsardonicasianconstablebutterfly", "tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu" };
+		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra", "mildsardonicasianconstablebutterfly",
+				"tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu" };
 		ArrayList<String> gifUrls = new ArrayList<>();
 		for (String s : gifIds) {
 			String url = apiService.getAGif(s).getGfyItem().getGifUrl();
@@ -118,11 +118,11 @@ public class MainController {
 			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
 		}
 		int count = (int) session.getAttribute("count");
-		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra",
-				"mildsardonicasianconstablebutterfly", "tightfluffyaustraliankelpie", "masculinecalmeelelephant", 
-				"coarseselfassuredboutu", "requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
-				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech", "selfishorganichornet",
-				"equatorialdisgustingcassowary", "fakepassionatearacari"};
+		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra", "mildsardonicasianconstablebutterfly",
+				"tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu",
+				"requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
+				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech",
+				"selfishorganichornet", "equatorialdisgustingcassowary", "fakepassionatearacari" };
 		String gifId = gifIds[count];
 		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ModelAndView mv = new ModelAndView("flavorProfile");
@@ -148,14 +148,14 @@ public class MainController {
 	}
 
 	@RequestMapping("/pastlikegifs")
-	public ModelAndView showGif(@RequestParam(name = "likes") int likes, 
-			@RequestParam(name = "user") String user,
-			HttpSession session) {
-		ModelAndView mv = new ModelAndView("flavorProfile");
+	public ModelAndView showGif(HttpSession session) {
+		ModelAndView mv = new ModelAndView("pastlikegifs");
+		User user = (User) session.getAttribute("user");
+		System.out.println(user.getUsername());
 		
-		Like userLike = likeDao.findByUserLikes(user, likes);
-		userLike.getCount(likes);
-		
+		List<UserLikes> likes = likeDao.getUserLikes(user);
+		System.out.println(likes);
+		mv.addObject("Likes", likes);
 		return mv;
 	}
 
@@ -175,15 +175,4 @@ public class MainController {
 
 	}
 
-//	@RequestMapping("/pastlikegifs")
-//	public ModelAndView add(HttpServletResponse response,
-//			@CookieValue(name="count", defaultValue="0") Integer oldCount) {
-//		Integer newCount = oldCount + 1;
-//		
-//		
-//		Cookie cookie = new Cookie("count", newCount.toString());
-//		response.addCookie(cookie);
-//		
-//		return new ModelAndView("pastlikegifs");
-//	}
 }
