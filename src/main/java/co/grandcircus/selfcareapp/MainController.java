@@ -152,8 +152,7 @@ public class MainController {
 		ModelAndView mv = new ModelAndView("pastlikegifs");
 		User user = (User) session.getAttribute("user");
 		System.out.println(user.getUsername());
-		
-		List<UserLikes> likes = likeDao.getUserLikes(user);
+		ArrayList<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
 		System.out.println(likes);
 		mv.addObject("Likes", likes);
 		return mv;

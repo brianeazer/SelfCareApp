@@ -13,9 +13,9 @@
 
 	<H1>Gifs You've Liked</H1>
 
-		<c:forEach var="like" items="${likes }">
+		<c:forEach var="userlike" items="${Likes }">
 		<ol>
-		<li> TEST${like.like.tag }</li>
+		<li> TEST${userlike.like.tag }</li>
 	</ol>
 		</c:forEach>
 
