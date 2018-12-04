@@ -1,6 +1,7 @@
 package co.grandcircus.selfcareapp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -50,6 +51,19 @@ public class MainController {
 	@RequestMapping("/mood")
 	public ModelAndView findUserMood() {
 		ModelAndView mav = new ModelAndView("mood");
+		List <String> categories = new ArrayList<>();
+		// index 1,2 are food, 3,4,5,6 are cats, 7 sports, 8,9 fails, 10,11 nature
+		categories.add("recipe, food");
+		categories.add("foodnetwork");
+		categories.add("kittens");
+		categories.add("cute kittens");
+		categories.add("aww");
+		categories.add("kittens");
+		categories.add("sports");
+		categories.add("fail");
+		categories.add("epicfail");
+		categories.add("waterfalls");
+		categories.add("nature");
 		return mav;
 	}
 	
@@ -103,6 +117,7 @@ public class MainController {
 		
 		return new ModelAndView("redirect:/flavorprofile");
 	}
+	
 	
 	
 }

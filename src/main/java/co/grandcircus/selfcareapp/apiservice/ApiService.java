@@ -6,10 +6,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import co.grandcircus.selfcareapp.Entity.GfyItem;
 import co.grandcircus.selfcareapp.model.GifResponse;
 import co.grandcircus.selfcareapp.model.TokenRequest;
 import co.grandcircus.selfcareapp.model.TokenResponse;
@@ -84,23 +87,33 @@ public class ApiService {
 		String url = "https://api.gfycat.com/v1/gfycats/";
 		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
 		String search_text = keyword;
-		String count = "200";
-		String cursor = "20";
+		String count = "4";
 
 		try {
-			String query = String.format("search_text=%s&count=%s&cursor=%s", URLEncoder.encode(search_text, charset),
-					URLEncoder.encode(count, charset), URLEncoder.encode(cursor, charset));
+			String query = String.format("search_text=%s&count=%s", URLEncoder.encode(search_text, charset),
+					URLEncoder.encode(count, charset));
 
-			URLConnection connection = new URL(url + "search?" + query + "/2").openConnection();
+			URLConnection connection = new URL(url + "search?" + query).openConnection();
 			connection.setRequestProperty("Accept-Charset", charset);
 			InputStream response = connection.getInputStream();
 			try (Scanner scanner = new Scanner(response)) {
-				String responseBody = scanner.useDelimiter("//A").next();
+				String responseBody = scanner.useDelimiter("\\A").next();
 				System.out.println(responseBody);
+				splitData(responseBody);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
     }
+
+
+	public void splitData(String responseBody) {
+		
+		String[] gfyItems = new String[100];
+			
+		gfyItems = responseBody.split("\\},\\{");
+		
+		System.out.println(gfyItems);
+	}
 
 }
