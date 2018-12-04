@@ -57,7 +57,7 @@ public class MainController {
 			return new ModelAndView("redirect:/");
 		} else {
 			session.setAttribute("user", user);
-			return new ModelAndView ("mood");
+			return new ModelAndView ("redirect:/mood");
 		}
 	}
 
@@ -70,8 +70,8 @@ public class MainController {
 	public ModelAndView findUserMood(HttpSession session) {
 		ModelAndView mav = new ModelAndView("mood");
 		User user = (User) session.getAttribute("user");
-		//System.out.println("User" + user.getUsername() + " Password: " + user.getPassword());
-		//List<UserLikes> userLikes = user.getUserLikes();
+		System.out.println("User: " + user.getUsername() + " Password: " + user.getPassword());
+		List<UserLikes> userLikes = user.getUserLikes();
 		//System.out.println(userLikes);
 		List<String> categories = new ArrayList<>();
 		// index 1,2 are food, 3,4,5,6 are cats, 7 sports, 8,9 fails, 10,11 nature
