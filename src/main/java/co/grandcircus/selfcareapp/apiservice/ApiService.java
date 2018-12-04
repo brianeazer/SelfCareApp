@@ -78,6 +78,15 @@ public class ApiService {
 		// GfyItem gif = gifResponse.getGfyItem();
 		return gifResponse;
 	}
+	
+	public List<String> getTags(String url){
+		HttpHeaders headers = createHttpHeaders("fred", "1234");
+		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+		ResponseEntity<GifResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, GifResponse.class);
+		GifResponse gifResponse = response.getBody();
+		// GfyItem gif = gifResponse.getGfyItem();
+		return gifResponse.getGfyItem().getTags();
+	}
 
 	public String getAPI(String accessToken) {
 		return accessToken;
@@ -115,5 +124,4 @@ public class ApiService {
 		
 		System.out.println(gfyItems);
 	}
-
 }

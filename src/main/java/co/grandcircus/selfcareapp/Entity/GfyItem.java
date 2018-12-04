@@ -11,7 +11,8 @@ public class GfyItem {
 	private List<String> tags;
 	private String WebPUrl;
 	private List<UserLikes> userLikes;
-	
+	private List<String> languageCategories;
+	private String gfyId;
 	
 	
 	public GfyItem() {}
@@ -22,6 +23,7 @@ public class GfyItem {
 		this.tags = tags;
 		WebPUrl = webPUrl;
 	}
+
 	public String getGifUrl() {
 		return gifUrl;
 	}
@@ -46,5 +48,25 @@ public class GfyItem {
 	public void setUserLikes(List<UserLikes> userLikes) {
 		this.userLikes = userLikes;
 	}
+
+	@Override
+	public String toString() {
+		return "GfyItem [gifUrl=" + gifUrl + ", tags=" + tags + ", WebPUrl=" + WebPUrl + ", userLikes=" + userLikes
+				+ "]";
+	}
+	public List<String> getLanguageCategories() {
+		return languageCategories;
+	}
+	public void setLanguageCategories(List<String> languageCategories) {
+		this.languageCategories = languageCategories;
+	}
+	public String getGfyId() {
+		return gfyId;
+	}
+	public void setGfyId(String gfyId) {
+		this.gfyId = gfyId;
+	}
+	
+
 	
 }
