@@ -1,5 +1,6 @@
 package co.grandcircus.selfcareapp.Entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,10 +16,16 @@ public class UserLikes {
 	private Long id;
 	@ManyToOne
 	private User user;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Like like;
 	private Integer count;
 	
+	
+	
+	public UserLikes() {
+		super();
+		like = new Like();
+	}
 	public Long getId() {
 		return id;
 	}

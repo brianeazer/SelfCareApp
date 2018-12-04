@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import antlr.collections.List;
 import co.grandcircus.selfcareapp.Dao.LikeDao;
 import co.grandcircus.selfcareapp.Dao.UserDao;
+import co.grandcircus.selfcareapp.Entity.GfyItem;
 import co.grandcircus.selfcareapp.Entity.Like;
 import co.grandcircus.selfcareapp.Entity.User;
 import co.grandcircus.selfcareapp.Entity.UserLikes;
@@ -71,17 +73,14 @@ public class MainController {
 	@RequestMapping("/flavorprofile")
 	public ModelAndView getUserProfile(User user, HttpSession session, 
 			RedirectAttributes redir) {
-		
-		if (userDao.findByUsername(user.getUsername()) == null) {
+		if (session.getAttribute("user")==null && userDao.findByUsername(user.getUsername())==null) {
 			userDao.create(user);
-		}
-		else {
-			redir.addFlashAttribute("message", "Username taken, please pick another");
-			return new ModelAndView("redirect:/register");
-		}
-		if (session.getAttribute("count") == null) {
 			session.setAttribute("user", user);
 			session.setAttribute("count", 0);
+		}
+		else if (session.getAttribute("user")==null && userDao.findByUsername(user.getUsername())!=null) {
+			redir.addFlashAttribute("message", "Username taken, please pick another");
+			return new ModelAndView("redirect:/register");
 		}
 		else {
 			session.setAttribute("count", (int)(session.getAttribute("count"))+1);
@@ -89,19 +88,42 @@ public class MainController {
 		int count = (int) session.getAttribute("count");
 		String[] gifIds = {"KeenBriefDairycow","FatherlyClassicGadwall","vibrantuniquekiwi", "enviousimmaculateflatcoatretriever", "tightfluffyaustraliankelpie", "masculinecalmeelelephant"};
 		String gifId = gifIds[count];
-		String gifUrl = apiService.getAGif(gifId).getGfyItem().getGifUrl();
-		return new ModelAndView("flavorProfile", "gif", gifUrl);
+		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
+		ModelAndView mv = new ModelAndView("flavorProfile");
+		mv.addObject("gif", gfyItem);
+		return mv;
 	}
 	@RequestMapping("/store-info") 
-	public ModelAndView addToDatabase(@RequestParam(name = "count", required=false) Integer count) {
-		User user = userDao.findById(1L);
-		Like like = likeDao.findById(1L);
-		UserLikes userLikes = likeDao.getUserLikes(user, like);
-		int num = userLikes.getCount();
-		userLikes.setCount(num+count);
-		likeDao.update(userLikes);
+	public ModelAndView addToDatabase(@RequestParam(name = "count", required=false) Integer count,
+			@RequestParam(name="id") String gifId, HttpSession session) {
+		GfyItem gfyItem = new GfyItem();
+		if (count==1) {
+			gfyItem = apiService.getAGif(gifId).getGfyItem();
+			ArrayList<String> tags = (ArrayList<String>)gfyItem.getTags();
+			for(String tag : tags) {
+			Like like = new Like();
+			like.setTag(tag);
+			updateUserLikeTable(like, (User)session.getAttribute("user"));
+			}
+		}
+//		UserLikes userLikes = likeDao.getUserLikes(user, like);
+//		int num = userLikes.getCount();
+//		userLikes.setCount(num+count);
+//		likeDao.update(userLikes);
 		
 		return new ModelAndView("redirect:/flavorprofile");
+	}
+	
+
+	
+	public void updateUserLikeTable(Like like, User user) {
+		if (likeDao.getUserLikes(user, like) == null) {
+			UserLikes userLike = new UserLikes();
+			userLike.setCount(0);
+			userLike.setLike(like);
+			userLike.setUser(user);
+			likeDao.createUserLike(userLike);
+		}
 	}
 	
 	

@@ -1,5 +1,6 @@
 package co.grandcircus.selfcareapp.Entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -23,6 +24,7 @@ public class Like {
 	private List<UserLikes> userLikes;
 
 	public Like() {
+		userLikes = new ArrayList<UserLikes>();
 		
 	}
 	
