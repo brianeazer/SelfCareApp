@@ -1,17 +1,24 @@
 package co.grandcircus.selfcareapp.model;
 
+import java.util.List;
+
 import co.grandcircus.selfcareapp.Entity.GfyItem;
 
 public class GifResponse {
+	private List<GfyItem> gfycats;
 	private GfyItem gfyItem;
-
-	public GifResponse(GfyItem gfyItem) {
-		super();
-		this.gfyItem = gfyItem;
-	}
 	
-	public GifResponse() {
-		
+	public List<GfyItem> getGfycats() {
+		return gfycats;
+	}
+
+	public void setGfycats(List<GfyItem> gfycats) {
+		this.gfycats = gfycats;
+	}
+
+	@Override
+	public String toString() {
+		return "GifResponse [gfycats=" + gfycats + "]";
 	}
 
 	public GfyItem getGfyItem() {
@@ -22,10 +29,4 @@ public class GifResponse {
 		this.gfyItem = gfyItem;
 	}
 
-	@Override
-	public String toString() {
-		return "GifResponse [gfyItem=" + gfyItem + "]";
-	}
-	
-	
 }

@@ -74,6 +74,7 @@ public class ApiService {
 		HttpHeaders headers = createHttpHeaders("fred", "1234");
 		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 		ResponseEntity<GifResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, GifResponse.class);
+		//System.out.println(response);
 		GifResponse gifResponse = response.getBody();
 		// GfyItem gif = gifResponse.getGfyItem();
 		return gifResponse;
@@ -92,39 +93,20 @@ public class ApiService {
 		return accessToken;
 	}
 
-	public void options(String keyword) throws UnsupportedEncodingException {
+	public GifResponse options(String keyword) throws UnsupportedEncodingException {
 		String url = "https://api.gfycat.com/v1/gfycats/";
 		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
 		String search_text = keyword;
 		String count = "4";
 		String query = String.format("search_text=%s&count=%s", URLEncoder.encode(search_text, charset),
 				URLEncoder.encode(count, charset));
+		
 		String fullUrl = url + "search?" + query;
 		HttpHeaders headers = createHttpHeaders("Fred", "1234");
 		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-		List<GifResponse> gifsInCategory = new ArrayList<>();
-		for (int i = 0; i < 100; i++) {
-			ResponseEntity<GifResponse> response = restTemplate.exchange(fullUrl, HttpMethod.GET, entity, GifResponse.class);
-			GifResponse gifResponse = response.getBody();
-			gifsInCategory.add(gifResponse);
-			System.out.println("Inside: " + gifResponse);
-		}
-		for (int i = 0; i < gifsInCategory.size(); i++) {
-			System.out.println("Outside: " + gifsInCategory.get(i));
-		}
-    }
+		
+		GifResponse gifResponse = restTemplate.getForObject(fullUrl, GifResponse.class);
+		return gifResponse;
+	}	
 
-
-//	public void splitData(String responseBody) {
-//		
-//		String[] gfyItems = new String[100];
-//			
-//		gfyItems = responseBody.split("\\},\\{");
-//		String[] gifs = new String[100];
-//		
-//		for (int i = 0; i < gfyItems.length; i++) {
-//			GifResponse gifresponse = getForObject(gfyItems[i]);
-//			g
-//		}
-//	}
 }

@@ -71,8 +71,8 @@ public class MainController {
 
 	@RequestMapping("/test")
 	public ModelAndView testGifs() {
-		String[] gifIds = { "KeenBriefDairycow", "FatherlyClassicGadwall", "vibrantuniquekiwi",
-				"enviousimmaculateflatcoatretriever", "tightfluffyaustraliankelpie", "masculinecalmeelelephant" };
+		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra",
+				"mildsardonicasianconstablebutterfly", "tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu" };
 		ArrayList<String> gifUrls = new ArrayList<>();
 		for (String s : gifIds) {
 			String url = apiService.getAGif(s).getGfyItem().getGifUrl();
