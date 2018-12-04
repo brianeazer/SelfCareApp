@@ -44,6 +44,22 @@ public class MainController {
 				apiService.options("cat");
 		return new ModelAndView("index");
 	}
+	
+	@PostMapping("/")
+	public ModelAndView submitLogin(@RequestParam(name="username") String username, 
+			@RequestParam(name="password") String password, RedirectAttributes redir, HttpSession session) {
+		User user = userDao.findByUsername(username);
+		if (user == null) {
+			redir.addFlashAttribute("message", "Incorrect username or password");
+			return new ModelAndView("redirect:/");
+		} else if (!user.getPassword().equals(password)) {
+			redir.addFlashAttribute("message", "Incorrect username or password");
+			return new ModelAndView("redirect:/");
+		} else {
+			session.setAttribute("user", user);
+			return new ModelAndView ("mood");
+		}
+	}
 
 	@RequestMapping("/register")
 	public ModelAndView registration() {
@@ -51,8 +67,12 @@ public class MainController {
 	}
 
 	@RequestMapping("/mood")
-	public ModelAndView findUserMood() {
+	public ModelAndView findUserMood(HttpSession session) {
 		ModelAndView mav = new ModelAndView("mood");
+		User user = (User) session.getAttribute("user");
+		//System.out.println("User" + user.getUsername() + " Password: " + user.getPassword());
+		//List<UserLikes> userLikes = user.getUserLikes();
+		//System.out.println(userLikes);
 		List<String> categories = new ArrayList<>();
 		// index 1,2 are food, 3,4,5,6 are cats, 7 sports, 8,9 fails, 10,11 nature
 		categories.add("recipe, food");
@@ -98,8 +118,11 @@ public class MainController {
 			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
 		}
 		int count = (int) session.getAttribute("count");
-		String[] gifIds = { "KeenBriefDairycow", "FatherlyClassicGadwall", "vibrantuniquekiwi",
-				"enviousimmaculateflatcoatretriever", "tightfluffyaustraliankelpie", "masculinecalmeelelephant" };
+		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra",
+				"mildsardonicasianconstablebutterfly", "tightfluffyaustraliankelpie", "masculinecalmeelelephant", 
+				"coarseselfassuredboutu", "requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
+				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech", "selfishorganichornet",
+				"equatorialdisgustingcassowary", "fakepassionatearacari"};
 		String gifId = gifIds[count];
 		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ModelAndView mv = new ModelAndView("flavorProfile");

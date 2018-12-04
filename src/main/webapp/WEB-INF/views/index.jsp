@@ -15,7 +15,8 @@
 
 <div class ="container">
 	<h1>Welcome</h1>
-
+	<p>${ message } </p>
+	<form action="/" method="post">
 	<p>
 		Username: <input name="username" />
 	</p>
@@ -24,7 +25,7 @@
 		Password: <input name="password" type="password" />
 	</p>
 
-	<form action="/mood">
+	
 		<button type="submit">Submit</button>
 	</form>
 

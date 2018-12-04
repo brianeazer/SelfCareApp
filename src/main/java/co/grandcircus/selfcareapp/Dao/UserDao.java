@@ -25,10 +25,10 @@ public class UserDao {
 			return null;
 		}
 	}
-	public List<User> findByPassword(String password) {
-		return em.createQuery("FROM  WHERE password = :password", User.class)
+	public User findByPassword(String password) {
+		return em.createQuery("FROM User WHERE password = :password", User.class)
 				.setParameter("password", password)
-				.getResultList();
+				.getSingleResult();
 	}
 	public User findById(Long id) {
 		return em.createQuery("FROM User WHERE id = :id", User.class)
