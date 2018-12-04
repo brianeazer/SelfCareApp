@@ -53,10 +53,8 @@ public class LikeDao {
 		em.persist(userLike);
 	}
 
-	public Like findByUserLikes(String userLikes, int count) {
-		return em.createQuery("FROM Like WHERE count = :count", Like.class)
-				.setParameter("count", count)
-				.getSingleResult();
+	public List<UserLikes> getUserLikes() {
+		return	em.createQuery("FROM UserLikes", UserLikes.class).getResultList();
 	}
 
 }

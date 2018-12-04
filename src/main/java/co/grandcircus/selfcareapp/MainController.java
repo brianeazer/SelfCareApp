@@ -41,7 +41,7 @@ public class MainController {
 	@RequestMapping("/")
 	public ModelAndView index() throws UnsupportedEncodingException {
 		String token = apiService.getGfycatAccessToken("").getAccess_token();
-				apiService.options("cat");
+		apiService.options("cat");
 		return new ModelAndView("index");
 	}
 	
@@ -91,8 +91,8 @@ public class MainController {
 
 	@RequestMapping("/test")
 	public ModelAndView testGifs() {
-		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra",
-				"mildsardonicasianconstablebutterfly", "tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu" };
+		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra", "mildsardonicasianconstablebutterfly",
+				"tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu" };
 		ArrayList<String> gifUrls = new ArrayList<>();
 		for (String s : gifIds) {
 			String url = apiService.getAGif(s).getGfyItem().getGifUrl();
@@ -148,14 +148,11 @@ public class MainController {
 	}
 
 	@RequestMapping("/pastlikegifs")
-	public ModelAndView showGif(@RequestParam(name = "likes") int likes, 
-			@RequestParam(name = "user") String user,
-			HttpSession session) {
-		ModelAndView mv = new ModelAndView("flavorProfile");
-		
-		Like userLike = likeDao.findByUserLikes(user, likes);
-		userLike.getCount(likes);
-		
+	public ModelAndView showGif(User user, HttpSession session) {
+		ModelAndView mv = new ModelAndView("pastlikegifs");
+		session.getAttribute("user");
+		List<UserLikes> likes = likeDao.getUserLikes();
+		mv.addObject("Likes", likes);
 		return mv;
 	}
 
@@ -175,15 +172,4 @@ public class MainController {
 
 	}
 
-//	@RequestMapping("/pastlikegifs")
-//	public ModelAndView add(HttpServletResponse response,
-//			@CookieValue(name="count", defaultValue="0") Integer oldCount) {
-//		Integer newCount = oldCount + 1;
-//		
-//		
-//		Cookie cookie = new Cookie("count", newCount.toString());
-//		response.addCookie(cookie);
-//		
-//		return new ModelAndView("pastlikegifs");
-//	}
 }
