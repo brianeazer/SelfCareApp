@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -40,8 +41,7 @@ public class MainController {
 	@RequestMapping("/")
 	public ModelAndView index() throws UnsupportedEncodingException {
 		String token = apiService.getGfycatAccessToken("").getAccess_token();
-		// apiService.options("cat,halloween");
-		apiService.options("cat");
+				apiService.options("cat");
 		return new ModelAndView("index");
 	}
 
@@ -124,6 +124,18 @@ public class MainController {
 		return new ModelAndView("redirect:/flavorprofile");
 	}
 
+	@RequestMapping("/pastlikegifs")
+	public ModelAndView showGif(@RequestParam(name = "likes") int likes, 
+			@RequestParam(name = "user") String user,
+			HttpSession session) {
+		ModelAndView mv = new ModelAndView("flavorProfile");
+		
+		Like userLike = likeDao.findByUserLikes(user, likes);
+		userLike.getCount(likes);
+		
+		return mv;
+	}
+
 	public void updateUserLikeTable(Like like, User user) {
 		UserLikes userLike = likeDao.getUserLikes(user, like);
 		if (userLike == null) {
@@ -140,4 +152,15 @@ public class MainController {
 
 	}
 
+//	@RequestMapping("/pastlikegifs")
+//	public ModelAndView add(HttpServletResponse response,
+//			@CookieValue(name="count", defaultValue="0") Integer oldCount) {
+//		Integer newCount = oldCount + 1;
+//		
+//		
+//		Cookie cookie = new Cookie("count", newCount.toString());
+//		response.addCookie(cookie);
+//		
+//		return new ModelAndView("pastlikegifs");
+//	}
 }

@@ -57,5 +57,9 @@ public class Like {
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
+
+	public void getCount(int likes) {
+				
+	}
 	
 }
