@@ -53,8 +53,9 @@ public class LikeDao {
 		em.persist(userLike);
 	}
 
-	public List<UserLikes> getUserLikes() {
-		return	em.createQuery("FROM UserLikes", UserLikes.class).getResultList();
+	public List<UserLikes> getUserLikes(User user) {
+		return em.createQuery("FROM UserLikes WHERE user = :user", UserLikes.class).setParameter("user", user)
+				.getResultList();
 	}
 
 }

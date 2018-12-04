@@ -44,10 +44,10 @@ public class MainController {
 		apiService.options("cat");
 		return new ModelAndView("index");
 	}
-	
+
 	@PostMapping("/")
-	public ModelAndView submitLogin(@RequestParam(name="username") String username, 
-			@RequestParam(name="password") String password, RedirectAttributes redir, HttpSession session) {
+	public ModelAndView submitLogin(@RequestParam(name = "username") String username,
+			@RequestParam(name = "password") String password, RedirectAttributes redir, HttpSession session) {
 		User user = userDao.findByUsername(username);
 		if (user == null) {
 			redir.addFlashAttribute("message", "Incorrect username or password");
@@ -57,7 +57,7 @@ public class MainController {
 			return new ModelAndView("redirect:/");
 		} else {
 			session.setAttribute("user", user);
-			return new ModelAndView ("mood");
+			return new ModelAndView("mood");
 		}
 	}
 
@@ -70,9 +70,10 @@ public class MainController {
 	public ModelAndView findUserMood(HttpSession session) {
 		ModelAndView mav = new ModelAndView("mood");
 		User user = (User) session.getAttribute("user");
-		//System.out.println("User" + user.getUsername() + " Password: " + user.getPassword());
-		//List<UserLikes> userLikes = user.getUserLikes();
-		//System.out.println(userLikes);
+		// System.out.println("User" + user.getUsername() + " Password: " +
+		// user.getPassword());
+		// List<UserLikes> userLikes = user.getUserLikes();
+		// System.out.println(userLikes);
 		List<String> categories = new ArrayList<>();
 		// index 1,2 are food, 3,4,5,6 are cats, 7 sports, 8,9 fails, 10,11 nature
 		categories.add("recipe, food");
@@ -118,11 +119,11 @@ public class MainController {
 			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
 		}
 		int count = (int) session.getAttribute("count");
-		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra",
-				"mildsardonicasianconstablebutterfly", "tightfluffyaustraliankelpie", "masculinecalmeelelephant", 
-				"coarseselfassuredboutu", "requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
-				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech", "selfishorganichornet",
-				"equatorialdisgustingcassowary", "fakepassionatearacari"};
+		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra", "mildsardonicasianconstablebutterfly",
+				"tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu",
+				"requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
+				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech",
+				"selfishorganichornet", "equatorialdisgustingcassowary", "fakepassionatearacari" };
 		String gifId = gifIds[count];
 		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ModelAndView mv = new ModelAndView("flavorProfile");
@@ -148,10 +149,13 @@ public class MainController {
 	}
 
 	@RequestMapping("/pastlikegifs")
-	public ModelAndView showGif(User user, HttpSession session) {
+	public ModelAndView showGif(HttpSession session) {
 		ModelAndView mv = new ModelAndView("pastlikegifs");
-		session.getAttribute("user");
-		List<UserLikes> likes = likeDao.getUserLikes();
+		User user = (User) session.getAttribute("user");
+		System.out.println(user.getUsername());
+		
+		List<UserLikes> likes = likeDao.getUserLikes(user);
+		System.out.println(likes);
 		mv.addObject("Likes", likes);
 		return mv;
 	}
