@@ -84,24 +84,23 @@ public class ApiService {
 		String url = "https://api.gfycat.com/v1/gfycats/";
 		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
 		String search_text = keyword;
-		String count = "4";
+		String count = "200";
 		String cursor = "20";
 
 		try {
 			String query = String.format("search_text=%s&count=%s&cursor=%s", URLEncoder.encode(search_text, charset),
 					URLEncoder.encode(count, charset), URLEncoder.encode(cursor, charset));
 
-			URLConnection connection = new URL(url + "search?" + query).openConnection();
+			URLConnection connection = new URL(url + "search?" + query + "/2").openConnection();
 			connection.setRequestProperty("Accept-Charset", charset);
 			InputStream response = connection.getInputStream();
 			try (Scanner scanner = new Scanner(response)) {
-				String responseBody = scanner.useDelimiter("}").next();
+				String responseBody = scanner.useDelimiter("//A").next();
 				System.out.println(responseBody);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-	}
+    }
 
 }
