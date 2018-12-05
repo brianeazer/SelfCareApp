@@ -2,7 +2,11 @@ package co.grandcircus.selfcareapp;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+<<<<<<< Updated upstream
 import java.util.Arrays;
+=======
+import java.util.Collections;
+>>>>>>> Stashed changes
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -168,14 +172,26 @@ public class MainController {
 	
 	@RequestMapping("/pastlikegifs")
 	public ModelAndView showGif(HttpSession session) {
-		ModelAndView mv = new ModelAndView("pastlikegifs");
+		ModelAndView mv = new ModelAndView("top10likes");
 		User user = (User) session.getAttribute("user");
 		System.out.println(user.getUsername());
 		ArrayList<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
-		for (UserLikes ul : likes) {
-			System.out.println(ul.getTag());
+		
+		Collections.sort(likes, (l1, l2) -> l1.getCount().compareTo(l2.getCount()));
+	
+		ArrayList <UserLikes> top10 = new ArrayList<>();
+		
+		for (int i = likes.size() - 1; i > likes.size() - 11; i--) {
+			
+			top10.add(likes.get(i));
+			
 		}
-		mv.addObject("likes", likes);
+		
+		for (UserLikes ul : top10) {
+			System.out.println(ul.getTag() + ul.getCount());
+			
+		}
+		mv.addObject("likes", top10);
 		return mv;
 	}
 

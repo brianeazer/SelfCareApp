@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>	
 <!DOCTYPE html>
@@ -14,11 +14,22 @@
 	<div class="container-fluid">
 		<H1>Gifs You've Liked</H1>
 
+<<<<<<< Updated upstream:src/main/webapp/WEB-INF/views/pastlikegifs.jsp
 		<c:forEach var="userlike" items="${Likes }">
 			<ol>
 				<li> ${userlike.tag }</li>
 			</ol>
 		</c:forEach>
 	</div>
+=======
+	<H1>Gifs You've Liked</H1>
+		<ol>
+		<c:forEach var="userlike" items="${likes }">
+		<li> ${userlike.tag } ${userlike.count}</li>
+
+		</c:forEach>
+		</ol>
+
+>>>>>>> Stashed changes:src/main/webapp/WEB-INF/views/top10likes.jsp
 </body>
 </html>
