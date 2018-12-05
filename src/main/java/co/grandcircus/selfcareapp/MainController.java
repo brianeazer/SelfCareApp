@@ -244,10 +244,10 @@ public class MainController {
 		mv.addObject("gifId", gifId);
 		return mv;
 	}
-	@PostMapping("/randomgif")
+	@RequestMapping("/storelikes")
 	public ModelAndView storeLikes(@RequestParam(name = "count", required = false) Integer count,
 			@RequestParam(name = "id") String gifId, HttpSession session) {
-		ModelAndView mv = new ModelAndView("randomgif");
+		ModelAndView mv = new ModelAndView("redirect:/randomgif");
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();

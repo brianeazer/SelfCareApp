@@ -9,14 +9,8 @@
 </head>
 <body>
 	<img src="${gifUrl }">
-	<a href="/randomgif?count=1&id=${gfyId }" class="btn btn-secondary mb-2">Like</a>
-	<a href="/randomgif?count=-1&id=${gfyId }" class="btn btn-secondary mb-2">Dislike</a>
-	
-	<c:if test="${ not empty userId }">
-	<div name="id" >
-	${gifId}
-	</div>
-	</c:if>
+	<a href="/storelikes?count=1&id=${gifId }" class="btn btn-secondary mb-2">Like</a>
+	<a href="/storelikes?count=-1&id=${gifId }" class="btn btn-secondary mb-2">Dislike</a>
 	
 </body>
 </html>
