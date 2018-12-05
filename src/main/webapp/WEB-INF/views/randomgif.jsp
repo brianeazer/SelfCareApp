@@ -9,6 +9,7 @@
 </head>
 <body>
 	<img src="${gifUrl }">
+
 	<a href="/storelikes?count=1&id=${gifId }" class="btn btn-secondary mb-2">Like</a>
 	<a href="/storelikes?count=-1&id=${gifId }" class="btn btn-secondary mb-2">Dislike</a>
 	
