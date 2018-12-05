@@ -131,6 +131,9 @@ public class MainController {
 		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ModelAndView mv = new ModelAndView("flavorProfile");
 		mv.addObject("gif", gfyItem);
+		if (count==15) {
+			return new ModelAndView("mood");
+		}
 		return mv;
 	}
 
@@ -169,8 +172,10 @@ public class MainController {
 		User user = (User) session.getAttribute("user");
 		System.out.println(user.getUsername());
 		ArrayList<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
-		System.out.println(likes);
-		mv.addObject("Likes", likes);
+		for (UserLikes ul : likes) {
+			System.out.println(ul.getTag());
+		}
+		mv.addObject("likes", likes);
 		return mv;
 	}
 
