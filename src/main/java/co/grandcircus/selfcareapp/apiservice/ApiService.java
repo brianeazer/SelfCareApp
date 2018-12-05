@@ -111,5 +111,19 @@ public class ApiService {
 			return null;
 		}
 	}	
+	
+	public int optionsLength(String keyword) throws UnsupportedEncodingException {
+		String url = "https://api.gfycat.com/v1/gfycats/";
+		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
+		String search_text = keyword;
+		String query = String.format("search_text=%s", URLEncoder.encode(search_text, charset));
+		
+		String fullUrl = url + "search?" + query;
+		HttpHeaders headers = createHttpHeaders("Fred", "1234");
+		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+		
+		GifResponse gifResponse = restTemplate.getForObject(fullUrl, GifResponse.class);
+		return gifResponse.getGfycats().size();
+	}
 
 }

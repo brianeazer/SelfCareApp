@@ -127,10 +127,6 @@ public class MainController {
 		for (String s : gifIds) {
 			String url = apiService.getAGif(s).getGfyItem().getGifUrl();
 			gifUrls.add(url);
-			System.out.println(url);
-		}
-		for (String s : gifUrls) {
-			System.out.println(s);
 		}
 		return new ModelAndView("test", "gifs", gifUrls);
 	}
@@ -196,7 +192,6 @@ public class MainController {
 	public ModelAndView showGif(HttpSession session) {
 		ModelAndView mv = new ModelAndView("top10likes");
 		User user = (User) session.getAttribute("user");
-		System.out.println(user.getUsername());
 
 		ArrayList<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
 		ArrayList<UserLikes> top10 = getTop10(likes);
@@ -214,9 +209,6 @@ public class MainController {
 
 			top10.add(likes.get(i));
 		}
-		for (UserLikes ul : top10) {
-			System.out.println(ul.getTag() + ul.getCount());
-		}
 		return top10;
 	}
 
@@ -230,8 +222,10 @@ public class MainController {
 		int randomNumber = getIntInRange(top10.size());
 		UserLikes ul = top10.get(randomNumber);
 		String tag = ul.getTag();
-		ArrayList<GfyItem> gfyItems = (ArrayList<GfyItem>) apiService.options(tag, 20).getGfycats();
-		int randomNumber2 = getIntInRange(20);
+		int amount = apiService.optionsLength(tag);
+		System.out.println("This is the amount" + amount + " This is the tag " + tag);
+		ArrayList<GfyItem> gfyItems = (ArrayList<GfyItem>) apiService.options(tag, amount).getGfycats();
+		int randomNumber2 = getIntInRange(amount);
 		GfyItem gifItem = gfyItems.get(randomNumber2);
 		String url = gifItem.getGifUrl();
 		String gifId = gifItem.getGfyId();
