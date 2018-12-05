@@ -211,13 +211,13 @@ public class MainController {
 				"requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
 				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech",
 				"selfishorganichornet", "equatorialdisgustingcassowary", "fakepassionatearacari" };
+		if (count == gifIds.length) {
+			return new ModelAndView("mood");
+		}
 		String gifId = gifIds[count];
 		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ModelAndView mv = new ModelAndView("flavorProfile");
 		mv.addObject("gif", gfyItem);
-		if (count == 15) {
-			return new ModelAndView("mood");
-		}
 		return mv;
 	}
 
