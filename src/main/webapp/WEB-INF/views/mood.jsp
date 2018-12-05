@@ -15,7 +15,6 @@
 </head>
 <body>
 <h1>Choose your feels!</h1>
-	<!-- <form> -->
 		<div class="container">
 			<%@include file="partials/ask-mood.jsp"%>
 
@@ -28,6 +27,5 @@
 			<a href="redirect:/mood?category=food" class="btn btn-secondary mb-2">Dislike</a> 
 
 		</div>
-<!-- 	</form> -->
 </body>
 </html>
