@@ -93,18 +93,22 @@ public class MainController {
 		// categories for user/random to choose from
 		@SuppressWarnings("unused")
 		List<String> food = new ArrayList<String>(Arrays.asList("recipe, food", "foodnetwork"));
+		@SuppressWarnings("unused")
 		List<String> cats = new ArrayList<String>(Arrays.asList("kittens", "cute kittens", "aww"));
+		@SuppressWarnings("unused")
 		List<String> sports = new ArrayList<String>(Arrays.asList("sports"));
+		@SuppressWarnings("unused")
 		List<String> fails = new ArrayList<String>(Arrays.asList("fail", "epicfail"));
+		@SuppressWarnings("unused")
 		List<String> nature = new ArrayList<String>(Arrays.asList("waterfalls", "nature"));
 
 		if (category.equals("food")) {
 			try {
 
-				GifResponse gifResponse = apiService.options(category, 4);
+				GifResponse gifResponse = apiService.options(category, 10);
 				System.out.println(gifResponse);
 				List<GfyItem> gifs = gifResponse.getGfycats();
-				int index = (int) Math.floor(Math.random() * 4);
+				int index = (int) Math.floor(Math.random() * 10);
 				GfyItem gfyItem = gifs.get(index);
 				System.out.println(gfyItem.getGifUrl());
 				mav.addObject("gif", gfyItem.getGifUrl());
@@ -113,13 +117,62 @@ public class MainController {
 				e.printStackTrace();
 			}
 		} else if (category.equals("cats")) {
-			mav.addObject("list", cats);
+			try {
+				GifResponse gifResponse = apiService.options(category, 10);
+				System.out.println(gifResponse);
+				List<GfyItem> gifs = gifResponse.getGfycats();
+				int index = (int) Math.floor(Math.random() * 10);
+				GfyItem gfyItem = gifs.get(index);
+				System.out.println(gfyItem.getGifUrl());
+				mav.addObject("gif", gfyItem.getGifUrl());
+
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			// mav.addObject("list", cats);
 		} else if (category.equals("sports")) {
-			mav.addObject("list", sports);
+
+			try {
+				GifResponse gifResponse = apiService.options(category, 10);
+				System.out.println(gifResponse);
+				List<GfyItem> gifs = gifResponse.getGfycats();
+				int index = (int) Math.floor(Math.random() * 10);
+				GfyItem gfyItem = gifs.get(index);
+				System.out.println(gfyItem.getGifUrl());
+				mav.addObject("gif", gfyItem.getGifUrl());
+
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			// mav.addObject("list", sports);
 		} else if (category.equals("fails")) {
-			mav.addObject("list", fails);
+			try {
+				GifResponse gifResponse = apiService.options(category, 10);
+				System.out.println(gifResponse);
+				List<GfyItem> gifs = gifResponse.getGfycats();
+				int index = (int) Math.floor(Math.random() * 10);
+				GfyItem gfyItem = gifs.get(index);
+				System.out.println(gfyItem.getGifUrl());
+				mav.addObject("gif", gfyItem.getGifUrl());
+
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			// mav.addObject("list", fails);
 		} else {
-			mav.addObject("list", nature);
+			try {
+				GifResponse gifResponse = apiService.options(category, 10);
+				System.out.println(gifResponse);
+				List<GfyItem> gifs = gifResponse.getGfycats();
+				int index = (int) Math.floor(Math.random() * 10);
+				GfyItem gfyItem = gifs.get(index);
+				System.out.println(gfyItem.getGifUrl());
+				mav.addObject("gif", gfyItem.getGifUrl());
+
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			// mav.addObject("list", nature);
 		}
 		return mav;
 	}
@@ -244,7 +297,7 @@ public class MainController {
 		mv.addObject("gifId", gifId);
 		return mv;
 	}
-	
+
 	@RequestMapping("/storelikes")
 	public ModelAndView storeLikes(@RequestParam(name = "count", required = false) Integer count,
 			@RequestParam(name = "id") String gifId, HttpSession session) {
@@ -262,12 +315,11 @@ public class MainController {
 		int num = (int) (Math.random() * max);
 		return num;
 	}
-	
+
 	@RequestMapping("/feels")
 	public ModelAndView feelingsData() {
 		ModelAndView mv = new ModelAndView("feels");
-		
-		
+
 		return mv;
 	}
 }
