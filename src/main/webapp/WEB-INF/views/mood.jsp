@@ -14,6 +14,7 @@
 <%@include file="partials/header.jsp"%>
 </head>
 <body>
+<h1>Choose your feels!</h1>
 	<!-- <form> -->
 		<div class="container">
 			<%@include file="partials/ask-mood.jsp"%>

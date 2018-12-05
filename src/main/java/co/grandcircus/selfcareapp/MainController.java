@@ -101,7 +101,7 @@ public class MainController {
 		if (category.equals("food")) {
 			try {
 
-				GifResponse gifResponse = apiService.options(category, 1);
+				GifResponse gifResponse = apiService.options(category, 4);
 				System.out.println(gifResponse);
 				List<GfyItem> gifs = gifResponse.getGfycats();
 				int index = (int) Math.floor(Math.random() * 4);
@@ -109,7 +109,7 @@ public class MainController {
 				System.out.println(gfyItem.getGifUrl());
 				mav.addObject("gif", gfyItem.getGifUrl());
 
-			} catch (UnsupportedEncodingException e) {
+			} catch (UnsupportedEncodingException | NullPointerException e) {
 				e.printStackTrace();
 			}
 		} else if (category.equals("cats")) {
@@ -244,6 +244,7 @@ public class MainController {
 		mv.addObject("gifId", gifId);
 		return mv;
 	}
+	
 	@RequestMapping("/storelikes")
 	public ModelAndView storeLikes(@RequestParam(name = "count", required = false) Integer count,
 			@RequestParam(name = "id") String gifId, HttpSession session) {
