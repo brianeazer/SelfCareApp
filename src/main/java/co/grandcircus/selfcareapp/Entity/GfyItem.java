@@ -15,6 +15,7 @@ public class GfyItem {
 	private String gfyId;
 	
 	
+	
 	public GfyItem() {}
 	
 	public GfyItem(String gifUrl, List<String> tags, String webPUrl) {
@@ -52,8 +53,9 @@ public class GfyItem {
 	@Override
 	public String toString() {
 		return "GfyItem [gifUrl=" + gifUrl + ", tags=" + tags + ", WebPUrl=" + WebPUrl + ", userLikes=" + userLikes
-				+ "]";
+				+ ", languageCategories=" + languageCategories + ", gfyId=" + gfyId + "]";
 	}
+
 	public List<String> getLanguageCategories() {
 		return languageCategories;
 	}
