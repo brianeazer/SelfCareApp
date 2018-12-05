@@ -22,6 +22,7 @@ import co.grandcircus.selfcareapp.Entity.GfyItem;
 import co.grandcircus.selfcareapp.Entity.User;
 import co.grandcircus.selfcareapp.Entity.UserLikes;
 import co.grandcircus.selfcareapp.apiservice.ApiService;
+import co.grandcircus.selfcareapp.model.GifResponse;
 
 @Controller
 public class MainController {
@@ -39,7 +40,7 @@ public class MainController {
 	@RequestMapping("/")
 	public ModelAndView index() throws UnsupportedEncodingException {
 		String token = apiService.getGfycatAccessToken("").getAccess_token();
-		apiService.options("cat");
+		System.out.println(apiService.options("cat"));
 		return new ModelAndView("index");
 	}
 
@@ -176,6 +177,7 @@ public class MainController {
 		mv.addObject("likes", top10);
 		return mv;
 	}
+	
 	public ArrayList <UserLikes> getTop10(ArrayList<UserLikes> likes) {
 		Collections.sort(likes, (l1, l2) -> l1.getCount().compareTo(l2.getCount()));
 		
@@ -189,5 +191,25 @@ public class MainController {
 			System.out.println(ul.getTag() + ul.getCount());
 		}
 		return top10;
+	}
+	
+	@RequestMapping("/randomgif")
+	public ModelAndView showGifFromUserPreference(HttpSession session) throws UnsupportedEncodingException {
+		User user = (User) session.getAttribute("user");
+		ModelAndView mv = new ModelAndView("randomgif");
+		
+		ArrayList<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
+		ArrayList<UserLikes> top10 = getTop10(likes);
+		int randomNumber = getIntInRange(top10.size());
+		UserLikes ul = top10.get(randomNumber);
+		String tag = ul.getTag();
+		String url = apiService.options(tag).getGfycats().get(0).getGifUrl();
+		mv.addObject("gifUrl", url);
+		return mv;
+	}
+	
+	public int getIntInRange(int max) {
+		int num = (int)(Math.random()*max);
+		return num;
 	}
 }
