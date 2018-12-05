@@ -4,7 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -91,36 +93,29 @@ public class MainController {
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category) {
 		ModelAndView mav = new ModelAndView("mood");
 		// categories for user/random to choose from
-		@SuppressWarnings("unused")
-		List<String> food = new ArrayList<String>(Arrays.asList("recipe, food", "foodnetwork"));
-		List<String> cats = new ArrayList<String>(Arrays.asList("kittens", "cute kittens", "aww"));
-		List<String> sports = new ArrayList<String>(Arrays.asList("sports"));
-		List<String> fails = new ArrayList<String>(Arrays.asList("fail", "epicfail"));
-		List<String> nature = new ArrayList<String>(Arrays.asList("waterfalls", "nature"));
-
-		if (category.equals("food")) {
-			try {
-
-				GifResponse gifResponse = apiService.options(category, 4);
-				System.out.println(gifResponse);
-				List<GfyItem> gifs = gifResponse.getGfycats();
-				int index = (int) Math.floor(Math.random() * 4);
-				GfyItem gfyItem = gifs.get(index);
-				System.out.println(gfyItem.getGifUrl());
-				mav.addObject("gif", gfyItem.getGifUrl());
-
-			} catch (UnsupportedEncodingException | NullPointerException e) {
-				e.printStackTrace();
-			}
-		} else if (category.equals("cats")) {
-			mav.addObject("list", cats);
-		} else if (category.equals("sports")) {
-			mav.addObject("list", sports);
-		} else if (category.equals("fails")) {
-			mav.addObject("list", fails);
-		} else {
-			mav.addObject("list", nature);
+		Map<String, List<String>> categories = new HashMap<>();
+		categories.put("food", Arrays.asList("recipe, food", "foodnetwork"));
+		categories.put("cats", Arrays.asList("kittens", "cute kittens", "aww"));
+		categories.put("sports", Arrays.asList("sports"));
+		categories.put("fails", Arrays.asList("fail", "epicfail"));
+		categories.put("nature", Arrays.asList("waterfalls", "nature"));
+		
+		List<GfyItem> gifs = new ArrayList<>();
+		
+		// 1. grab the list based on the category
+		List<String> keywords = categories.get(category);
+		// 2. for each keyword in the list...
+		for (String keyword : keywords) {
+		  // grab 4 results, add it to a general list
+			GifResponse gifResponse = apiService.options(keyword, 4);
+			gifs.addAll(gifResponse.getGfycats());
 		}
+		// 3. randomly select an index
+		int index = (int) Math.floor(Math.random() * gifs.size());
+		// 4. find item at that index & show the gif
+		GfyItem gfyItem = gifs.get(index);
+		mav.addObject("gif", gfyItem.getGifUrl());
+
 		return mav;
 	}
 
