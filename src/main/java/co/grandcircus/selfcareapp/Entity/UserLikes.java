@@ -19,8 +19,6 @@ public class UserLikes {
 	private String tag;
 	private Integer count;
 	
-	
-	
 	public UserLikes() {
 		super();
 	}

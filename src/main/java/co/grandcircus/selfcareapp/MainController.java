@@ -41,7 +41,6 @@ public class MainController {
 	@RequestMapping("/")
 	public ModelAndView index() throws UnsupportedEncodingException {
 		String token = apiService.getGfycatAccessToken("").getAccess_token();
-		System.out.println(apiService.options("cat"));
 		return new ModelAndView("index");
 	}
 
@@ -102,7 +101,7 @@ public class MainController {
 		if (category.equals("food")) {
 			try {
 
-				GifResponse gifResponse = apiService.options(category);
+				GifResponse gifResponse = apiService.options(category, 1);
 				System.out.println(gifResponse);
 				List<GfyItem> gifs = gifResponse.getGfycats();
 				int index = (int) Math.floor(Math.random() * 4);
@@ -236,8 +235,25 @@ public class MainController {
 		int randomNumber = getIntInRange(top10.size());
 		UserLikes ul = top10.get(randomNumber);
 		String tag = ul.getTag();
-		String url = apiService.options(tag).getGfycats().get(0).getGifUrl();
+		ArrayList<GfyItem> gfyItems = (ArrayList<GfyItem>) apiService.options(tag, 20).getGfycats();
+		int randomNumber2 = getIntInRange(20);
+		GfyItem gifItem = gfyItems.get(randomNumber2);
+		String url = gifItem.getGifUrl();
+		String gifId = gifItem.getGfyId();
 		mv.addObject("gifUrl", url);
+		mv.addObject("gifId", gifId);
+		return mv;
+	}
+	@PostMapping("/randomgif")
+	public ModelAndView storeLikes(@RequestParam(name = "count", required = false) Integer count,
+			@RequestParam(name = "id") String gifId, HttpSession session) {
+		ModelAndView mv = new ModelAndView("randomgif");
+		GfyItem gfyItem = new GfyItem();
+		gfyItem = apiService.getAGif(gifId).getGfyItem();
+		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
+		for (String tag : tags) {
+			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
+		}
 		return mv;
 	}
 
