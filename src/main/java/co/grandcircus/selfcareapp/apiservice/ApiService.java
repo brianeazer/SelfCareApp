@@ -93,11 +93,11 @@ public class ApiService {
 		return accessToken;
 	}
 
-	public GifResponse options(String keyword) throws UnsupportedEncodingException {
+	public GifResponse options(String keyword, Integer amount) throws UnsupportedEncodingException {
 		String url = "https://api.gfycat.com/v1/gfycats/";
 		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
 		String search_text = keyword;
-		String count = "1";
+		String count = amount.toString();
 		String query = String.format("search_text=%s&count=%s", URLEncoder.encode(search_text, charset),
 				URLEncoder.encode(count, charset));
 		

@@ -8,6 +8,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-<img src="${gifUrl }">
+	<img src="${gifUrl }">
+	<a href="/randomgif?count=1&id=${gfyId }" class="btn btn-secondary mb-2">Like</a>
+	<a href="/randomgif?count=-1&id=${gfyId }" class="btn btn-secondary mb-2">Dislike</a>
+	
+	<c:if test="${ not empty userId }">
+	<div name="id" >
+	${gifId}
+	</div>
+	</c:if>
+	
 </body>
 </html>
