@@ -12,16 +12,7 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<H1>Gifs You've Liked</H1>
 
-<<<<<<< Updated upstream:src/main/webapp/WEB-INF/views/pastlikegifs.jsp
-		<c:forEach var="userlike" items="${Likes }">
-			<ol>
-				<li> ${userlike.tag }</li>
-			</ol>
-		</c:forEach>
-	</div>
-=======
 	<H1>Gifs You've Liked</H1>
 		<ol>
 		<c:forEach var="userlike" items="${likes }">
@@ -30,6 +21,5 @@
 		</c:forEach>
 		</ol>
 
->>>>>>> Stashed changes:src/main/webapp/WEB-INF/views/top10likes.jsp
 </body>
 </html>
