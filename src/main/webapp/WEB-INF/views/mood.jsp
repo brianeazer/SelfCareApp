@@ -23,11 +23,6 @@
 			</p>
 
 
-			<a href="/store-info?count=1&id=${gif.gfyId }"
-				class="btn btn-secondary mb-2">Like</a> 
-			<a href="/store-info?count=-1&id=${gif.gfyId }"
-				class="btn btn-secondary mb-2">Dislike</a>
-
 			<a href="redirect:/mood?category=food" class="btn btn-secondary mb-2">Like</a> 
 			<a href="redirect:/mood?category=food" class="btn btn-secondary mb-2">Dislike</a> 
 
