@@ -16,16 +16,16 @@
 	<h1>Welcome</h1>
 	<p>${ message } </p>
 	<form action="/" method="post">
-	<p>
-		Username: <input name="username" />
-	</p>
-
-	<p>
-		Password: <input name="password" type="password" />
-	</p>
-
+		<p>
+			Username: <input name="username" />
+		</p>
 	
-		<button type="submit">Submit</button>
+		<p>
+			Password: <input name="password" type="password" />
+		</p>
+	
+		
+			<button type="submit">Submit</button>
 	</form>
 
 	<form action="/register">

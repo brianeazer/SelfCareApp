@@ -11,7 +11,6 @@
 	<%@include file="partials/header.jsp"%>
 </head>
 <body>
-	<
 	
 
 

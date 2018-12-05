@@ -2,6 +2,7 @@ package co.grandcircus.selfcareapp;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -78,19 +79,17 @@ public class MainController {
 		System.out.println("User: " + user.getUsername() + " Password: " + user.getPassword());
 		List<UserLikes> userLikes = user.getUserLikes();
 		//System.out.println(userLikes);
-		List<String> categories = new ArrayList<>();
-		// index 1,2 are food, 3,4,5,6 are cats, 7 sports, 8,9 fails, 10,11 nature
-		categories.add("recipe, food");
-		categories.add("foodnetwork");
-		categories.add("kittens");
-		categories.add("cute kittens");
-		categories.add("aww");
-		categories.add("kittens");
-		categories.add("sports");
-		categories.add("fail");
-		categories.add("epicfail");
-		categories.add("waterfalls");
-		categories.add("nature");
+		
+		List<String> food = new ArrayList<String>(Arrays.asList("recipe, food", "foodnetwork"));
+		List<String> cats = new ArrayList<String>(Arrays.asList("kittens", "cute kittens", "aww"));
+		List<String> sports = new ArrayList<String>(Arrays.asList("sports"));
+		List<String> fails = new ArrayList<String>(Arrays.asList("fail", "epicfail"));
+		List<String> nature = new ArrayList<String>(Arrays.asList("waterfalls", "nature"));
+		List<List<String>> categories = new ArrayList<List<String>>(Arrays.asList(food, cats, sports, fails, nature));
+		
+		for (int i = 0; i < categories.size(); i++) {
+			System.out.println(categories.get(i));
+		}
 		return mav;
 	}
 

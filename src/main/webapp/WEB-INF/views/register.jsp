@@ -15,7 +15,7 @@
 </head>
 <body>
 
-	<div class="container">
+	<div class="container-fluid">
 		<h1>Please fill out information</h1>
 		<p class = "message"> ${message}</p>
 		<form action="/flavorprofile" method="get">

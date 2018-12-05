@@ -11,14 +11,14 @@
 	<%@include file="partials/header.jsp"%>
 </head>
 <body>
-
-	<H1>Gifs You've Liked</H1>
+	<div class="container-fluid">
+		<H1>Gifs You've Liked</H1>
 
 		<c:forEach var="userlike" items="${Likes }">
-		<ol>
-		<li> ${userlike.tag }</li>
-	</ol>
+			<ol>
+				<li> ${userlike.tag }</li>
+			</ol>
 		</c:forEach>
-
+	</div>
 </body>
 </html>
