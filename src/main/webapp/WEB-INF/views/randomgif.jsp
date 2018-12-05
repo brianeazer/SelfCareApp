@@ -13,9 +13,7 @@
 	<a href="/randomgif?count=-1&id=${gfyId }" class="btn btn-secondary mb-2">Dislike</a>
 	
 	<c:if test="${ not empty userId }">
-	<div name="id" >
-	${gifId}
-	</div>
+	<div name="id">${gifId}</div>
 	</c:if>
 	
 </body>

@@ -260,4 +260,12 @@ public class MainController {
 		int num = (int)(Math.random()*max);
 		return num;
 	}
+	
+	@RequestMapping("/feels")
+	public ModelAndView feelingsData() {
+		ModelAndView mv = new ModelAndView("feels");
+		
+		
+		return mv;
+	}
 }
