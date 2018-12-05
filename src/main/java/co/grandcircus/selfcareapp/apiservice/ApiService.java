@@ -93,20 +93,23 @@ public class ApiService {
 		return accessToken;
 	}
 
-	public GifResponse options(String keyword, Integer amount) throws UnsupportedEncodingException {
+	public GifResponse options(String keyword, Integer amount) {
 		String url = "https://api.gfycat.com/v1/gfycats/";
 		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
 		String search_text = keyword;
 		String count = amount.toString();
-		String query = String.format("search_text=%s&count=%s", URLEncoder.encode(search_text, charset),
-				URLEncoder.encode(count, charset));
 		
-		String fullUrl = url + "search?" + query;
-		HttpHeaders headers = createHttpHeaders("Fred", "1234");
-		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-		
-		GifResponse gifResponse = restTemplate.getForObject(fullUrl, GifResponse.class);
-		return gifResponse;
+		try {
+			String query = String.format("search_text=%s&count=%s", URLEncoder.encode(search_text, charset),
+					URLEncoder.encode(count, charset));
+			String fullUrl = url + "search?" + query;
+			
+			GifResponse gifResponse = restTemplate.getForObject(fullUrl, GifResponse.class);
+			return gifResponse;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}	
 
 }

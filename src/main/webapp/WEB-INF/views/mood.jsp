@@ -23,7 +23,7 @@
 				<img src="${gif }">
 			</p>
 
-
+			<a href = "/mood?category" class = "btn btn-secondary mb-2">Next</a>
 			<a href="redirect:/mood?category=food" class="btn btn-secondary mb-2">Like</a> 
 			<a href="redirect:/mood?category=food" class="btn btn-secondary mb-2">Dislike</a> 
 

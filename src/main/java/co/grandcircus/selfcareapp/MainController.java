@@ -4,7 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -91,6 +93,7 @@ public class MainController {
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category) {
 		ModelAndView mav = new ModelAndView("mood");
 		// categories for user/random to choose from
+<<<<<<< HEAD
 		@SuppressWarnings("unused")
 		List<String> food = new ArrayList<String>(Arrays.asList("recipe, food", "foodnetwork"));
 		@SuppressWarnings("unused")
@@ -173,7 +176,31 @@ public class MainController {
 				e.printStackTrace();
 			}
 			// mav.addObject("list", nature);
+=======
+		Map<String, List<String>> categories = new HashMap<>();
+		categories.put("food", Arrays.asList("recipe, food", "foodnetwork"));
+		categories.put("cats", Arrays.asList("kittens", "cute kittens", "aww"));
+		categories.put("sports", Arrays.asList("sports"));
+		categories.put("fails", Arrays.asList("fail", "epicfail"));
+		categories.put("nature", Arrays.asList("waterfalls", "nature"));
+		
+		List<GfyItem> gifs = new ArrayList<>();
+		
+		// 1. grab the list based on the category
+		List<String> keywords = categories.get(category);
+		// 2. for each keyword in the list...
+		for (String keyword : keywords) {
+		  // grab 4 results, add it to a general list
+			GifResponse gifResponse = apiService.options(keyword, 4);
+			gifs.addAll(gifResponse.getGfycats());
+>>>>>>> 2be6dc4b74bd1ab0f58dd9fc39ac9d03063f6024
 		}
+		// 3. randomly select an index
+		int index = (int) Math.floor(Math.random() * gifs.size());
+		// 4. find item at that index & show the gif
+		GfyItem gfyItem = gifs.get(index);
+		mav.addObject("gif", gfyItem.getGifUrl());
+
 		return mav;
 	}
 
