@@ -154,17 +154,17 @@ public class MainController {
 		}
 		int count = (int) session.getAttribute("count");
 		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra", "mildsardonicasianconstablebutterfly",
-				"tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu",
-				"requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
-				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech",
+//				"tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu",
+//				"requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
+//				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech",
 				"selfishorganichornet", "equatorialdisgustingcassowary", "fakepassionatearacari" };
+		if (count == gifIds.length) {
+			return new ModelAndView("mood");
+		}
 		String gifId = gifIds[count];
 		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ModelAndView mv = new ModelAndView("flavorProfile");
 		mv.addObject("gif", gfyItem);
-		if (count == 15) {
-			return new ModelAndView("mood");
-		}
 		return mv;
 	}
 
