@@ -20,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import co.grandcircus.selfcareapp.Dao.LikeDao;
 import co.grandcircus.selfcareapp.Dao.UserDao;
 import co.grandcircus.selfcareapp.Entity.GfyItem;
-import co.grandcircus.selfcareapp.Entity.Like;
 import co.grandcircus.selfcareapp.Entity.User;
 import co.grandcircus.selfcareapp.Entity.UserLikes;
 import co.grandcircus.selfcareapp.apiservice.ApiService;
@@ -134,19 +133,31 @@ public class MainController {
 	public ModelAndView addToDatabase(@RequestParam(name = "count", required = false) Integer count,
 			@RequestParam(name = "id") String gifId, HttpSession session) {
 		GfyItem gfyItem = new GfyItem();
-		if (count == 1) {
 			gfyItem = apiService.getAGif(gifId).getGfyItem();
 			ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 			for (String tag : tags) {
-				Like like = new Like();
-				like.setTag(tag);
-				updateUserLikeTable(like, (User) session.getAttribute("user"));
+				updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
 			}
-		}
-
 		return new ModelAndView("redirect:/flavorprofile");
 	}
 
+	public void updateUserLikeTable(String tag, User user, Integer count) {
+		UserLikes userLike = likeDao.getUserLikes(user, tag);
+		if (userLike == null) {
+			userLike = new UserLikes();
+			userLike.setCount(count);
+			userLike.setTag(tag);
+			userLike.setUser(user);
+			likeDao.createUserLike(userLike);
+		} else {
+			Integer likes = userLike.getCount();
+			likes += count;
+			userLike.setCount(likes);
+			likeDao.update(userLike);
+		}
+
+	}
+	
 	@RequestMapping("/pastlikegifs")
 	public ModelAndView showGif(HttpSession session) {
 		ModelAndView mv = new ModelAndView("pastlikegifs");
@@ -156,22 +167,6 @@ public class MainController {
 		System.out.println(likes);
 		mv.addObject("Likes", likes);
 		return mv;
-	}
-
-	public void updateUserLikeTable(Like like, User user) {
-		UserLikes userLike = likeDao.getUserLikes(user, like);
-		if (userLike == null) {
-			userLike = new UserLikes();
-			userLike.setCount(0);
-			userLike.setLike(like);
-			userLike.setUser(user);
-			likeDao.createUserLike(userLike);
-		} else {
-			Integer count = userLike.getCount();
-			count++;
-			userLike.setCount(count);
-		}
-
 	}
 
 }

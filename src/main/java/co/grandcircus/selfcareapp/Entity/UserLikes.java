@@ -16,42 +16,49 @@ public class UserLikes {
 	private Long id;
 	@ManyToOne
 	private User user;
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	private Like like;
+	private String tag;
 	private Integer count;
 	
 	
 	
 	public UserLikes() {
 		super();
-		like = new Like();
 	}
+	
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public User getUser() {
 		return user;
 	}
+
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public Like getLike() {
-		return like;
+
+	public String getTag() {
+		return tag;
 	}
-	public void setLike(Like like) {
-		this.like = like;
+
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
+
 	public Integer getCount() {
 		return count;
 	}
+
 	public void setCount(Integer count) {
 		this.count = count;
 	}
+
 	@Override
 	public String toString() {
-		return "UserLikes [id=" + id + ", user=" + user + ", like=" + like + ", count=" + count + "]";
+		return "UserLikes [id=" + id + ", user=" + user + ", tag=" + tag + ", count=" + count + "]";
 	}
 }

@@ -15,7 +15,7 @@
 
 		<c:forEach var="userlike" items="${Likes }">
 		<ol>
-		<li> TEST${userlike.like.tag }</li>
+		<li> ${userlike.tag }</li>
 	</ol>
 		</c:forEach>
 
