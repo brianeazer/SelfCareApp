@@ -4,16 +4,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Category</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link rel="stylesheet" href="style.css" />
-	<%@include file="partials/header.jsp"%>
+<meta charset="UTF-8">
+<title>Category</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="style.css" />
+<%@include file="partials/header.jsp"%>
 </head>
 <body>
-	
+	<form>
+		<div class="container">
+			<%@include file="partials/ask-mood.jsp"%>
 
+			<p>
+				<img src="${gif }">
+			</p>
 
-
+			<a href="/store-info?count=1&id=${gif.gfyId }"
+				class="btn btn-secondary mb-2">Like</a> <a
+				href="/store-info?count=-1&id=${gif.gfyId }"
+				class="btn btn-secondary mb-2">Dislike</a>
+		</div>
+	</form>
 </body>
 </html>

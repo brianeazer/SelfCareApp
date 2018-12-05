@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,7 @@ import co.grandcircus.selfcareapp.Entity.GfyItem;
 import co.grandcircus.selfcareapp.Entity.User;
 import co.grandcircus.selfcareapp.Entity.UserLikes;
 import co.grandcircus.selfcareapp.apiservice.ApiService;
+import co.grandcircus.selfcareapp.model.GifResponse;
 
 @Controller
 public class MainController {
@@ -58,6 +60,7 @@ public class MainController {
 			return new ModelAndView("redirect:/mood");
 		}
 	}
+
 	@RequestMapping("/logout")
 	public ModelAndView logout(HttpSession session, RedirectAttributes redir) {
 		session.invalidate();
@@ -75,18 +78,48 @@ public class MainController {
 		ModelAndView mav = new ModelAndView("mood");
 		User user = (User) session.getAttribute("user");
 		System.out.println("User: " + user.getUsername() + " Password: " + user.getPassword());
-		List<UserLikes> userLikes = user.getUserLikes();
-		//System.out.println(userLikes);
-		
+
+		// arraylist of all categories
+		List<String> categories = new ArrayList<String>(Arrays.asList("food", "cats", "sports", "fails", "nature"));
+		// List<List<String>> categories = new
+		// ArrayList<List<String>>(Arrays.asList(food, cats, sports, fails, nature));
+		mav.addObject("categories", categories);
+
+		return mav;
+	}
+
+	@PostMapping("/mood")
+	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category) {
+		ModelAndView mav = new ModelAndView("mood");
+		// categories for user/random to choose from
 		List<String> food = new ArrayList<String>(Arrays.asList("recipe, food", "foodnetwork"));
 		List<String> cats = new ArrayList<String>(Arrays.asList("kittens", "cute kittens", "aww"));
 		List<String> sports = new ArrayList<String>(Arrays.asList("sports"));
 		List<String> fails = new ArrayList<String>(Arrays.asList("fail", "epicfail"));
 		List<String> nature = new ArrayList<String>(Arrays.asList("waterfalls", "nature"));
-		List<List<String>> categories = new ArrayList<List<String>>(Arrays.asList(food, cats, sports, fails, nature));
-		
-		for (int i = 0; i < categories.size(); i++) {
-			System.out.println(categories.get(i));
+
+		if (category.equals("food")) {
+			try {
+
+				GifResponse gifResponse = apiService.options(category);
+				System.out.println(gifResponse);
+				List<GfyItem> gifs = gifResponse.getGfycats();
+				int index = (int) Math.floor(Math.random() * 5);
+				GfyItem gfyItem = gifs.get(index);
+				System.out.println(gfyItem.getGifUrl());
+				mav.addObject("gif", gfyItem.getGifUrl());
+
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		} else if (category.equals("cats")) {
+			mav.addObject("list", cats);
+		} else if (category.equals("sports")) {
+			mav.addObject("list", sports);
+		} else if (category.equals("fails")) {
+			mav.addObject("list", fails);
+		} else {
+			mav.addObject("list", nature);
 		}
 		return mav;
 	}
@@ -129,7 +162,7 @@ public class MainController {
 		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ModelAndView mv = new ModelAndView("flavorProfile");
 		mv.addObject("gif", gfyItem);
-		if (count==15) {
+		if (count == 15) {
 			return new ModelAndView("mood");
 		}
 		return mv;
@@ -139,11 +172,11 @@ public class MainController {
 	public ModelAndView addToDatabase(@RequestParam(name = "count", required = false) Integer count,
 			@RequestParam(name = "id") String gifId, HttpSession session) {
 		GfyItem gfyItem = new GfyItem();
-			gfyItem = apiService.getAGif(gifId).getGfyItem();
-			ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
-			for (String tag : tags) {
-				updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
-			}
+		gfyItem = apiService.getAGif(gifId).getGfyItem();
+		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
+		for (String tag : tags) {
+			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
+		}
 		return new ModelAndView("redirect:/flavorprofile");
 	}
 
@@ -163,26 +196,27 @@ public class MainController {
 		}
 
 	}
-	
+
 	@RequestMapping("/pastlikegifs")
 	public ModelAndView showGif(HttpSession session) {
 		ModelAndView mv = new ModelAndView("top10likes");
 		User user = (User) session.getAttribute("user");
 		System.out.println(user.getUsername());
-		
+
 		ArrayList<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
 		ArrayList<UserLikes> top10 = getTop10(likes);
-		
+
 		mv.addObject("likes", top10);
 		return mv;
 	}
-	public ArrayList <UserLikes> getTop10(ArrayList<UserLikes> likes) {
+
+	public ArrayList<UserLikes> getTop10(ArrayList<UserLikes> likes) {
 		Collections.sort(likes, (l1, l2) -> l1.getCount().compareTo(l2.getCount()));
-		
-		ArrayList <UserLikes> top10 = new ArrayList<>();
-		
+
+		ArrayList<UserLikes> top10 = new ArrayList<>();
+
 		for (int i = likes.size() - 1; i > likes.size() - 11; i--) {
-			
+
 			top10.add(likes.get(i));
 		}
 		for (UserLikes ul : top10) {

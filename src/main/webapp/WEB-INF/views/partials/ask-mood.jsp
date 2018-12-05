@@ -13,7 +13,11 @@
 	<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-	
-
+	<form name="mood-tracker" method="post">
+		<c:forEach var="category" items="${ categories }">
+			<input name="category" type="radio" value="${ category }">${ category }<br>
+		</c:forEach>
+		<button>See GIFs</button>
+	</form>
 </body>
 </html>
