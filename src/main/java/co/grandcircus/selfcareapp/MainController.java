@@ -92,6 +92,7 @@ public class MainController {
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category) {
 		ModelAndView mav = new ModelAndView("mood");
 		// categories for user/random to choose from
+		@SuppressWarnings("unused")
 		List<String> food = new ArrayList<String>(Arrays.asList("recipe, food", "foodnetwork"));
 		List<String> cats = new ArrayList<String>(Arrays.asList("kittens", "cute kittens", "aww"));
 		List<String> sports = new ArrayList<String>(Arrays.asList("sports"));
@@ -104,7 +105,7 @@ public class MainController {
 				GifResponse gifResponse = apiService.options(category);
 				System.out.println(gifResponse);
 				List<GfyItem> gifs = gifResponse.getGfycats();
-				int index = (int) Math.floor(Math.random() * 5);
+				int index = (int) Math.floor(Math.random() * 4);
 				GfyItem gfyItem = gifs.get(index);
 				System.out.println(gfyItem.getGifUrl());
 				mav.addObject("gif", gfyItem.getGifUrl());
@@ -210,8 +211,7 @@ public class MainController {
 		return mv;
 	}
 
-	
-	public ArrayList <UserLikes> getTop10(ArrayList<UserLikes> likes) {
+	public ArrayList<UserLikes> getTop10(ArrayList<UserLikes> likes) {
 		Collections.sort(likes, (l1, l2) -> l1.getCount().compareTo(l2.getCount()));
 
 		ArrayList<UserLikes> top10 = new ArrayList<>();
@@ -225,12 +225,12 @@ public class MainController {
 		}
 		return top10;
 	}
-	
+
 	@RequestMapping("/randomgif")
 	public ModelAndView showGifFromUserPreference(HttpSession session) throws UnsupportedEncodingException {
 		User user = (User) session.getAttribute("user");
 		ModelAndView mv = new ModelAndView("randomgif");
-		
+
 		ArrayList<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
 		ArrayList<UserLikes> top10 = getTop10(likes);
 		int randomNumber = getIntInRange(top10.size());
@@ -240,9 +240,9 @@ public class MainController {
 		mv.addObject("gifUrl", url);
 		return mv;
 	}
-	
+
 	public int getIntInRange(int max) {
-		int num = (int)(Math.random()*max);
+		int num = (int) (Math.random() * max);
 		return num;
 	}
 }

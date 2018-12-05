@@ -14,7 +14,7 @@
 <%@include file="partials/header.jsp"%>
 </head>
 <body>
-	<form>
+	<!-- <form> -->
 		<div class="container">
 			<%@include file="partials/ask-mood.jsp"%>
 
@@ -22,11 +22,9 @@
 				<img src="${gif }">
 			</p>
 
-			<a href="/store-info?count=1&id=${gif.gfyId }"
-				class="btn btn-secondary mb-2">Like</a> <a
-				href="/store-info?count=-1&id=${gif.gfyId }"
-				class="btn btn-secondary mb-2">Dislike</a>
+			<a href="redirect:/mood?category=food" class="btn btn-secondary mb-2">Like</a> 
+			<a href="redirect:/mood?category=food" class="btn btn-secondary mb-2">Dislike</a> 
 		</div>
-	</form>
+<!-- 	</form> -->
 </body>
 </html>
