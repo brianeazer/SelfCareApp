@@ -93,7 +93,7 @@ public class MainController {
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category) {
 		ModelAndView mav = new ModelAndView("mood");
 		// categories for user/random to choose from
-<<<<<<< HEAD
+
 		@SuppressWarnings("unused")
 		List<String> food = new ArrayList<String>(Arrays.asList("recipe, food", "foodnetwork"));
 		@SuppressWarnings("unused")
@@ -176,7 +176,7 @@ public class MainController {
 				e.printStackTrace();
 			}
 			// mav.addObject("list", nature);
-=======
+
 		Map<String, List<String>> categories = new HashMap<>();
 		categories.put("food", Arrays.asList("recipe, food", "foodnetwork"));
 		categories.put("cats", Arrays.asList("kittens", "cute kittens", "aww"));
@@ -193,7 +193,6 @@ public class MainController {
 		  // grab 4 results, add it to a general list
 			GifResponse gifResponse = apiService.options(keyword, 4);
 			gifs.addAll(gifResponse.getGfycats());
->>>>>>> 2be6dc4b74bd1ab0f58dd9fc39ac9d03063f6024
 		}
 		// 3. randomly select an index
 		int index = (int) Math.floor(Math.random() * gifs.size());
