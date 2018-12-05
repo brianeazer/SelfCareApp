@@ -93,6 +93,90 @@ public class MainController {
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category) {
 		ModelAndView mav = new ModelAndView("mood");
 		// categories for user/random to choose from
+<<<<<<< HEAD
+		@SuppressWarnings("unused")
+		List<String> food = new ArrayList<String>(Arrays.asList("recipe, food", "foodnetwork"));
+		@SuppressWarnings("unused")
+		List<String> cats = new ArrayList<String>(Arrays.asList("kittens", "cute kittens", "aww"));
+		@SuppressWarnings("unused")
+		List<String> sports = new ArrayList<String>(Arrays.asList("sports"));
+		@SuppressWarnings("unused")
+		List<String> fails = new ArrayList<String>(Arrays.asList("fail", "epicfail"));
+		@SuppressWarnings("unused")
+		List<String> nature = new ArrayList<String>(Arrays.asList("waterfalls", "nature"));
+
+		if (category.equals("food")) {
+			try {
+
+				GifResponse gifResponse = apiService.options(category, 10);
+				System.out.println(gifResponse);
+				List<GfyItem> gifs = gifResponse.getGfycats();
+				int index = (int) Math.floor(Math.random() * 10);
+				GfyItem gfyItem = gifs.get(index);
+				System.out.println(gfyItem.getGifUrl());
+				mav.addObject("gif", gfyItem.getGifUrl());
+
+			} catch (UnsupportedEncodingException | NullPointerException e) {
+				e.printStackTrace();
+			}
+		} else if (category.equals("cats")) {
+			try {
+				GifResponse gifResponse = apiService.options(category, 10);
+				System.out.println(gifResponse);
+				List<GfyItem> gifs = gifResponse.getGfycats();
+				int index = (int) Math.floor(Math.random() * 10);
+				GfyItem gfyItem = gifs.get(index);
+				System.out.println(gfyItem.getGifUrl());
+				mav.addObject("gif", gfyItem.getGifUrl());
+
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			// mav.addObject("list", cats);
+		} else if (category.equals("sports")) {
+
+			try {
+				GifResponse gifResponse = apiService.options(category, 10);
+				System.out.println(gifResponse);
+				List<GfyItem> gifs = gifResponse.getGfycats();
+				int index = (int) Math.floor(Math.random() * 10);
+				GfyItem gfyItem = gifs.get(index);
+				System.out.println(gfyItem.getGifUrl());
+				mav.addObject("gif", gfyItem.getGifUrl());
+
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			// mav.addObject("list", sports);
+		} else if (category.equals("fails")) {
+			try {
+				GifResponse gifResponse = apiService.options(category, 10);
+				System.out.println(gifResponse);
+				List<GfyItem> gifs = gifResponse.getGfycats();
+				int index = (int) Math.floor(Math.random() * 10);
+				GfyItem gfyItem = gifs.get(index);
+				System.out.println(gfyItem.getGifUrl());
+				mav.addObject("gif", gfyItem.getGifUrl());
+
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			// mav.addObject("list", fails);
+		} else {
+			try {
+				GifResponse gifResponse = apiService.options(category, 10);
+				System.out.println(gifResponse);
+				List<GfyItem> gifs = gifResponse.getGfycats();
+				int index = (int) Math.floor(Math.random() * 10);
+				GfyItem gfyItem = gifs.get(index);
+				System.out.println(gfyItem.getGifUrl());
+				mav.addObject("gif", gfyItem.getGifUrl());
+
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			// mav.addObject("list", nature);
+=======
 		Map<String, List<String>> categories = new HashMap<>();
 		categories.put("food", Arrays.asList("recipe, food", "foodnetwork"));
 		categories.put("cats", Arrays.asList("kittens", "cute kittens", "aww"));
@@ -109,6 +193,7 @@ public class MainController {
 		  // grab 4 results, add it to a general list
 			GifResponse gifResponse = apiService.options(keyword, 4);
 			gifs.addAll(gifResponse.getGfycats());
+>>>>>>> 2be6dc4b74bd1ab0f58dd9fc39ac9d03063f6024
 		}
 		// 3. randomly select an index
 		int index = (int) Math.floor(Math.random() * gifs.size());
@@ -233,7 +318,7 @@ public class MainController {
 		mv.addObject("gifId", gifId);
 		return mv;
 	}
-	
+
 	@RequestMapping("/storelikes")
 	public ModelAndView storeLikes(@RequestParam(name = "count", required = false) Integer count,
 			@RequestParam(name = "id") String gifId, HttpSession session) {
@@ -251,12 +336,11 @@ public class MainController {
 		int num = (int) (Math.random() * max);
 		return num;
 	}
-	
+
 	@RequestMapping("/feels")
 	public ModelAndView feelingsData() {
 		ModelAndView mv = new ModelAndView("feels");
-		
-		
+
 		return mv;
 	}
 }
