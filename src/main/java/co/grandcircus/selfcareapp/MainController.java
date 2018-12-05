@@ -154,9 +154,9 @@ public class MainController {
 		}
 		int count = (int) session.getAttribute("count");
 		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra", "mildsardonicasianconstablebutterfly",
-//				"tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu",
-//				"requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
-//				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech",
+				"tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu",
+				"requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
+				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech",
 				"selfishorganichornet", "equatorialdisgustingcassowary", "fakepassionatearacari" };
 		if (count == gifIds.length) {
 			return new ModelAndView("mood");
