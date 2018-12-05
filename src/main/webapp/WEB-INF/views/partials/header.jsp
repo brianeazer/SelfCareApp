@@ -27,17 +27,19 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="/">Welcome ${ user.username }</a></li>
-
+				<c:if test="${ empty user }">
 				<li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
 
 
-				<li class="nav-item"><a class="nav-link" href="/login">Login</a>
+				<li class="nav-item"><a class="nav-link" href="/">Login</a>
 				</li>
-
+				</c:if>
+				<c:if test="${not empty user }">
 				<li class="nav-item"><a class="nav-link" href="/logout">Logout</a>
 				</li>
-				<li class="nav-item"><a class="nav-link" href="/flavorprofile">Mood</a>
+				<li class="nav-item"><a class="nav-link" href="/mood">Mood</a>
 				</li>
+				</c:if>
 
 			</ul>
 		</div>

@@ -59,6 +59,12 @@ public class MainController {
 			return new ModelAndView("redirect:/mood");
 		}
 	}
+	@RequestMapping("/logout")
+	public ModelAndView logout(HttpSession session, RedirectAttributes redir) {
+		session.invalidate();
+		redir.addFlashAttribute("message", "You've logged out");
+		return new ModelAndView("redirect:/");
+	}
 
 	@RequestMapping("/register")
 	public ModelAndView registration() {
