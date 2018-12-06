@@ -105,6 +105,7 @@ public class MainController {
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category,
 			RedirectAttributes redir) {
 		ModelAndView mav = new ModelAndView("randomgif");
+		mav.addObject("category", category);
 		
 		// map of all categories tags, with the category name as key
 		Map<String, List<String>> categories = new HashMap<>();
@@ -126,14 +127,14 @@ public class MainController {
 			List<UserLikes> topLikes = getTopLikes(likes);
 			
 			// gets random number to select index of a top like
-			int indexTopLikes = getIntInRange(topLikes.size());
+			int indexTopLikes = getIntInRange(topLikes.size() - 1);
 			UserLikes ul = topLikes.get(indexTopLikes);
 			String tag = ul.getTag();
 			
 			// gets list of gifs based on chosen tags
 			// TODO: figure out a way to possibly get more than 10 thru cursor
 			List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
-			int indexGifList = getIntInRange(gfyItems.size());
+			int indexGifList = getIntInRange(gfyItems.size() - 1);
 			GfyItem gifItem = gfyItems.get(indexGifList);
 			mav.addObject("gif", gifItem.getMax5mbGif());
 			mav.addObject("gifId", gifItem.getGfyId());
@@ -153,20 +154,7 @@ public class MainController {
 			mav.addObject("gif", gfyItem.getMax5mbGif());
 			mav.addObject("gifId", gfyItem.getGfyId());
 		}
-
 		return mav;
-	}
-
-	@RequestMapping("/test")
-	public ModelAndView testGifs() {
-		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra", "mildsardonicasianconstablebutterfly",
-				"tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu" };
-		ArrayList<String> gifUrls = new ArrayList<>();
-		for (String s : gifIds) {
-			String url = apiService.getAGif(s).getGfyItem().getMax5mbGif();
-			gifUrls.add(url);
-		}
-		return new ModelAndView("test", "gifs", gifUrls);
 	}
 
 	@RequestMapping("/flavorprofile")
@@ -211,13 +199,16 @@ public class MainController {
 	
 	@RequestMapping("/random-store-info")
 	public ModelAndView addRandomToDatabase(@RequestParam(name = "count", required = false) Integer count,
-			@RequestParam(name = "id") String gifId, HttpSession session) {
+			@RequestParam(name = "id") String gifId, @RequestParam(name = "category") String category, HttpSession session) {
+		ModelAndView mav = new ModelAndView("redirect:/gifs");
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
+		
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
 			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
 		}
+		mav.addObject("category", category);
 		return new ModelAndView("redirect:/gifs");
 	}
 
@@ -255,8 +246,8 @@ public class MainController {
 
 		List<UserLikes> top10 = new ArrayList<>();
 
-		for (int i = likes.size() - 1; i > likes.size() - 11; i--) {
-			if (likes.get(i).getCount() > 0) {
+		for (int i = likes.size() - 1; i >= 0; i--) {
+			if (likes.get(i).getCount() > 0 && (likes.get(i).getId() != null)) {
 				top10.add(likes.get(i));
 			}
 		}
