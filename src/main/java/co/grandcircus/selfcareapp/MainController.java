@@ -133,11 +133,13 @@ public class MainController {
 		// map of all categories tags, with the category name as key
 		Map<String, List<String>> categories = new HashMap<>();
 		categories.put("food", Arrays.asList("recipe, food", "foodnetwork"));
-		categories.put("cats", Arrays.asList("kittens", "cute kittens", "aww"));
+		categories.put("cats", Arrays.asList("kittens", "cute kittens", "cats, aww"));
 		categories.put("sports", Arrays.asList("sports"));
 		categories.put("fails", Arrays.asList("fail", "epicfail"));
-		categories.put("nature", Arrays.asList("waterfalls", "nature"));
-		//categories.put("random", Arrays.asList(""));
+		categories.put("Nature", Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
+//		categories.put("Scare", Arrays.asList("crazy"));
+		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing", ""));
+		categories.put("random", Arrays.asList(""));
 
 		List<GfyItem> gifs = new ArrayList<>();
 		// if user selected "random" will give them gifs based on their preferences
@@ -293,8 +295,7 @@ public class MainController {
 	public ModelAndView storeLikes(@RequestParam(name = "count", required = false) Integer count,
 			@RequestParam(name = "id") String gifId, HttpSession session) {
 		ModelAndView mv = new ModelAndView("redirect:/randomgif");
-		GfyItem gfyItem = new GfyItem();
-		gfyItem = apiService.getAGif(gifId).getGfyItem();
+		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
 			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);

@@ -37,7 +37,8 @@ public class LikeDao {
 	}
 
 	public List<UserLikes> getUserLikes(User user) {
-		return em.createQuery("FROM UserLikes WHERE user = :user", UserLikes.class).setParameter("user", user)
+		return em.createQuery("FROM UserLikes WHERE user = :user", UserLikes.class)
+				.setParameter("user", user)
 				.getResultList();
 	}
 

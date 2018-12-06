@@ -21,6 +21,7 @@
 				<td>Time/Frequency</td>
 			</tr>
 
+<<<<<<< Updated upstream
 		</table> -->
 		<table class="table">
 			<tr class="tr">
@@ -32,6 +33,14 @@
 					<td>${ ue.date }</td>
 					<td>${ ue.emotionRating }</td>
 				</tr>
+=======
+<table>
+	<tr>
+		<td>Emotion</td>
+		<td>Frequency</td>
+	</tr>
+	
+>>>>>>> Stashed changes
 
 			</c:forEach>
 			
