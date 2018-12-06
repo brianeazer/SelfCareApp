@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -14,13 +14,27 @@
 <%@include file="partials/header.jsp"%>
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="table">
 		<table>
-			<tr>
+			<tr class="tr">
 				<td>Emotion</td>
 				<td>Time/Frequency</td>
 			</tr>
 
+		</table>
+		<table class="table">
+			<tr class="tr">
+				<th class="th">Date</th>
+				<th>Mood</th>
+			</tr>
+			<c:forEach var="ue" items="${userEmotions }">
+				<trclass="tr">
+					<td>${ ue.date }</td>
+					<td>${ ue.emotionRating }</td>
+				</tr>
+
+			</c:forEach>
+			
 		</table>
 	</div>
 

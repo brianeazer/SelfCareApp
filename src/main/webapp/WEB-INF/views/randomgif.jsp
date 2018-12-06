@@ -17,7 +17,6 @@
 	<div class="container" id="show-gif">
 		<form method="get">
 			<h2>Category: ${ category }</h2>
-			<input name="category" value=${ category } hidden>
 			<img src="${ gif }" class="center" height="20%"> 
 			<a href="/random-store-info?category=${ category }&count=1&id=${ gifId }"
 				class="btn btn-secondary mb-2">Like</a> 
