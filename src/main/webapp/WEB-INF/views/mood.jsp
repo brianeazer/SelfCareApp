@@ -24,7 +24,7 @@
 		</form>
 	</div>
 	<div class="slidecontainer">
-	<form action="/mood">
+	<form action="/gifs">
 		<input type="range" min="0" max="10" value="5" class="slider"
 			id="myRange" name="slidervalue">
 		<button>submit</button>

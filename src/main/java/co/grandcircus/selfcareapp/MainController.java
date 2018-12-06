@@ -96,7 +96,7 @@ public class MainController {
 		
 
 		// arraylist of all categories
-		List<String> categories = new ArrayList<String>(Arrays.asList("food", "cats", "sports", "fails", "nature"));
+		List<String> categories = new ArrayList<String>(Arrays.asList("food", "cats", "sports", "fails", "nature", "random"));
 		mav.addObject("categories", categories);
 		return mav;
 	}
