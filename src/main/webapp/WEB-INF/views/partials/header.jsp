@@ -41,6 +41,8 @@
 				</li>
 				<li class="nav-item"><a class="nav-link" href="/feels">Past Feelings</a>
 				</li>
+				<li class="nav-item"><a class="nav-link" href="/pastlikegifs">Top10 Likes</a>
+				</li>
 				</c:if>
 
 			</ul>

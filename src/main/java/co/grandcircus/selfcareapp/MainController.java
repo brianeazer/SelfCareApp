@@ -102,7 +102,7 @@ public class MainController {
 
 		// arraylist of all categories
 		List<String> categories = new ArrayList<String>(
-				Arrays.asList("food", "cats", "sports", "fails", "nature", "random"));
+				Arrays.asList("food", "cats", "sports", "fails", "nature"));
 		mav.addObject("categories", categories);
 
 		return mav;
@@ -131,7 +131,7 @@ public class MainController {
 		categories.put("sports", Arrays.asList("sports"));
 		categories.put("fails", Arrays.asList("fail", "epicfail"));
 		categories.put("nature", Arrays.asList("waterfalls", "nature"));
-		categories.put("random", Arrays.asList(""));
+		//categories.put("random", Arrays.asList(""));
 
 		List<GfyItem> gifs = new ArrayList<>();
 		// if user selected "random" will give them gifs based on their preferences
@@ -257,6 +257,15 @@ public class MainController {
 
 		List<UserLikes> likes = (List<UserLikes>) likeDao.getUserLikes(user);
 		List<UserLikes> top10 = getTopLikes(likes);
+		
+		int indexTopLikes = getIntInRange(top10.size());
+		UserLikes ul = top10.get(indexTopLikes);
+		String tag = ul.getTag();
+		
+		List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
+		int indexGifList = getIntInRange(gfyItems.size() - 1);
+		GfyItem gifItem = gfyItems.get(indexGifList);
+		mv.addObject("gif", gifItem);
 
 		mv.addObject("likes", top10);
 		return mv;
@@ -266,11 +275,10 @@ public class MainController {
 		Collections.sort(likes, (l1, l2) -> l1.getCount().compareTo(l2.getCount()));
 
 		List<UserLikes> top10 = new ArrayList<>();
-
-		for (int i = likes.size() - 1; i >= 0; i--) {
-			if (likes.get(i).getCount() > 0 && (likes.get(i).getId() != null)) {
-				top10.add(likes.get(i));
-			}
+		int count = 0;
+		while (count < 10) {
+			top10.add(likes.get(likes.size()-1-count));
+			count++;
 		}
 		return top10;
 	}

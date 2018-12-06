@@ -13,12 +13,13 @@
 <body>
 	<div class="container-fluid">
 
-		<h1>Gifs You've Liked</h1>
+		<h1>Your top 10 liked tags</h1>
 		<ol>
 			<c:forEach var="userlike" items="${likes }">
 				<li>${userlike.tag } ${userlike.count}</li>
 			</c:forEach>
 		</ol>
 	</div>
+	<img src="${gif.gifUrl }">
 </body>
 </html>

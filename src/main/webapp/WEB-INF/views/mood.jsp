@@ -14,7 +14,7 @@
 <%@include file="partials/header.jsp"%>
 </head>
 <body>
-
+<h1>Pick a gif category</h1>
 	<div class="container">
 		<form action="/gifs" name="mood-tracker" method="get">
 			<c:forEach var="category" items="${ categories }">
