@@ -14,13 +14,11 @@
 <%@include file="partials/header.jsp"%>
 </head>
 <body>
-
-	<h1>Pick a gif category</h1>
-
 	<div class="container">
+		<h1>Pick a gif category</h1>
 		<form action="/gifs" name="mood-tracker" method="get">
 			<c:forEach var="category" items="${ categories }">
-				<input required="true" name="category" type="radio"
+				<input required name="category" type="radio"
 					value="${ category }">${ category }<br>
 			</c:forEach>
 			<div class="slidecontainer">
