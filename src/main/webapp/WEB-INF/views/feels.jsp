@@ -15,14 +15,7 @@
 </head>
 <body>
 	<div class="table">
-		<!-- <table>
-			<tr class="tr">
-				<td>Emotion</td>
-				<td>Time/Frequency</td>
-			</tr>
-
-<<<<<<< Updated upstream
-		</table> -->
+	
 		<table class="table">
 			<tr class="tr">
 				<th class="th">Date</th>
@@ -33,14 +26,13 @@
 					<td>${ ue.date }</td>
 					<td>${ ue.emotionRating }</td>
 				</tr>
-=======
+
 <table>
 	<tr>
 		<td>Emotion</td>
 		<td>Frequency</td>
 	</tr>
-	
->>>>>>> Stashed changes
+
 
 			</c:forEach>
 			
