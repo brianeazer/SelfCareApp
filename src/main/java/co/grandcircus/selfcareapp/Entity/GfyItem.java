@@ -1,28 +1,29 @@
 package co.grandcircus.selfcareapp.Entity;
 
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import co.grandcircus.selfcareapp.Entity.UserLikes;
 
 public class GfyItem {
 	private String gifUrl;
 	private List<String> tags;
 	private String WebPUrl;
+	private String max5mbGif;
 	private List<UserLikes> userLikes;
 	private List<String> languageCategories;
 	private String gfyId;
 	
-	
-	
 	public GfyItem() {}
-	
-	public GfyItem(String gifUrl, List<String> tags, String webPUrl) {
+
+	public GfyItem(String gifUrl, List<String> tags, String webPUrl, String max5mbGif, List<UserLikes> userLikes,
+			List<String> languageCategories, String gfyId) {
 		super();
 		this.gifUrl = gifUrl;
 		this.tags = tags;
 		WebPUrl = webPUrl;
+		this.max5mbGif = max5mbGif;
+		this.userLikes = userLikes;
+		this.languageCategories = languageCategories;
+		this.gfyId = gfyId;
 	}
 
 	public String getGifUrl() {
@@ -49,13 +50,6 @@ public class GfyItem {
 	public void setUserLikes(List<UserLikes> userLikes) {
 		this.userLikes = userLikes;
 	}
-
-	@Override
-	public String toString() {
-		return "GfyItem [gifUrl=" + gifUrl + ", tags=" + tags + ", WebPUrl=" + WebPUrl + ", userLikes=" + userLikes
-				+ ", languageCategories=" + languageCategories + ", gfyId=" + gfyId + "]";
-	}
-
 	public List<String> getLanguageCategories() {
 		return languageCategories;
 	}
@@ -68,7 +62,18 @@ public class GfyItem {
 	public void setGfyId(String gfyId) {
 		this.gfyId = gfyId;
 	}
-	
+	public String getMax5mbGif() {
+		return max5mbGif;
+	}
 
+	public void setMax5mbGif(String max5mbGif) {
+		this.max5mbGif = max5mbGif;
+	}
+
+	@Override
+	public String toString() {
+		return "GfyItem [gifUrl=" + gifUrl + ", tags=" + tags + ", WebPUrl=" + WebPUrl + ", max5mbGif=" + max5mbGif
+				+ ", userLikes=" + userLikes + ", languageCategories=" + languageCategories + ", gfyId=" + gfyId + "]";
+	}
 	
 }

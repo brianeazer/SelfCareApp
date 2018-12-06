@@ -1,7 +1,11 @@
 @charset "ISO-8859-1";
 
-body {
-	background-color: peachpuff;
+.center {
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    text-align: center;
 }
 
 .slidecontainer {
@@ -14,10 +18,6 @@ body {
 	padding-bottom: 50px;
 	padding-left: 50px;
 	'
-}
-
-h1 {
-	color: #d11b1b;
 }
 
 /* The slider itself */

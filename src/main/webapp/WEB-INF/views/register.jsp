@@ -14,7 +14,6 @@
 	<%@include file="partials/header.jsp"%>
 </head>
 <body>
-
 	<div class="container-fluid">
 		<h1>Please fill out information</h1>
 		<p class = "message"> ${message}</p>
@@ -23,13 +22,13 @@
 			<!-- using min & max sets the requirements on user input -->
 
 			<p>
-				Username:<input type="username" name="username">
+				Username:<input type="username" name="username" required>
 			</p>
 			<p>
-				Password:<input name="password" type="password">
+				Password:<input name="password" type="password" required>
 			</p>
 			<p>
-				Re-Enter Password:<input name="password2" type="password">
+				Re-Enter Password:<input name="password2" type="password" required>
 			</p>
 			<p>
 				<button class="button">Submit</button>

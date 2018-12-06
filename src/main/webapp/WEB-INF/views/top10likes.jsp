@@ -13,13 +13,12 @@
 <body>
 	<div class="container-fluid">
 
-	<H1>Gifs You've Liked</H1>
+		<h1>Gifs You've Liked</h1>
 		<ol>
-		<c:forEach var="userlike" items="${likes }">
-		<li> ${userlike.tag } ${userlike.count}</li>
-
-		</c:forEach>
+			<c:forEach var="userlike" items="${likes }">
+				<li>${userlike.tag } ${userlike.count}</li>
+			</c:forEach>
 		</ol>
-
+	</div>
 </body>
 </html>

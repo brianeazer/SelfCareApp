@@ -29,8 +29,7 @@ import co.grandcircus.selfcareapp.model.GifResponse;
 
 @Controller
 public class MainController {
-//	User user = new User(1L, "Brian", "password");
-//	Like like = new Like(1L, "cat");
+	
 	@Autowired
 	ApiService apiService;
 
@@ -78,14 +77,10 @@ public class MainController {
 	public ModelAndView findUserMood(HttpSession session) {
 		ModelAndView mav = new ModelAndView("mood");
 		User user = (User) session.getAttribute("user");
-		System.out.println("User: " + user.getUsername() + " Password: " + user.getPassword());
 
 		// arraylist of all categories
 		List<String> categories = new ArrayList<String>(Arrays.asList("food", "cats", "sports", "fails", "nature"));
-		// List<List<String>> categories = new
-		// ArrayList<List<String>>(Arrays.asList(food, cats, sports, fails, nature));
 		mav.addObject("categories", categories);
-
 		return mav;
 	}
 
@@ -107,14 +102,14 @@ public class MainController {
 		// 2. for each keyword in the list...
 		for (String keyword : keywords) {
 		  // grab 4 results, add it to a general list
-			GifResponse gifResponse = apiService.options(keyword, 4);
+			GifResponse gifResponse = apiService.options(keyword, 10);
 			gifs.addAll(gifResponse.getGfycats());
 		}
 		// 3. randomly select an index
 		int index = (int) Math.floor(Math.random() * gifs.size());
 		// 4. find item at that index & show the gif
 		GfyItem gfyItem = gifs.get(index);
-		mav.addObject("gif", gfyItem.getGifUrl());
+		mav.addObject("gif", gfyItem.getMax5mbGif());
 
 		return mav;
 	}
@@ -125,7 +120,7 @@ public class MainController {
 				"tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu" };
 		ArrayList<String> gifUrls = new ArrayList<>();
 		for (String s : gifIds) {
-			String url = apiService.getAGif(s).getGfyItem().getGifUrl();
+			String url = apiService.getAGif(s).getGfyItem().getMax5mbGif();
 			gifUrls.add(url);
 		}
 		return new ModelAndView("test", "gifs", gifUrls);
@@ -227,7 +222,7 @@ public class MainController {
 		ArrayList<GfyItem> gfyItems = (ArrayList<GfyItem>) apiService.options(tag, amount).getGfycats();
 		int randomNumber2 = getIntInRange(amount);
 		GfyItem gifItem = gfyItems.get(randomNumber2);
-		String url = gifItem.getGifUrl();
+		String url = gifItem.getMax5mbGif();
 		String gifId = gifItem.getGfyId();
 		mv.addObject("gifUrl", url);
 		mv.addObject("gifId", gifId);
@@ -255,7 +250,6 @@ public class MainController {
 	@RequestMapping("/feels")
 	public ModelAndView feelingsData() {
 		ModelAndView mv = new ModelAndView("feels");
-
 		return mv;
 	}
 }
