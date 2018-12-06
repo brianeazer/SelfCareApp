@@ -219,13 +219,13 @@ public class MainController {
 		ModelAndView mav = new ModelAndView("redirect:/gifs");
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
-		
+		System.out.println(category);
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
 			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
 		}
 		mav.addObject("category", category);
-		return new ModelAndView("redirect:/gifs");
+		return mav;
 	}
 
 	public void updateUserLikeTable(String tag, User user, Integer count) {
