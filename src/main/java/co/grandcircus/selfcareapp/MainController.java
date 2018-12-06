@@ -43,7 +43,7 @@ public class MainController {
 
 	@Autowired
 	UserDao userDao;
-	
+
 	@Autowired
 	UserEmotionDao userEmotionDao;
 
@@ -82,22 +82,38 @@ public class MainController {
 	}
 
 	@RequestMapping("/mood")
-	public ModelAndView findUserMood(HttpSession session, @RequestParam(name="slidervalue", required=false) Integer moodRating) {
+	public ModelAndView findUserMood(HttpSession session,
+			@RequestParam(name = "slidervalue", required = false) Integer moodRating) {
 		User user = (User) session.getAttribute("user");
-		DateFormat df = new SimpleDateFormat("MM/dd/yy");
-		Date today = new Date();
-		System.out.println(df.format(today));
-		UserEmotion userEmotion = new UserEmotion();
-		userEmotion.setEmotionRating(moodRating);
-		userEmotion.setDate(today);
-		userEmotion.setUser(user);
-		userEmotionDao.createUserEmotion(userEmotion);
+		System.out.println(user.getUsername());
+		if (moodRating != null) {
+			DateFormat df = new SimpleDateFormat("MM/dd/yy");
+			Date today = new Date();
+			System.out.println(df.format(today));
+			UserEmotion userEmotion = new UserEmotion();
+			userEmotion.setEmotionRating(moodRating);
+			userEmotion.setDate(today);
+			userEmotion.setUser(user);
+			userEmotionDao.createUserEmotion(userEmotion);
+		}
+
 		ModelAndView mav = new ModelAndView("mood");
-		
 
 		// arraylist of all categories
-		List<String> categories = new ArrayList<String>(Arrays.asList("food", "cats", "sports", "fails", "nature", "random"));
+		List<String> categories = new ArrayList<String>(
+				Arrays.asList("food", "cats", "sports", "fails", "nature", "random"));
 		mav.addObject("categories", categories);
+
+		return mav;
+	}
+
+	@RequestMapping("/feels")
+	public ModelAndView showFeels(HttpSession session) {
+		ModelAndView mav = new ModelAndView("feels");
+		User user = (User) session.getAttribute("user");
+		ArrayList<UserEmotion> userEmotions = (ArrayList<UserEmotion>) userEmotionDao.getUserEmotions(user);
+
+		mav.addObject("userEmotions", userEmotions);
 		return mav;
 	}
 
@@ -105,7 +121,7 @@ public class MainController {
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category,
 			RedirectAttributes redir) {
 		ModelAndView mav = new ModelAndView("randomgif");
-		
+
 		// map of all categories tags, with the category name as key
 		Map<String, List<String>> categories = new HashMap<>();
 		categories.put("food", Arrays.asList("recipe, food", "foodnetwork"));
@@ -124,12 +140,12 @@ public class MainController {
 			// gets complete list of "likes" and sorts top 10 (if positive) likes
 			List<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
 			List<UserLikes> topLikes = getTopLikes(likes);
-			
+
 			// gets random number to select index of a top like
 			int indexTopLikes = getIntInRange(topLikes.size());
 			UserLikes ul = topLikes.get(indexTopLikes);
 			String tag = ul.getTag();
-			
+
 			// gets list of gifs based on chosen tags
 			// TODO: figure out a way to possibly get more than 10 thru cursor
 			List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
@@ -208,7 +224,7 @@ public class MainController {
 		}
 		return new ModelAndView("redirect:/flavorprofile");
 	}
-	
+
 	@RequestMapping("/random-store-info")
 	public ModelAndView addRandomToDatabase(@RequestParam(name = "count", required = false) Integer count,
 			@RequestParam(name = "id") String gifId, HttpSession session) {
@@ -303,9 +319,5 @@ public class MainController {
 		return num;
 	}
 
-	@RequestMapping("/feels")
-	public ModelAndView feelingsData() {
-		ModelAndView mv = new ModelAndView("feels");
-		return mv;
-	}
+	
 }

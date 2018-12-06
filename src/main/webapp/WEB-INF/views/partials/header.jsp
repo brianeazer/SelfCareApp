@@ -39,6 +39,8 @@
 				</li>
 				<li class="nav-item"><a class="nav-link" href="/mood">Mood</a>
 				</li>
+				<li class="nav-item"><a class="nav-link" href="/feels">Past Feelings</a>
+				</li>
 				</c:if>
 
 			</ul>

@@ -54,3 +54,7 @@
 	background: #4CAF50; /* Green background */
 	cursor: pointer; /* Cursor on hover */
 }
+
+table, th, td {
+  border: 1px solid black;
+}
