@@ -15,13 +15,13 @@
 </head>
 <body>
 	<div class="table">
-		<table>
+		<!-- <table>
 			<tr class="tr">
 				<td>Emotion</td>
 				<td>Time/Frequency</td>
 			</tr>
 
-		</table>
+		</table> -->
 		<table class="table">
 			<tr class="tr">
 				<th class="th">Date</th>

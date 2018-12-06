@@ -14,6 +14,10 @@
 <%@include file="partials/header.jsp"%>
 </head>
 <body>
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	<div class="container">
 		<form action="/gifs" name="mood-tracker" method="get">
 			<c:forEach var="category" items="${ categories }">
@@ -27,6 +31,7 @@
 			</div>
 		</form>
 	</div>
+<<<<<<< Updated upstream
 	<h4>How Are you Feeling?</h4>
 	<div class="slidecontainer">
 		<form action="/mood">
@@ -38,6 +43,8 @@
 
 		<!-- </input> -->
 	</div>
+=======
+>>>>>>> Stashed changes
 
 </body>
 </html>
