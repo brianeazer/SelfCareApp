@@ -1,5 +1,6 @@
 package co.grandcircus.selfcareapp.apiservice;
 
+import java.awt.Cursor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -17,6 +18,7 @@ import co.grandcircus.selfcareapp.model.GifResponse;
 import co.grandcircus.selfcareapp.model.TokenRequest;
 import co.grandcircus.selfcareapp.model.TokenResponse;
 
+import org.h2.engine.Database;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -98,8 +100,7 @@ public class ApiService {
 		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
 		String search_text = keyword;
 		String count = amount.toString();
-		String cursor;
-		
+		//String cursor;
 		try {
 			String query = String.format("search_text=%s&count=%s", URLEncoder.encode(search_text, charset),
 					URLEncoder.encode(count, charset));
@@ -111,6 +112,7 @@ public class ApiService {
 			e.printStackTrace();
 			return null;
 		}
+
 	}	
 	
 	public int optionsLength(String keyword) throws UnsupportedEncodingException {

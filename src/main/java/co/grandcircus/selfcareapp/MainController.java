@@ -56,6 +56,7 @@ public class MainController {
 	@PostMapping("/")
 	public ModelAndView submitLogin(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password, RedirectAttributes redir, HttpSession session) {
+		session.setMaxInactiveInterval(20*60);
 		User user = userDao.findByUsername(username);
 		if (user == null) {
 			redir.addFlashAttribute("message", "Incorrect username or password");
@@ -148,8 +149,12 @@ public class MainController {
 			String tag = ul.getTag();
 
 			// gets list of gifs based on chosen tags
+			
 			// TODO: figure out a way to possibly get more than 10 thru cursor
 			List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
+			
+			
+			
 			int indexGifList = getIntInRange(gfyItems.size() - 1);
 			GfyItem gifItem = gfyItems.get(indexGifList);
 			mav.addObject("gif", gifItem.getMax5mbGif());
@@ -160,7 +165,7 @@ public class MainController {
 			// for each keyword in the list...
 			for (String keyword : keywords) {
 				// grab results, add it to a general list
-				GifResponse gifResponse = apiService.options(keyword, 10);
+				GifResponse gifResponse = apiService.options(keyword, 1000);
 				gifs.addAll(gifResponse.getGfycats());
 			}
 			// randomly select an index
