@@ -34,7 +34,7 @@ import co.grandcircus.selfcareapp.model.GifResponse;
 
 @Controller
 public class MainController {
-	
+
 	@Autowired
 	ApiService apiService;
 
@@ -101,33 +101,58 @@ public class MainController {
 		return mav;
 	}
 
-	@PostMapping("/mood")
-	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category) {
-	
-		ModelAndView mav = new ModelAndView("mood");
-		// categories for user/random to choose from
+	@RequestMapping("/gifs")
+	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category,
+			RedirectAttributes redir) {
+		ModelAndView mav = new ModelAndView("randomgif");
+		
+		// map of all categories tags, with the category name as key
 		Map<String, List<String>> categories = new HashMap<>();
 		categories.put("food", Arrays.asList("recipe, food", "foodnetwork"));
 		categories.put("cats", Arrays.asList("kittens", "cute kittens", "aww"));
 		categories.put("sports", Arrays.asList("sports"));
 		categories.put("fails", Arrays.asList("fail", "epicfail"));
 		categories.put("nature", Arrays.asList("waterfalls", "nature"));
-		
+		categories.put("random", Arrays.asList(""));
+
 		List<GfyItem> gifs = new ArrayList<>();
-		
-		// 1. grab the list based on the category
-		List<String> keywords = categories.get(category);
-		// 2. for each keyword in the list...
-		for (String keyword : keywords) {
-		  // grab 4 results, add it to a general list
-			GifResponse gifResponse = apiService.options(keyword, 10);
-			gifs.addAll(gifResponse.getGfycats());
+		// if user selected "random" will give them gifs based on their preferences
+		// else will choose randomly from selected category
+		if (category.equals("random")) {
+			User user = (User) session.getAttribute("user");
+
+			// gets complete list of "likes" and sorts top 10 (if positive) likes
+			List<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
+			List<UserLikes> topLikes = getTopLikes(likes);
+			
+			// gets random number to select index of a top like
+			int indexTopLikes = getIntInRange(topLikes.size());
+			UserLikes ul = topLikes.get(indexTopLikes);
+			String tag = ul.getTag();
+			
+			// gets list of gifs based on chosen tags
+			// TODO: figure out a way to possibly get more than 10 thru cursor
+			List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
+			int indexGifList = getIntInRange(gfyItems.size());
+			GfyItem gifItem = gfyItems.get(indexGifList);
+			mav.addObject("gif", gifItem.getMax5mbGif());
+			mav.addObject("gifId", gifItem.getGfyId());
+		} else {
+			// grab the list based on the category
+			List<String> keywords = categories.get(category);
+			// for each keyword in the list...
+			for (String keyword : keywords) {
+				// grab results, add it to a general list
+				GifResponse gifResponse = apiService.options(keyword, 10);
+				gifs.addAll(gifResponse.getGfycats());
+			}
+			// randomly select an index
+			int index = (int) Math.floor(Math.random() * gifs.size());
+			// find item at that index & show the gif
+			GfyItem gfyItem = gifs.get(index);
+			mav.addObject("gif", gfyItem.getMax5mbGif());
+			mav.addObject("gifId", gfyItem.getGfyId());
 		}
-		// 3. randomly select an index
-		int index = (int) Math.floor(Math.random() * gifs.size());
-		// 4. find item at that index & show the gif
-		GfyItem gfyItem = gifs.get(index);
-		mav.addObject("gif", gfyItem.getMax5mbGif());
 
 		return mav;
 	}
@@ -183,6 +208,18 @@ public class MainController {
 		}
 		return new ModelAndView("redirect:/flavorprofile");
 	}
+	
+	@RequestMapping("/random-store-info")
+	public ModelAndView addRandomToDatabase(@RequestParam(name = "count", required = false) Integer count,
+			@RequestParam(name = "id") String gifId, HttpSession session) {
+		GfyItem gfyItem = new GfyItem();
+		gfyItem = apiService.getAGif(gifId).getGfyItem();
+		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
+		for (String tag : tags) {
+			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
+		}
+		return new ModelAndView("redirect:/gifs");
+	}
 
 	public void updateUserLikeTable(String tag, User user, Integer count) {
 		UserLikes userLike = likeDao.getUserLikes(user, tag);
@@ -206,46 +243,47 @@ public class MainController {
 		ModelAndView mv = new ModelAndView("top10likes");
 		User user = (User) session.getAttribute("user");
 
-		ArrayList<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
-		ArrayList<UserLikes> top10 = getTop10(likes);
+		List<UserLikes> likes = (List<UserLikes>) likeDao.getUserLikes(user);
+		List<UserLikes> top10 = getTopLikes(likes);
 
 		mv.addObject("likes", top10);
 		return mv;
 	}
 
-	public ArrayList<UserLikes> getTop10(ArrayList<UserLikes> likes) {
+	public List<UserLikes> getTopLikes(List<UserLikes> likes) {
 		Collections.sort(likes, (l1, l2) -> l1.getCount().compareTo(l2.getCount()));
 
-		ArrayList<UserLikes> top10 = new ArrayList<>();
+		List<UserLikes> top10 = new ArrayList<>();
 
 		for (int i = likes.size() - 1; i > likes.size() - 11; i--) {
-
-			top10.add(likes.get(i));
+			if (likes.get(i).getCount() > 0) {
+				top10.add(likes.get(i));
+			}
 		}
 		return top10;
 	}
 
-	@RequestMapping("/randomgif")
-	public ModelAndView showGifFromUserPreference(HttpSession session) throws UnsupportedEncodingException {
-		User user = (User) session.getAttribute("user");
-		ModelAndView mv = new ModelAndView("randomgif");
-
-		ArrayList<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
-		ArrayList<UserLikes> top10 = getTop10(likes);
-		int randomNumber = getIntInRange(top10.size());
-		UserLikes ul = top10.get(randomNumber);
-		String tag = ul.getTag();
-		int amount = apiService.optionsLength(tag);
-		System.out.println("This is the amount" + amount + " This is the tag " + tag);
-		ArrayList<GfyItem> gfyItems = (ArrayList<GfyItem>) apiService.options(tag, amount).getGfycats();
-		int randomNumber2 = getIntInRange(amount);
-		GfyItem gifItem = gfyItems.get(randomNumber2);
-		String url = gifItem.getMax5mbGif();
-		String gifId = gifItem.getGfyId();
-		mv.addObject("gifUrl", url);
-		mv.addObject("gifId", gifId);
-		return mv;
-	}
+//	@RequestMapping("/randomgif")
+//	public ModelAndView showGifFromUserPreference(HttpSession session) throws UnsupportedEncodingException {
+//		User user = (User) session.getAttribute("user");
+//		ModelAndView mv = new ModelAndView("randomgif");
+//
+//		List<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
+//		ArrayList<UserLikes> top10 = getTop10(likes);
+//		int randomNumber = getIntInRange(top10.size());
+//		UserLikes ul = top10.get(randomNumber);
+//		String tag = ul.getTag();
+//		int amount = apiService.optionsLength(tag);
+//		System.out.println("This is the amount" + amount + " This is the tag " + tag);
+//		ArrayList<GfyItem> gfyItems = (ArrayList<GfyItem>) apiService.options(tag, amount).getGfycats();
+//		int randomNumber2 = getIntInRange(amount);
+//		GfyItem gifItem = gfyItems.get(randomNumber2);
+//		String url = gifItem.getMax5mbGif();
+//		String gifId = gifItem.getGfyId();
+//		mv.addObject("gifUrl", url);
+//		mv.addObject("gifId", gifId);
+//		return mv;
+//	}
 
 	@RequestMapping("/storelikes")
 	public ModelAndView storeLikes(@RequestParam(name = "count", required = false) Integer count,

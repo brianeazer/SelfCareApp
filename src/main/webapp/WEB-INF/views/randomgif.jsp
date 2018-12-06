@@ -14,10 +14,11 @@
 	<%@include file="partials/header.jsp"%>
 </head>
 <body>
-	<img src="${ gifUrl }">
-
-	<a href="/storelikes?count=1&id=${ gifId }" class="btn btn-secondary mb-2">Like</a>
-	<a href="/storelikes?count=-1&id=${ gifId }" class="btn btn-secondary mb-2">Dislike</a>
+	<div class="container">
+		<img src="${ gif }" class="center" height="20%">
 	
+		<a href="/random-store-info?count=1&id=${ gifId }" class="btn btn-secondary mb-2">Like</a>
+		<a href="/random-store-info?count=-1&id=${ gifId }" class="btn btn-secondary mb-2">Dislike</a>
+	</div>
 </body>
 </html>
