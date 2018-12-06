@@ -30,13 +30,6 @@
 	</div>
 
 
-<<<<<<< Updated upstream
-=======
-			<a href="redirect:/mood?category=food" class="btn btn-secondary mb-2">Like</a> 
-			<a href="redirect:/mood?category=food" class="btn btn-secondary mb-2">Dislike</a> 
 
-		</div>
-<!-- 	</form> -->
->>>>>>> Stashed changes
 </body>
 </html>
