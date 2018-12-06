@@ -1,5 +1,7 @@
 package co.grandcircus.selfcareapp.Entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,16 +19,18 @@ public class UserEmotion {
 	private Long id;
 	@ManyToOne
 	private User user;
-	@ManyToOne
-	private Emotion emotion;
+	private Integer emotionRating;
+	@Column(name= "date")
+	private Date date;
 	
 	public UserEmotion() {}
-	
-	public UserEmotion(Long id, User user, Emotion emotion) {
+
+	public UserEmotion(Long id, User user, Integer emotionRating, Date date) {
 		super();
 		this.id = id;
 		this.user = user;
-		this.emotion = emotion;
+		this.emotionRating = emotionRating;
+		this.date = date;
 	}
 
 	public Long getId() {
@@ -45,17 +49,27 @@ public class UserEmotion {
 		this.user = user;
 	}
 
-	public Emotion getEmotion() {
-		return emotion;
+	public Integer getEmotionRating() {
+		return emotionRating;
 	}
 
-	public void setEmotion(Emotion emotion) {
-		this.emotion = emotion;
+	public void setEmotionRating(Integer emotionRating) {
+		this.emotionRating = emotionRating;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	@Override
 	public String toString() {
-		return "UserEmotion [id=" + id + ", user=" + user + ", emotion=" + emotion + "]";
+		return "UserEmotion [id=" + id + ", user=" + user + ", emotionRating=" + emotionRating + ", date=" + date + "]";
 	}
+	
+	
 	
 }

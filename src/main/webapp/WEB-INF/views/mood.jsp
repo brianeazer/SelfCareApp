@@ -19,11 +19,7 @@
 			<p>
 				<img src="${ gif }" class="center" height="20%">
 			</p>
-			<div class="center">
-				<a href="/mood?category" class = "btn btn-secondary mb-2">Next</a>
-				<a href="/mood?category=food" class="btn btn-secondary mb-2">Like</a> 
-				<a href="/mood?category=food" class="btn btn-secondary mb-2">Dislike</a> 
-			</div>
+			
 		</div>
 </body>
 </html>

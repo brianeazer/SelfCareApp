@@ -23,8 +23,11 @@
 		</form>
 	</div>
 	<div class="slidecontainer">
+	<form action="/mood">
 		<input type="range" min="0" max="10" value="5" class="slider"
-			id="myRange">
+			id="myRange" name="slidervalue">
+		<button>submit</button>
+	</form>
 		<h4>How Are you Feeling?</h4>
 		<!-- </input> -->
 	</div>

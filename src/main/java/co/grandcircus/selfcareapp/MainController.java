@@ -1,9 +1,12 @@
 package co.grandcircus.selfcareapp;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +24,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.grandcircus.selfcareapp.Dao.LikeDao;
 import co.grandcircus.selfcareapp.Dao.UserDao;
+import co.grandcircus.selfcareapp.Dao.UserEmotionDao;
 import co.grandcircus.selfcareapp.Entity.GfyItem;
 import co.grandcircus.selfcareapp.Entity.User;
+import co.grandcircus.selfcareapp.Entity.UserEmotion;
 import co.grandcircus.selfcareapp.Entity.UserLikes;
 import co.grandcircus.selfcareapp.apiservice.ApiService;
 import co.grandcircus.selfcareapp.model.GifResponse;
@@ -38,6 +43,9 @@ public class MainController {
 
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	UserEmotionDao userEmotionDao;
 
 	@RequestMapping("/")
 	public ModelAndView index() throws UnsupportedEncodingException {
@@ -74,9 +82,18 @@ public class MainController {
 	}
 
 	@RequestMapping("/mood")
-	public ModelAndView findUserMood(HttpSession session) {
-		ModelAndView mav = new ModelAndView("mood");
+	public ModelAndView findUserMood(HttpSession session, @RequestParam(name="slidervalue", required=false) Integer moodRating) {
 		User user = (User) session.getAttribute("user");
+		DateFormat df = new SimpleDateFormat("MM/dd/yy");
+		Date today = new Date();
+		System.out.println(df.format(today));
+		UserEmotion userEmotion = new UserEmotion();
+		userEmotion.setEmotionRating(moodRating);
+		userEmotion.setDate(today);
+		userEmotion.setUser(user);
+		userEmotionDao.createUserEmotion(userEmotion);
+		ModelAndView mav = new ModelAndView("mood");
+		
 
 		// arraylist of all categories
 		List<String> categories = new ArrayList<String>(Arrays.asList("food", "cats", "sports", "fails", "nature"));
@@ -88,8 +105,8 @@ public class MainController {
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category,
 			RedirectAttributes redir) {
 		ModelAndView mav = new ModelAndView("randomgif");
-
-		// search options for user to choose from
+		
+		// map of all categories tags, with the category name as key
 		Map<String, List<String>> categories = new HashMap<>();
 		categories.put("food", Arrays.asList("recipe, food", "foodnetwork"));
 		categories.put("cats", Arrays.asList("kittens", "cute kittens", "aww"));
@@ -99,6 +116,8 @@ public class MainController {
 		categories.put("random", Arrays.asList(""));
 
 		List<GfyItem> gifs = new ArrayList<>();
+		// if user selected "random" will give them gifs based on their preferences
+		// else will choose randomly from selected category
 		if (category.equals("random")) {
 			User user = (User) session.getAttribute("user");
 
@@ -116,22 +135,20 @@ public class MainController {
 			List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
 			int indexGifList = getIntInRange(gfyItems.size());
 			GfyItem gifItem = gfyItems.get(indexGifList);
-			String url = gifItem.getMax5mbGif();
-			String gifId = gifItem.getGfyId();
-			mav.addObject("gif", url);
-			mav.addObject("gifId", gifId);
+			mav.addObject("gif", gifItem.getMax5mbGif());
+			mav.addObject("gifId", gifItem.getGfyId());
 		} else {
-			// 1. grab the list based on the category
+			// grab the list based on the category
 			List<String> keywords = categories.get(category);
-			// 2. for each keyword in the list...
+			// for each keyword in the list...
 			for (String keyword : keywords) {
 				// grab results, add it to a general list
 				GifResponse gifResponse = apiService.options(keyword, 10);
 				gifs.addAll(gifResponse.getGfycats());
 			}
-			// 3. randomly select an index
+			// randomly select an index
 			int index = (int) Math.floor(Math.random() * gifs.size());
-			// 4. find item at that index & show the gif
+			// find item at that index & show the gif
 			GfyItem gfyItem = gifs.get(index);
 			mav.addObject("gif", gfyItem.getMax5mbGif());
 			mav.addObject("gifId", gfyItem.getGfyId());

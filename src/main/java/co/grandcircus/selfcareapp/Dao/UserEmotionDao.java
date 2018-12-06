@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import co.grandcircus.selfcareapp.Entity.UserEmotion;
+import co.grandcircus.selfcareapp.Entity.UserLikes;
 
 @Repository
 @Transactional
@@ -13,6 +14,11 @@ public class UserEmotionDao {
 
 	@PersistenceContext
 	private EntityManager em;
+	
+	public void createUserEmotion(UserEmotion userEmotion) {
+		em.persist(userEmotion);
+	}
+
 	
 	public List<UserEmotion> findByEmotionId(String emotionId) {
 		return em.createQuery("FROM  WHERE emotion_id = :emotion_id", UserEmotion.class)
