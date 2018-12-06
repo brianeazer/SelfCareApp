@@ -14,7 +14,6 @@
 <%@include file="partials/header.jsp"%>
 </head>
 <body>
-<<<<<<< HEAD
 	<div class="container">
 		<form action="/gifs" name="mood-tracker" method="get">
 			<c:forEach var="category" items="${ categories }">
@@ -28,7 +27,6 @@
 			</div>
 		</form>
 	</div>
-=======
 	<h4>How Are you Feeling?</h4>
 	<div class="slidecontainer">
 		<form action="/mood">
@@ -41,6 +39,5 @@
 		<!-- </input> -->
 	</div>
 
->>>>>>> c12dc78d66d52b1280295d35be450974681b5eda
 </body>
 </html>
