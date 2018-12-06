@@ -14,30 +14,29 @@
 <%@include file="partials/header.jsp"%>
 </head>
 <body>
-	<div class="table">
-	
+	<div>
+
 		<table class="table">
 			<tr class="tr">
-				<th class="th">Date</th>
-				<th>Mood</th>
+				<th >Date</th>
+				<th>Mood(0-10)</th>
 			</tr>
 			<c:forEach var="ue" items="${userEmotions }">
-				<trclass="tr">
-					<td>${ ue.date }</td>
-					<td>${ ue.emotionRating }</td>
+				<tr class="tr">
+					<td class="td">${ ue.date }</td>
+					<td class="td">${ ue.emotionRating }</td>
 				</tr>
 
-<table>
-	<tr>
-		<td>Emotion</td>
-		<td>Frequency</td>
-	</tr>
-
+				<!-- <table class="table">
+					<tr>
+						<td class="td">Emotion</td>
+						<td>Frequency</td>
+					</tr>
+ -->
 
 			</c:forEach>
-			
-		</table>
-	</div>
 
+				</table>
+				</div>
 </body>
 </html>

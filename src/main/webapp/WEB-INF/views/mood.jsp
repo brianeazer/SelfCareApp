@@ -32,13 +32,8 @@
 		</form>
 	</div>
 
-	<a href="redirect:/mood?category=food" class="btn btn-secondary mb-2">Like</a>
-	<a href="redirect:/mood?category=food" class="btn btn-secondary mb-2">Dislike</a>
 
-<<<<<<< HEAD
-	</div>
-=======
->>>>>>> 8e049f6028057e5f24dcf8096d939c891fa7b46f
+
 
 </body>
 </html>
