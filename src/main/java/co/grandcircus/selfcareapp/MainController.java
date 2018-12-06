@@ -1,9 +1,12 @@
 package co.grandcircus.selfcareapp;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +24,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.grandcircus.selfcareapp.Dao.LikeDao;
 import co.grandcircus.selfcareapp.Dao.UserDao;
+import co.grandcircus.selfcareapp.Dao.UserEmotionDao;
 import co.grandcircus.selfcareapp.Entity.GfyItem;
 import co.grandcircus.selfcareapp.Entity.User;
+import co.grandcircus.selfcareapp.Entity.UserEmotion;
 import co.grandcircus.selfcareapp.Entity.UserLikes;
 import co.grandcircus.selfcareapp.apiservice.ApiService;
 import co.grandcircus.selfcareapp.model.GifResponse;
@@ -38,6 +43,9 @@ public class MainController {
 
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	UserEmotionDao userEmotionDao;
 
 	@RequestMapping("/")
 	public ModelAndView index() throws UnsupportedEncodingException {
@@ -74,9 +82,18 @@ public class MainController {
 	}
 
 	@RequestMapping("/mood")
-	public ModelAndView findUserMood(HttpSession session) {
-		ModelAndView mav = new ModelAndView("mood");
+	public ModelAndView findUserMood(HttpSession session, @RequestParam(name="slidervalue", required=false) Integer moodRating) {
 		User user = (User) session.getAttribute("user");
+		DateFormat df = new SimpleDateFormat("MM/dd/yy");
+		Date today = new Date();
+		System.out.println(df.format(today));
+		UserEmotion userEmotion = new UserEmotion();
+		userEmotion.setEmotionRating(moodRating);
+		userEmotion.setDate(today);
+		userEmotion.setUser(user);
+		userEmotionDao.createUserEmotion(userEmotion);
+		ModelAndView mav = new ModelAndView("mood");
+		
 
 		// arraylist of all categories
 		List<String> categories = new ArrayList<String>(Arrays.asList("food", "cats", "sports", "fails", "nature"));
@@ -86,6 +103,7 @@ public class MainController {
 
 	@PostMapping("/mood")
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category) {
+	
 		ModelAndView mav = new ModelAndView("mood");
 		// categories for user/random to choose from
 		Map<String, List<String>> categories = new HashMap<>();
