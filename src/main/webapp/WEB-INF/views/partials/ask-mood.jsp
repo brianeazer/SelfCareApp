@@ -13,15 +13,6 @@
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-	<div>
-		<form name="mood-tracker" method="post">
-			<c:forEach var="category" items="${ categories }">
-				<input name="category" type="radio" value="${ category }">${ category }<br>
-			</c:forEach>
-			<button>See GIFs</button>
-
-		</form>
-	</div>
 	<div class="slidecontainer">
 	<form action="/mood">
 		<input type="range" min="0" max="10" value="5" class="slider"
@@ -30,6 +21,12 @@
 	</form>
 		<h4>How Are you Feeling?</h4>
 		<!-- </input> -->
+	</div>
+	<div>
+		<table>
+		
+		
+		</table>
 	</div>
 
 

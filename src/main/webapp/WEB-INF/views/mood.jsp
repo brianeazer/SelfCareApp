@@ -14,12 +14,23 @@
 	<%@include file="partials/header.jsp"%>
 </head>
 <body>
-	<div class="container">
-			<%@include file="partials/ask-mood.jsp"%>
-			<p>
-				<img src="${ gif }" class="center" height="20%">
-			</p>
-			
-		</div>
+	<div>
+		<form name="mood-tracker" method="post">
+			<c:forEach var="category" items="${ categories }">
+				<input name="category" type="radio" value="${ category }">${ category }<br>
+			</c:forEach>
+			<button>See GIFs</button>
+
+		</form>
+	</div>
+	<div class="slidecontainer">
+	<form action="/mood">
+		<input type="range" min="0" max="10" value="5" class="slider"
+			id="myRange" name="slidervalue">
+		<button>submit</button>
+	</form>
+		<h4>How Are you Feeling?</h4>
+		<!-- </input> -->
+	</div>
 </body>
 </html>
