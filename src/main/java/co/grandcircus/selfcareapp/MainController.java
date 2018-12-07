@@ -62,7 +62,7 @@ public class MainController {
 			@RequestParam(name = "password") String password, RedirectAttributes redir, HttpSession session) {
 		session.setMaxInactiveInterval(20*60);
 		
-		// checks if user exists in the database
+		// checks if user exists in the database and that the username and password are correct
 		User user = userDao.findByUsername(username);
 		if (user == null) {
 			redir.addFlashAttribute("message", "Incorrect username or password");
@@ -90,12 +90,9 @@ public class MainController {
 
 	@RequestMapping("/mood")
 	public ModelAndView findUserMood(HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		System.out.println(user.getUsername());
-
 		ModelAndView mav = new ModelAndView("mood");
 
-		// arraylist of all categories
+		// list of all categories
 		List<String> categories = new ArrayList<String>(
 				Arrays.asList("Your Top Ten", "Food", "Cats", "Sports", "Fails", "Nature", "Chill"));
 		mav.addObject("categories", categories);
@@ -106,10 +103,12 @@ public class MainController {
 	@RequestMapping("/feels")
 	public ModelAndView showFeels(HttpSession session) {
 		ModelAndView mav = new ModelAndView("feels");
+		
+		// pulls list of user's past emotions from the database
 		User user = (User) session.getAttribute("user");
 		ArrayList<UserEmotion> userEmotions = (ArrayList<UserEmotion>) userEmotionDao.getUserEmotions(user);
-
 		mav.addObject("userEmotions", userEmotions);
+		
 		return mav;
 	}
 
@@ -118,6 +117,8 @@ public class MainController {
 			RedirectAttributes redir,
 			@RequestParam(name = "slidervalue", required = false) Integer moodRating) {
 		User user = (User) session.getAttribute("user");
+		
+		// adds user's new emotion from mood page in the parameter to the database w/ a date
 		if (moodRating != null) {
 			DateFormat df = new SimpleDateFormat("MM/dd/yy");
 			Date today = new Date();
@@ -128,6 +129,7 @@ public class MainController {
 			userEmotion.setUser(user);
 			userEmotionDao.createUserEmotion(userEmotion);
 		}
+		
 		ModelAndView mav = new ModelAndView("randomgif");
 		mav.addObject("category", category);
 		
@@ -157,14 +159,14 @@ public class MainController {
 			String tag = ul.getTag();
 
 			// gets list of gifs based on chosen tags
-			
 			// TODO: figure out a way to possibly get more than 10 thru cursor
 			List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
 			
-			
-			
+			// gets the random index based on the list's size and finds gif at that random index
 			int indexGifList = getIntInRange(gfyItems.size() - 1);
 			GfyItem gifItem = gfyItems.get(indexGifList);
+			
+			// adds the gif and the gifId to the view
 			mav.addObject("gif", gifItem.getMax5mbGif());
 			mav.addObject("gifId", gifItem.getGfyId());
 		} else {
