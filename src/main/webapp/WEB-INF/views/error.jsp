@@ -8,9 +8,10 @@
 </head>
 <body>
 
-<h1> Error </h1>
+<h1> Whups! </h1>
 
-<p> <button type="button" name="back" onclick="history.back()">back</button> </p>
+<p> <button> <a onclick="history.back()">Back to safety </a> </button> </p>
+<!-- <p> <a href="/index">Back to Home </p> -->
 
 </body>
 </html>
