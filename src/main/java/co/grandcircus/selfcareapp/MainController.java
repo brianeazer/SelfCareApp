@@ -221,6 +221,7 @@ public class MainController {
 			@RequestParam(name = "id") String gifId, HttpSession session) {
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
+		System.out.println(gfyItem.getGifUrl());
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
 			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
