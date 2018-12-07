@@ -23,6 +23,23 @@
 			<a href="/random-store-info?category=${ category }&count=-1&id=${ gifId }"
 				class="btn btn-secondary mb-2">Dislike</a>
 		</form>
+		<p> </p>
+		<p>	<a href="/mood">Back to mood</a> </p>
+		
+		<form>
+		<select name="category">
+	    <c:forEach items="${categories}" var="userLike">
+	        
+	        <option <%-- <c:if test="${Your Top Ten}"><a onclick="gifs?category=mood"></a></c:if>  --%>
+	        
+	        value="${userLike}">${userLike} </option>
+	        <a onclick="gifs?category=${userLike}"></a>
+	        
+	    </c:forEach>
+		</select>
+			<input type="submit" value="Submit">
+		</form>
+		
 	</div>
 </body>
 </html>

@@ -180,6 +180,7 @@ public class MainController {
 			// adds the gif and the gifId to the view
 			mav.addObject("gif", gifItem.getMax5mbGif());
 			mav.addObject("gifId", gifItem.getGfyId());
+			mav.addObject("categories", categories.keySet());
 		} else {
 			// grab the list based on the category
 			List<String> keywords = categories.get(category);
@@ -195,6 +196,7 @@ public class MainController {
 			GfyItem gfyItem = gifs.get(index);
 			mav.addObject("gif", gfyItem.getMax5mbGif());
 			mav.addObject("gifId", gfyItem.getGfyId());
+			mav.addObject("categories", categories.keySet());
 		}
 		return mav;
 	}
