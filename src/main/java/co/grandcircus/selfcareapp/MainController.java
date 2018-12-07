@@ -279,12 +279,11 @@ public class MainController {
 	public ModelAndView showGif(HttpSession session, RedirectAttributes redir) {
 		ModelAndView mv = new ModelAndView("top10likes");
 		User user = (User) session.getAttribute("user");
-
+		
 		List<UserLikes> likes = (List<UserLikes>) likeDao.getUserLikes(user);
-
+		System.out.println("My name is " + user.getUsername() + " and I have a list of " + likes.size());
 		if (likes.size() >= 10) {
 			List<UserLikes> top10 = getTopLikes(likes);
-
 			int indexTopLikes = getIntInRange(top10.size());
 			UserLikes ul = top10.get(indexTopLikes);
 			String tag = ul.getTag();
@@ -304,18 +303,13 @@ public class MainController {
 
 	public List<UserLikes> getTopLikes(List<UserLikes> likes) {
 		Collections.sort(likes, (l1, l2) -> l1.getCount().compareTo(l2.getCount()));
-
+		System.out.println("We sorted the list");
 		List<UserLikes> top10 = new ArrayList<>();
 		int count = 0;
-		int index = likes.size() - 1;
-		while (count < 10 || likes.get(index).getTag() != null) {
-			if (likes.get(index).getTag() != null) {
-				top10.add(likes.get(index - 1));
+		while (count < 10) {
+				top10.add(likes.get(likes.size()-1-count));
 				count++;
 			}
-
-			index--;
-		}
 		return top10;
 	}
 
