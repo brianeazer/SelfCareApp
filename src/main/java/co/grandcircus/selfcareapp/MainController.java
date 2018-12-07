@@ -206,9 +206,6 @@ public class MainController {
 				"requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
 				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech",
 				"selfishorganichornet", "equatorialdisgustingcassowary", "fakepassionatearacari" };
-		if (count == gifIds.length) {
-			return new ModelAndView("mood");
-		}
 		String gifId = gifIds[count];
 		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ModelAndView mv = new ModelAndView("flavorProfile");
@@ -221,10 +218,13 @@ public class MainController {
 			@RequestParam(name = "id") String gifId, HttpSession session) {
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
-		System.out.println(gfyItem.getGifUrl());
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
 			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
+		}
+		Integer num = (Integer) session.getAttribute("count");
+		if (num == 14) {
+			return new ModelAndView("mood");
 		}
 		return new ModelAndView("redirect:/flavorprofile");
 	}
