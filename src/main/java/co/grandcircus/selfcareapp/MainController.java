@@ -139,7 +139,7 @@ public class MainController {
 		categories.put("Fails", Arrays.asList("fail", "epicfail"));
 		categories.put("Nature", Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
 //		categories.put("Scare", Arrays.asList("crazy"));
-		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing", ""));
+		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing"));
 		categories.put("Your Top Ten", Arrays.asList(""));
 
 		List<GfyItem> gifs = new ArrayList<>();
