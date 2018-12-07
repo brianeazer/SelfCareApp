@@ -53,7 +53,7 @@ public class MainController {
 	UserEmotionDao userEmotionDao;
 
 	@RequestMapping("/")
-	public ModelAndView index() throws UnsupportedEncodingException {
+	public ModelAndView index()  {
 		return new ModelAndView("index");
 	}
 
@@ -62,7 +62,7 @@ public class MainController {
 			@RequestParam(name = "password") String password, RedirectAttributes redir, HttpSession session) {
 		session.setMaxInactiveInterval(20*60);
 		
-		// checks if user exists
+		// checks if user exists in the database
 		User user = userDao.findByUsername(username);
 		if (user == null) {
 			redir.addFlashAttribute("message", "Incorrect username or password");
