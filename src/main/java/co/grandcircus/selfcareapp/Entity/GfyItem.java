@@ -11,11 +11,12 @@ public class GfyItem {
 	private List<UserLikes> userLikes;
 	private List<String> languageCategories;
 	private String gfyId;
+	private String nsfw;
 	
 	public GfyItem() {}
 
 	public GfyItem(String gifUrl, List<String> tags, String webPUrl, String max5mbGif, List<UserLikes> userLikes,
-			List<String> languageCategories, String gfyId) {
+			List<String> languageCategories, String gfyId, String nsfw) {
 		super();
 		this.gifUrl = gifUrl;
 		this.tags = tags;
@@ -24,6 +25,7 @@ public class GfyItem {
 		this.userLikes = userLikes;
 		this.languageCategories = languageCategories;
 		this.gfyId = gfyId;
+		this.nsfw = nsfw;
 	}
 
 	public String getGifUrl() {
@@ -73,7 +75,15 @@ public class GfyItem {
 	@Override
 	public String toString() {
 		return "GfyItem [gifUrl=" + gifUrl + ", tags=" + tags + ", WebPUrl=" + WebPUrl + ", max5mbGif=" + max5mbGif
-				+ ", userLikes=" + userLikes + ", languageCategories=" + languageCategories + ", gfyId=" + gfyId + "]";
+				+ ", userLikes=" + userLikes + ", languageCategories=" + languageCategories + ", gfyId=" + gfyId + "nsfw" + nsfw+ "]";
+	}
+
+	public String getNsfw() {
+		return nsfw;
+	}
+
+	public void setNsfw(String nsfw) {
+		this.nsfw = nsfw;
 	}
 	
 }

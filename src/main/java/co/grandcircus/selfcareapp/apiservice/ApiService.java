@@ -107,7 +107,8 @@ public class ApiService {
 			String fullUrl = url + "search?" + query;
 			
 			GifResponse gifResponse = restTemplate.getForObject(fullUrl, GifResponse.class);
-			return gifResponse;
+			GifResponse filteredGifResponse = isClean(gifResponse);
+			return filteredGifResponse;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return null;
@@ -115,18 +116,57 @@ public class ApiService {
 
 	}	
 	
-	public int optionsLength(String keyword) throws UnsupportedEncodingException {
-		String url = "https://api.gfycat.com/v1/gfycats/";
-		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
-		String search_text = keyword;
-		String query = String.format("search_text=%s", URLEncoder.encode(search_text, charset));
-		
-		String fullUrl = url + "search?" + query;
-		HttpHeaders headers = createHttpHeaders("Fred", "1234");
-		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-		
-		GifResponse gifResponse = restTemplate.getForObject(fullUrl, GifResponse.class);
-		return gifResponse.getGfycats().size();
+//	public int optionsLength(String keyword) throws UnsupportedEncodingException {
+//		String url = "https://api.gfycat.com/v1/gfycats/";
+//		System.out.println("options length was called");
+//		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
+//		String search_text = keyword;
+//		String query = String.format("search_text=%s", URLEncoder.encode(search_text, charset));
+//		
+//		String fullUrl = url + "search?" + query;
+//		HttpHeaders headers = createHttpHeaders("Fred", "1234");
+//		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+//		
+//		GifResponse gifResponse = restTemplate.getForObject(fullUrl, GifResponse.class);
+//		GifResponse filteredGifResponse = isClean(gifResponse);
+//		return filteredGifResponse.getGfycats().size();
+//	}
+	
+public GifResponse isClean(GifResponse gifResponse) {
+	System.out.println("start cleaning");
+	List<GfyItem> gifs = gifResponse.getGfycats();
+	System.out.println("This gif response has " + gifs.size() + " gif items");
+	//filter nsfw gfyItems
+//	for (int i = 0; i < gifs.size(); i++) {
+//		if (!gifs.get(i).getNsfw().equals("0")) {
+//			System.out.println(gifs.get(i).getGifUrl());
+//			gifs.remove(i);
+//		}
+//	}
+	
+	//filter certain tags
+	ArrayList<String> avoidables = new ArrayList<>();
+	avoidables.add("politics");
+	avoidables.add("religion");
+	avoidables.add("sex");
+	avoidables.add("nsfw");
+	avoidables.add("violence");
+	for (int i = 0; i < gifs.size(); i++) {
+		if (gifs.get(i).getTags()!=null) {
+			for (String tag : gifs.get(i).getTags()) {
+				if (avoidables.contains(tag)) {
+					System.out.println("We removed this gif because it was tagged " + tag);
+					gifs.remove(i);
+				}
+			}
+		}
+	}
+	
+	// create a gifResponse and set filtered list of gifItems to that response
+	GifResponse gifResponse1 = new GifResponse();
+	System.out.println("Now the gif response has " + gifs.size());
+	gifResponse1.setGfycats(gifs);
+	return gifResponse1;
 	}
 
 }
