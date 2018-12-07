@@ -15,6 +15,7 @@
 </head>
 <body>
 	<div class="container">
+		${ message }
 		<h1>Pick a gif category</h1>
 		<form action="/gifs" name="mood-tracker" method="get">
 			<c:forEach var="category" items="${ categories }">

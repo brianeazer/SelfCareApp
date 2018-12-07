@@ -53,16 +53,17 @@ public class MainController {
 	UserEmotionDao userEmotionDao;
 
 	@RequestMapping("/")
-	public ModelAndView index()  {
+	public ModelAndView index() {
 		return new ModelAndView("index");
 	}
 
 	@PostMapping("/")
 	public ModelAndView submitLogin(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password, RedirectAttributes redir, HttpSession session) {
-		session.setMaxInactiveInterval(20*60);
-		
-		// checks if user exists in the database and that the username and password are correct
+		session.setMaxInactiveInterval(20 * 60);
+
+		// checks if user exists in the database and that the username and password are
+		// correct
 		User user = userDao.findByUsername(username);
 		if (user == null) {
 			redir.addFlashAttribute("message", "Incorrect username or password");
@@ -103,22 +104,22 @@ public class MainController {
 	@RequestMapping("/feels")
 	public ModelAndView showFeels(HttpSession session) {
 		ModelAndView mav = new ModelAndView("feels");
-		
+
 		// pulls list of user's past emotions from the database
 		User user = (User) session.getAttribute("user");
 		ArrayList<UserEmotion> userEmotions = (ArrayList<UserEmotion>) userEmotionDao.getUserEmotions(user);
 		mav.addObject("userEmotions", userEmotions);
-		
+
 		return mav;
 	}
 
 	@RequestMapping("/gifs")
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category,
-			RedirectAttributes redir,
-			@RequestParam(name = "slidervalue", required = false) Integer moodRating) {
+			RedirectAttributes redir, @RequestParam(name = "slidervalue", required = false) Integer moodRating) {
 		User user = (User) session.getAttribute("user");
-		
-		// adds user's new emotion from mood page in the parameter to the database w/ a date
+
+		// adds user's new emotion from mood page in the parameter to the database w/ a
+		// date
 		if (moodRating != null) {
 			DateFormat df = new SimpleDateFormat("MM/dd/yy");
 			Date today = new Date();
@@ -129,17 +130,18 @@ public class MainController {
 			userEmotion.setUser(user);
 			userEmotionDao.createUserEmotion(userEmotion);
 		}
-		
+
 		ModelAndView mav = new ModelAndView("randomgif");
 		mav.addObject("category", category);
-		
+
 		// map of all categories tags, with the category name as key
 		Map<String, List<String>> categories = new HashMap<>();
 		categories.put("Food", Arrays.asList("recipe, food", "foodnetwork"));
 		categories.put("Cats", Arrays.asList("kittens", "cute kittens", "cats, aww"));
 		categories.put("Sports", Arrays.asList("sports"));
 		categories.put("Fails", Arrays.asList("fail", "epicfail"));
-		categories.put("Nature", Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
+		categories.put("Nature",
+				Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
 //		categories.put("Scare", Arrays.asList("crazy"));
 		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing"));
 		categories.put("Your Top Ten", Arrays.asList(""));
@@ -150,22 +152,31 @@ public class MainController {
 		if (category.equals("Your Top Ten")) {
 
 			// gets complete list of "likes" and sorts top 10 (if positive) likes
-			List<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
+			List<UserLikes> likes = likeDao.getUserLikes(user);
+			
+			// if list is not at least 10 tags, redirect to mood page to like more gifs
+			if (likes.size() < 10) {
+				redir.addFlashAttribute("message", "Sorry, you need to like at least ten tags to view this page!");
+				return new ModelAndView("redirect:/mood"); 
+			}
+			
+			// if list is at least 10 tags
 			List<UserLikes> topLikes = getTopLikes(likes);
-
+			
 			// gets random number to select index of a top like
-			int indexTopLikes = getIntInRange(topLikes.size() - 1);
+			int indexTopLikes = getIntInRange(topLikes.size());
 			UserLikes ul = topLikes.get(indexTopLikes);
 			String tag = ul.getTag();
 
 			// gets list of gifs based on chosen tags
 			// TODO: figure out a way to possibly get more than 10 thru cursor
 			List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
-			
-			// gets the random index based on the list's size and finds gif at that random index
-			int indexGifList = getIntInRange(gfyItems.size() - 1);
+
+			// gets the random index based on the list's size and finds gif at that random
+			// index
+			int indexGifList = getIntInRange(gfyItems.size());
 			GfyItem gifItem = gfyItems.get(indexGifList);
-			
+
 			// adds the gif and the gifId to the view
 			mav.addObject("gif", gifItem.getMax5mbGif());
 			mav.addObject("gifId", gifItem.getGfyId());
@@ -231,7 +242,8 @@ public class MainController {
 
 	@RequestMapping("/random-store-info")
 	public ModelAndView addRandomToDatabase(@RequestParam(name = "count", required = false) Integer count,
-			@RequestParam(name = "id") String gifId, @RequestParam(name = "category") String category, HttpSession session) {
+			@RequestParam(name = "id") String gifId, @RequestParam(name = "category") String category,
+			HttpSession session) {
 		ModelAndView mav = new ModelAndView("redirect:/gifs");
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
@@ -262,24 +274,30 @@ public class MainController {
 	}
 
 	@RequestMapping("/pastlikegifs")
-	public ModelAndView showGif(HttpSession session) {
+	public ModelAndView showGif(HttpSession session, RedirectAttributes redir) {
 		ModelAndView mv = new ModelAndView("top10likes");
 		User user = (User) session.getAttribute("user");
 
 		List<UserLikes> likes = (List<UserLikes>) likeDao.getUserLikes(user);
-		List<UserLikes> top10 = getTopLikes(likes);
-		
-		int indexTopLikes = getIntInRange(top10.size());
-		UserLikes ul = top10.get(indexTopLikes);
-		String tag = ul.getTag();
-		
-		List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
-		int indexGifList = getIntInRange(gfyItems.size() - 1);
-		GfyItem gifItem = gfyItems.get(indexGifList);
-		mv.addObject("gif", gifItem);
 
-		mv.addObject("likes", top10);
-		return mv;
+		if (likes.size() >= 10) {
+			List<UserLikes> top10 = getTopLikes(likes);
+
+			int indexTopLikes = getIntInRange(top10.size());
+			UserLikes ul = top10.get(indexTopLikes);
+			String tag = ul.getTag();
+
+			List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
+			int indexGifList = getIntInRange(gfyItems.size());
+			GfyItem gifItem = gfyItems.get(indexGifList);
+			mv.addObject("gif", gifItem);
+
+			mv.addObject("likes", top10);
+			return mv;
+		} else {
+			redir.addFlashAttribute("message", "Sorry, you need to like at least ten tags to view this page!");
+			return new ModelAndView("redirect:/mood"); 
+		}
 	}
 
 	public List<UserLikes> getTopLikes(List<UserLikes> likes) {
@@ -287,9 +305,14 @@ public class MainController {
 
 		List<UserLikes> top10 = new ArrayList<>();
 		int count = 0;
-		while (count < 10) {
-			top10.add(likes.get(likes.size()-1-count));
-			count++;
+		int index = likes.size() - 1;
+		while (count < 10 || likes.get(index).getTag() != null) {
+			if (likes.get(index).getTag() != null) {
+				top10.add(likes.get(index - 1));
+				count++;
+			}
+
+			index--;
 		}
 		return top10;
 	}
@@ -307,46 +330,43 @@ public class MainController {
 	}
 
 	public int getIntInRange(int max) {
-		int num = (int) (Math.random() * max);
+		int num = (int) Math.floor(Math.random() * max);
 		return num;
 	}
 
 	@WebServlet("/ErrorHandler")
 	public class ErrorHandler extends HttpServlet {
-	    private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = 1L;
 
-	    protected void doGet(HttpServletRequest request,
-	            HttpServletResponse response) throws ServletException, IOException {
-	        processError(request, response);
-	    }
+		protected void doGet(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+			processError(request, response);
+		}
 
-	    protected void doPost(HttpServletRequest request,
-	            HttpServletResponse response) throws ServletException, IOException {
-	        processError(request, response);
-	    }
-	    private void processError(HttpServletRequest request,
-	            HttpServletResponse response) throws IOException, ServletException {
-	        //customize error message
-	        Throwable throwable = (Throwable) request
-	                .getAttribute("javax.servlet.error.exception");
+		protected void doPost(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+			processError(request, response);
+		}
+
+		private void processError(HttpServletRequest request, HttpServletResponse response)
+				throws IOException, ServletException {
+			// customize error message
+			Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
 //	        Integer statusCode = (Integer) request
 //	                .getAttribute("javax.servlet.error.status_code");
-	        String servletName = (String) request
-	                .getAttribute("javax.servlet.error.servlet_name");
-	        if (servletName == null) {
-	            servletName = "Unknown";
-	        }
-	        String requestUri = (String) request
-	                .getAttribute("javax.servlet.error.request_uri");
-	        if (requestUri == null) {
-	            requestUri = "Unknown";
-	        }    
-	        request.setAttribute("error", "Servlet " + servletName + 
-	          " has thrown an exception " + throwable.getClass().getName() +
-	          " : " + throwable.getMessage());    
-	        request.getRequestDispatcher("/error.jsp").forward(request, response);
-	    }
+			String servletName = (String) request.getAttribute("javax.servlet.error.servlet_name");
+			if (servletName == null) {
+				servletName = "Unknown";
+			}
+			String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
+			if (requestUri == null) {
+				requestUri = "Unknown";
+			}
+			request.setAttribute("error", "Servlet " + servletName + " has thrown an exception "
+					+ throwable.getClass().getName() + " : " + throwable.getMessage());
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
+		}
 
 	}
-	
+
 }

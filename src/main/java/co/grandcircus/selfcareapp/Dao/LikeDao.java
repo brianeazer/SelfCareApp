@@ -21,7 +21,6 @@ public class LikeDao {
 		em.merge(userLikes);
 	}
 
-	@SuppressWarnings("unused")
 	public UserLikes getUserLikes(User user, String tag) {
 		try {
 			return em.createQuery("FROM UserLikes AS ul WHERE ul.user.id=:user AND ul.tag=:tag", UserLikes.class)
