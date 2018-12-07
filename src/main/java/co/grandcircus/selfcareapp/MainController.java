@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,7 +54,6 @@ public class MainController {
 
 	@RequestMapping("/")
 	public ModelAndView index() throws UnsupportedEncodingException {
-		String token = apiService.getGfycatAccessToken("").getAccess_token();
 		return new ModelAndView("index");
 	}
 
@@ -63,6 +61,8 @@ public class MainController {
 	public ModelAndView submitLogin(@RequestParam(name = "username") String username,
 			@RequestParam(name = "password") String password, RedirectAttributes redir, HttpSession session) {
 		session.setMaxInactiveInterval(20*60);
+		
+		// checks if user exists
 		User user = userDao.findByUsername(username);
 		if (user == null) {
 			redir.addFlashAttribute("message", "Incorrect username or password");
@@ -108,7 +108,7 @@ public class MainController {
 
 		// arraylist of all categories
 		List<String> categories = new ArrayList<String>(
-				Arrays.asList("food", "cats", "sports", "fails", "nature"));
+				Arrays.asList("Your Top Ten", "Food", "Cats", "Sports", "Fails", "Nature", "Chill"));
 		mav.addObject("categories", categories);
 
 		return mav;
@@ -132,19 +132,19 @@ public class MainController {
 		
 		// map of all categories tags, with the category name as key
 		Map<String, List<String>> categories = new HashMap<>();
-		categories.put("food", Arrays.asList("recipe, food", "foodnetwork"));
-		categories.put("cats", Arrays.asList("kittens", "cute kittens", "cats, aww"));
-		categories.put("sports", Arrays.asList("sports"));
-		categories.put("fails", Arrays.asList("fail", "epicfail"));
+		categories.put("Food", Arrays.asList("recipe, food", "foodnetwork"));
+		categories.put("Cats", Arrays.asList("kittens", "cute kittens", "cats, aww"));
+		categories.put("Sports", Arrays.asList("sports"));
+		categories.put("Fails", Arrays.asList("fail", "epicfail"));
 		categories.put("Nature", Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
 //		categories.put("Scare", Arrays.asList("crazy"));
 		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing", ""));
-		categories.put("random", Arrays.asList(""));
+		categories.put("Your Top Ten", Arrays.asList(""));
 
 		List<GfyItem> gifs = new ArrayList<>();
 		// if user selected "random" will give them gifs based on their preferences
 		// else will choose randomly from selected category
-		if (category.equals("random")) {
+		if (category.equals("Your Top Ten")) {
 			User user = (User) session.getAttribute("user");
 
 			// gets complete list of "likes" and sorts top 10 (if positive) likes
