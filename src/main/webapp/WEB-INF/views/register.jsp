@@ -28,9 +28,6 @@
 				Password:<input name="password" type="password" required>
 			</p>
 			<p>
-				Re-Enter Password:<input name="password2" type="password" required>
-			</p>
-			<p>
 				<button class="button">Submit</button>
 			</p>
 		</form>
