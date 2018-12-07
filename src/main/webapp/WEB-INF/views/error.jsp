@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<h1> Whups! </h1>
+<h1> Whoops! </h1>
 
 <p> <button> <a onclick="history.back()">Back to safety </a> </button> </p>
 <!-- <p> <a href="/index">Back to Home </p> -->
