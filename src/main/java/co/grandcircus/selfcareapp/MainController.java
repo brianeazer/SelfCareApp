@@ -89,20 +89,9 @@ public class MainController {
 	}
 
 	@RequestMapping("/mood")
-	public ModelAndView findUserMood(HttpSession session,
-			@RequestParam(name = "slidervalue", required = false) Integer moodRating) {
+	public ModelAndView findUserMood(HttpSession session) {
 		User user = (User) session.getAttribute("user");
 		System.out.println(user.getUsername());
-		if (moodRating != null) {
-			DateFormat df = new SimpleDateFormat("MM/dd/yy");
-			Date today = new Date();
-			System.out.println(df.format(today));
-			UserEmotion userEmotion = new UserEmotion();
-			userEmotion.setEmotionRating(moodRating);
-			userEmotion.setDate(today);
-			userEmotion.setUser(user);
-			userEmotionDao.createUserEmotion(userEmotion);
-		}
 
 		ModelAndView mav = new ModelAndView("mood");
 
@@ -126,7 +115,19 @@ public class MainController {
 
 	@RequestMapping("/gifs")
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category,
-			RedirectAttributes redir) {
+			RedirectAttributes redir,
+			@RequestParam(name = "slidervalue", required = false) Integer moodRating) {
+		User user = (User) session.getAttribute("user");
+		if (moodRating != null) {
+			DateFormat df = new SimpleDateFormat("MM/dd/yy");
+			Date today = new Date();
+			System.out.println(df.format(today));
+			UserEmotion userEmotion = new UserEmotion();
+			userEmotion.setEmotionRating(moodRating);
+			userEmotion.setDate(today);
+			userEmotion.setUser(user);
+			userEmotionDao.createUserEmotion(userEmotion);
+		}
 		ModelAndView mav = new ModelAndView("randomgif");
 		mav.addObject("category", category);
 		
@@ -145,7 +146,6 @@ public class MainController {
 		// if user selected "random" will give them gifs based on their preferences
 		// else will choose randomly from selected category
 		if (category.equals("Your Top Ten")) {
-			User user = (User) session.getAttribute("user");
 
 			// gets complete list of "likes" and sorts top 10 (if positive) likes
 			List<UserLikes> likes = (ArrayList<UserLikes>) likeDao.getUserLikes(user);
