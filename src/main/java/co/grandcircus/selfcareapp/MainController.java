@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -164,13 +165,11 @@ public class MainController {
 			List<UserLikes> topLikes = getTopLikes(likes);
 			
 			// gets random number to select index of a top like
-			int indexTopLikes = getIntInRange(topLikes.size());
-			UserLikes ul = topLikes.get(indexTopLikes);
+			UserLikes ul = weightedProbability(topLikes);
 			String tag = ul.getTag();
 
 			// gets list of gifs based on chosen tags
-			// TODO: figure out a way to possibly get more than 10 thru cursor
-			List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
+			List<GfyItem> gfyItems = apiService.options(tag, 50).getGfycats();
 
 			// gets the random index based on the list's size and finds gif at that random
 			// index
@@ -186,7 +185,7 @@ public class MainController {
 			// for each keyword in the list...
 			for (String keyword : keywords) {
 				// grab results, add it to a general list
-				GifResponse gifResponse = apiService.options(keyword, 1000);
+				GifResponse gifResponse = apiService.options(keyword, 50);
 				gifs.addAll(gifResponse.getGfycats());
 			}
 			// randomly select an index
@@ -283,9 +282,9 @@ public class MainController {
 		List<UserLikes> likes = (List<UserLikes>) likeDao.getUserLikes(user);
 		System.out.println("My name is " + user.getUsername() + " and I have a list of " + likes.size());
 		if (likes.size() >= 10) {
+			// finds user's top tags and then choose one based on weighted probability
 			List<UserLikes> top10 = getTopLikes(likes);
-			int indexTopLikes = getIntInRange(top10.size());
-			UserLikes ul = top10.get(indexTopLikes);
+			UserLikes ul = weightedProbability(top10);
 			String tag = ul.getTag();
 
 			List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
@@ -363,6 +362,27 @@ public class MainController {
 			request.getRequestDispatcher("/error.jsp").forward(request, response);
 		}
 
+	}
+	
+	public UserLikes weightedProbability(List<UserLikes> top10) {
+	    int totalSum = 0;
+
+	    for(UserLikes tag : top10) {
+	    	totalSum = totalSum + tag.getCount();
+	    }
+	    System.out.println("Total Sum: " + totalSum);
+	    int index = getIntInRange(totalSum);
+	    System.out.println("Index:" + index);
+        int sum = 0;
+        int i = 0;
+        
+        while(sum < index ) {
+             sum = sum +top10.get(i++).getCount();
+             System.out.println("While sum: " + sum);
+        }
+        System.out.println("Outside while: " + sum);
+        System.out.println("Chosen UserLike: " + top10.get(Math.max(0,i-1)));
+        return top10.get(Math.max(0,i-1));
 	}
 
 }
