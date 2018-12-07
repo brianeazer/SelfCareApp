@@ -234,8 +234,10 @@ public class MainController {
 			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
 		}
 		Integer num = (Integer) session.getAttribute("count");
+		System.out.println(num);
+		//14 is hardcoded from the array of gifIds in the getUserProfile method
 		if (num == 14) {
-			return new ModelAndView("mood");
+			return new ModelAndView("redirect:/mood");
 		}
 		return new ModelAndView("redirect:/flavorprofile");
 	}
