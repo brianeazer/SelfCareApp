@@ -30,7 +30,7 @@
 		<select name="category">
 	    <c:forEach items="${categories}" var="userLike">
 	        
-	        <option <%-- <c:if test="${Your Top Ten}"><a onclick="gifs?category=mood"></a></c:if>  --%>
+	        <option <%-- <c:if test="Your Top Ten"><a onclick="gifs?category=Your+Top+Ten"></a></c:if>  --%>
 	        
 	        value="${userLike}">${userLike} </option>
 	        <a onclick="gifs?category=${userLike}"></a>
