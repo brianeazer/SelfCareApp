@@ -9,5 +9,8 @@
 <body>
 
 <h1> Error </h1>
+
+<p> <button type="button" name="back" onclick="history.back()">back</button> </p>
+
 </body>
 </html>
