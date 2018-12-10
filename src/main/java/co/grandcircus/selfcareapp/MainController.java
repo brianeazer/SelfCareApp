@@ -3,11 +3,11 @@ package co.grandcircus.selfcareapp;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -94,11 +94,8 @@ public class MainController {
 		ModelAndView mav = new ModelAndView("mood");
 
 		// list of all categories
-		List<String> categories = new ArrayList<String>(
-				Arrays.asList("Your Top Ten", "Food", "Cats", "Sports", "Fails", "Nature", "Chill", "Gaming", "Anime",
-						"Cartoons", "All Movie Culture", "Horror Movie Culture", "Holidays"));
+		Set<String> categories = gifService.categoryMap().keySet();
 		mav.addObject("categories", categories);
-
 		return mav;
 	}
 
@@ -119,8 +116,7 @@ public class MainController {
 			RedirectAttributes redir, @RequestParam(name = "slidervalue", required = false) Integer moodRating) {
 		User user = (User) session.getAttribute("user");
 
-		// adds user's new emotion from mood page in the parameter to the database w/ a
-		// date
+		// adds user's new emotion from mood page in the parameter to the database w/ a date
 		if (moodRating != null) {
 			Date today = new Date();
 			UserEmotion userEmotion = new UserEmotion();
@@ -131,34 +127,11 @@ public class MainController {
 		}
 
 		ModelAndView mav = new ModelAndView("randomgif");
+		// adds the current category to the JSP for display
 		mav.addObject("category", category);
 
 		// map of all categories tags, with the category name as key
-		Map<String, List<String>> categories = new HashMap<>();
-		categories.put("Food", Arrays.asList("recipe, food", "foodnetwork", "lunch", "meal", "koreanbbq", "bbq", "cook",
-				"dessert", "breakfast", "dinner"));
-		categories.put("Cartoons",
-				Arrays.asList("cartoonnetwork","spongebob", "nickelodeon", "boomerang", "nickjr", "cwkids", "cartoonmovie"));
-		categories.put("Holidays", Arrays.asList("happyholidays", "christmas", "thanksgiving", "festive", "holidays",
-				"christmascards", "merrychristmas"));
-		categories.put("Cats", Arrays.asList("kittens", "cute kittens", "cats, aww", "cats", "cat", "meow"));
-		categories.put("Sports", Arrays.asList("sports", "sport", "basketball", "football", "soccer", "hockey",
-				"baseball", "rugby", "volleyball", "golf", "tennis"));
-		categories.put("Fails", Arrays.asList("fail", "epicfail", "fails", "accident"));
-		categories.put("Nature",
-				Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
-		categories.put("Horror Movie Culture", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
-				"horrorfilm", "chucky", "horroredit"));
-		categories.put("All Movie Culture",
-				Arrays.asList("movies", "movie", "kidmovies", "Indiefilms", "animatedmovie"));
-		categories.put("Gaming",
-				Arrays.asList("gaming", "xbox", "playstation", "wii", "esports", "snes", "atari", "gamer", "pcgaming",
-						"csgo", "cod", "system", "xboxdvr", "carepackage", "sharefactory", "killstreak", "ps4share"));
-		categories.put("Anime", Arrays.asList("manga", "dbz", "deathnote", "anime", "naruto"));
-
-		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing"));
-
-		categories.put("Your Top Ten", Arrays.asList(""));
+		Map<String, List<String>> categories = gifService.categoryMap();
 
 		List<GfyItem> gifs = new ArrayList<>();
 		
@@ -230,6 +203,7 @@ public class MainController {
 				"requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
 				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech",
 				"selfishorganichornet", "equatorialdisgustingcassowary", "fakepassionatearacari" };
+		
 		if (count == gifIds.length) {
 			return new ModelAndView("mood");
 		}
@@ -374,9 +348,8 @@ public class MainController {
 	@RequestMapping("/checkin")
 	public ModelAndView addGif(HttpSession session) {
 		ModelAndView mv = new ModelAndView("checkin");
-		List<String> categories = new ArrayList<String>(
-				Arrays.asList("Your Top Ten", "Food", "Cats", "Sports", "Fails", "Nature", "Chill", "Gaming", "Anime",
-						"Cartoons", "All Movie Culture", "Horror Movie Culture", "Holidays"));
+		
+		Set<String> categories = gifService.categoryMap().keySet();
 		mv.addObject("categories", categories);
 
 		return mv;
