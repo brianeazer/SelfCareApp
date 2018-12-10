@@ -302,7 +302,7 @@ public class MainController {
 			return new ModelAndView("redirect:/gifs", "category", category);
 		} else {
 			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
-			if ((int) session.getAttribute("count") % 3 == 0) {
+			if ((int) session.getAttribute("count") % 10 == 0) {
 				redir.addFlashAttribute("message", "Please pic another category and select your mood");
 				return new ModelAndView("redirect:/mood");
 			}
