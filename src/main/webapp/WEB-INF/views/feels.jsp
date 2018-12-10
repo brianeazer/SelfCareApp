@@ -19,18 +19,20 @@
 <body>
 	<div class="container">
 		<table class="table">
-			<tr class="tr">
-				<th colspan="2">Day of Week</th>
-			</tr>
-			<c:forEach var="ue" items="${ userEmotions }">
+			<c:forEach var="ue" items="${ daysOfWeek }">
+				<tr>
+					<th colspan="2"><c:out value="${ue.key}"/></th>
+				</tr>
 				<tr class="tr">
-					<th>${ daysOfWeek }</th>
+					<th>Time</th>
 					<th>Mood(0-10)</th>
 				</tr>
-				<tr>
-					<td class="td">${ ue.date }</td>
-					<td class="td">${ ue.emotionRating }</td>
-				</tr>
+				<c:forEach var="emotion" items="${ue.value}">
+					<tr>
+						<td class="td">${ emotion.date }</td>
+						<td class="td">${ emotion.emotionRating }</td>
+					</tr>
+				</c:forEach>
 			</c:forEach>
 
 		</table>

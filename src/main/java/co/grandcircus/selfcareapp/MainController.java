@@ -1,15 +1,15 @@
 package co.grandcircus.selfcareapp;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -107,41 +107,38 @@ public class MainController {
 
 		// pulls list of user's past emotions from the database
 		User user = (User) session.getAttribute("user");
-		List<UserEmotion> userEmotion = userEmotionDao.getUserEmotions(user);
+		List<UserEmotion> userEmotions = userEmotionDao.getUserEmotions(user);
 
-		Map<Integer, String> daysOfWeek = new HashMap<>();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
-		String startDateString = "01/01/1999";
-		
-		// This object can interpret strings representing dates in the format MM/dd/yyyy
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		Date newDate;
-		try {
-			newDate = df.parse(startDateString);
+		Map<LocalDate, List<UserEmotion>> daysOfWeek = new TreeMap<>();
+		// dates in the format DAY Mon/day
+		// SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE MMM/dd");
 
-			int count = 0;
-			int howManyDays = 1;
+		int count = 0;
+		Integer howManyDays = 1;
 
-			for (UserEmotion dayOfWeek : userEmotion) {
-				daysOfWeek.put(count, simpleDateFormat.format(dayOfWeek.getDate()).toUpperCase());
-				System.out.println(simpleDateFormat.format(dayOfWeek.getDate()).toUpperCase());
-				
-				if (!simpleDateFormat.format(dayOfWeek.getDate()).equals(simpleDateFormat.format(newDate))) {
-					
-					newDate = dayOfWeek.getDate();
-					howManyDays++;
-				}
+		for (UserEmotion userEmotion : userEmotions) {
+			LocalDate date = gifService.convertToLocalDateViaInstant(userEmotion.getDate());
+			if (daysOfWeek.containsKey(date)) {
+				List<UserEmotion> timeAndFeels = daysOfWeek.get(date);
+				timeAndFeels.add(userEmotion);
+				System.out.println(timeAndFeels);
+			//	timeAndFeels.add(userEmotion);
+				daysOfWeek.put(date, timeAndFeels);
 				count++;
+			} else {
+				daysOfWeek.put(gifService.convertToLocalDateViaInstant(userEmotion.getDate()), new ArrayList<>(Collections.singleton(userEmotion)));
 			}
-			System.out.println("Count: " + count + "; Days: " + howManyDays);
-			System.out.println("MAP: " + daysOfWeek);
-			mav.addObject("days", howManyDays);
-			mav.addObject("daysOfWeek", daysOfWeek);
-			mav.addObject("userEmotions", userEmotion);
 			
-		} catch (ParseException e) {
-			e.printStackTrace();
+			System.out.println(daysOfWeek);
+			// gifService.convertToLocalDateViaInstant(userEmotion.getDate())
+			howManyDays++;
 		}
+		
+		System.out.println("Count: " + count + "; Days: " + howManyDays);
+		System.out.println("MAP: " + daysOfWeek);
+		mav.addObject("days", howManyDays);
+		mav.addObject("daysOfWeek", daysOfWeek);
+		mav.addObject("userEmotions", userEmotions);
 		return mav;
 	}
 
