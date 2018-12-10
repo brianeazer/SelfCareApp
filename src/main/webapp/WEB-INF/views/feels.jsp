@@ -24,7 +24,7 @@
 			</tr>
 			<c:forEach var="ue" items="${ userEmotions }">
 				<tr class="tr">
-					<th>Date</th>
+					<th>${ daysOfWeek }</th>
 					<th>Mood(0-10)</th>
 				</tr>
 				<tr>

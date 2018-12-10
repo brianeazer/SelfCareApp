@@ -1,8 +1,10 @@
 package co.grandcircus.selfcareapp;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +50,7 @@ public class MainController {
 
 	@Autowired
 	UserEmotionDao userEmotionDao;
-	
+
 	@Autowired
 	GifService gifService;
 
@@ -105,9 +107,42 @@ public class MainController {
 
 		// pulls list of user's past emotions from the database
 		User user = (User) session.getAttribute("user");
-		ArrayList<UserEmotion> userEmotions = (ArrayList<UserEmotion>) userEmotionDao.getUserEmotions(user);
-		mav.addObject("userEmotions", userEmotions);
+		List<UserEmotion> userEmotion = userEmotionDao.getUserEmotions(user);
 
+		Map<Integer, String> daysOfWeek = new HashMap<>();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
+		String startDateString = "01/01/1999";
+		
+		// This object can interpret strings representing dates in the format MM/dd/yyyy
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		Date newDate;
+		try {
+			newDate = df.parse(startDateString);
+
+			int count = 0;
+			int howManyDays = 1;
+
+			for (UserEmotion dayOfWeek : userEmotion) {
+				daysOfWeek.put(count, simpleDateFormat.format(dayOfWeek.getDate()).toUpperCase());
+				System.out.println(simpleDateFormat.format(dayOfWeek.getDate()).toUpperCase());
+				
+				if (!simpleDateFormat.format(dayOfWeek.getDate()).equals(simpleDateFormat.format(newDate))) {
+					
+					newDate = dayOfWeek.getDate();
+					howManyDays++;
+				}
+				count++;
+			}
+			System.out.println("Count: " + count + "; Days: " + howManyDays);
+			System.out.println("MAP: " + daysOfWeek);
+			mav.addObject("days", howManyDays);
+			mav.addObject("daysOfWeek", daysOfWeek);
+			mav.addObject("userEmotions", userEmotion);
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return mav;
 	}
 
@@ -116,7 +151,8 @@ public class MainController {
 			RedirectAttributes redir, @RequestParam(name = "slidervalue", required = false) Integer moodRating) {
 		User user = (User) session.getAttribute("user");
 
-		// adds user's new emotion from mood page in the parameter to the database w/ a date
+		// adds user's new emotion from mood page in the parameter to the database w/ a
+		// date
 		if (moodRating != null) {
 			Date today = new Date();
 			UserEmotion userEmotion = new UserEmotion();
@@ -134,7 +170,7 @@ public class MainController {
 		Map<String, List<String>> categories = gifService.categoryMap();
 
 		List<GfyItem> gifs = new ArrayList<>();
-		
+
 		// if user selected "top ten" will give them gifs based on their preferences
 		// else will choose randomly from selected category
 		if (category.equals("Your Top Ten")) {
@@ -173,7 +209,7 @@ public class MainController {
 			}
 			// randomly select an index
 			int index = gifService.randomInteger(gifs.size());
-			
+
 			// find item at that index & show the gif
 			GfyItem gfyItem = gifs.get(index);
 			mav.addObject("gif", gfyItem.getMax5mbGif());
@@ -196,14 +232,14 @@ public class MainController {
 			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
 		}
 		int count = (int) session.getAttribute("count");
-		
+
 		// set 14 gifs to get a user's initial preference
 		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra", "mildsardonicasianconstablebutterfly",
 				"tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu",
 				"requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
 				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech",
 				"selfishorganichornet", "equatorialdisgustingcassowary", "fakepassionatearacari" };
-		
+
 		if (count == gifIds.length) {
 			return new ModelAndView("mood");
 		}
@@ -223,9 +259,9 @@ public class MainController {
 		if (likes.size() >= 10) {
 			// finds user's top tags and then choose one based on weighted probability
 			List<UserLikes> topLikes = gifService.getTopLikes(likes);
-			
+
 			List<GfyItem> gfyItems = gifService.getGifList(topLikes);
-			
+
 			int indexGifList = gifService.randomInteger(gfyItems.size());
 			GfyItem gifItem = gfyItems.get(indexGifList);
 			mv.addObject("gif", gifItem);
@@ -237,11 +273,10 @@ public class MainController {
 			return new ModelAndView("redirect:/mood");
 		}
 	}
-	
+
 	@RequestMapping("/top10-store-info")
 	public ModelAndView addTop10ToDatabase(@RequestParam(name = "count", required = false) Integer count,
-			@RequestParam(name = "id") String gifId,
-			HttpSession session) {
+			@RequestParam(name = "id") String gifId, HttpSession session) {
 		ModelAndView mav = new ModelAndView("redirect:/pastlikegifs");
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
@@ -276,27 +311,27 @@ public class MainController {
 		}
 
 		Integer num = (Integer) session.getAttribute("count");
-		
-		//14 is hardcoded from the array of gifIds in the getUserProfile method
+
+		// 14 is hardcoded from the array of gifIds in the getUserProfile method
 		if (num == 14) {
 			return new ModelAndView("redirect:/mood");
 		}
 
 		return new ModelAndView("redirect:/flavorprofile");
 	}
-	
+
 	@RequestMapping("/random-store-info")
 	public ModelAndView addRandomToDatabase(@RequestParam(name = "count", required = false) Integer rating,
 			@RequestParam(name = "id") String gifId, @RequestParam(name = "category") String category,
 			HttpSession session) {
-	
+
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
 			gifService.updateUserLikeTable(tag, (User) session.getAttribute("user"), rating);
 		}
-	
+
 		if (session.getAttribute("count") == null) {
 			session.setAttribute("count", 1);
 			return new ModelAndView("redirect:/gifs", "category", category);
@@ -304,8 +339,7 @@ public class MainController {
 			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
 			if ((int) session.getAttribute("count") % 10 == 0) {
 				return new ModelAndView("redirect:/checkin");
-			}
-			else {
+			} else {
 				return new ModelAndView("redirect:/gifs", "category", category);
 			}
 		}
@@ -345,16 +379,15 @@ public class MainController {
 		}
 
 	}
+
 	@RequestMapping("/checkin")
 	public ModelAndView addGif(HttpSession session) {
 		ModelAndView mv = new ModelAndView("checkin");
-		
+
 		Set<String> categories = gifService.categoryMap().keySet();
 		mv.addObject("categories", categories);
 
 		return mv;
 	}
-	
-	
 
 }
