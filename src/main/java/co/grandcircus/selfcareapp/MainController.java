@@ -295,16 +295,19 @@ public class MainController {
 			@RequestParam(name = "id") String gifId, HttpSession session) {
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
+		System.out.println(gfyItem.getGifUrl());
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
 			gifService.updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
 		}
+
 		Integer num = (Integer) session.getAttribute("count");
 		
 		//14 is hardcoded from the array of gifIds in the getUserProfile method
 		if (num == 14) {
 			return new ModelAndView("redirect:/mood");
 		}
+
 		return new ModelAndView("redirect:/flavorprofile");
 	}
 	
