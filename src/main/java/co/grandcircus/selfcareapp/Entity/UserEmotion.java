@@ -1,5 +1,7 @@
 package co.grandcircus.selfcareapp.Entity;
 
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -21,11 +23,11 @@ public class UserEmotion {
 	private User user;
 	private Integer emotionRating;
 	@Column(name= "date")
-	private Date date;
+	private Instant instant;
 	
 	public UserEmotion() {}
 
-	public UserEmotion(Long id, User user, Integer emotionRating, Date date) {
+	public UserEmotion(Long id, User user, Integer emotionRating, Instant date) {
 		super();
 		this.id = id;
 		this.user = user;
@@ -57,11 +59,11 @@ public class UserEmotion {
 		this.emotionRating = emotionRating;
 	}
 
-	public Date getDate() {
+	public Instant getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Instant date) {
 		this.date = date;
 	}
 
@@ -69,7 +71,4 @@ public class UserEmotion {
 	public String toString() {
 		return "UserEmotion [id=" + id + ", user=" + user + ", emotionRating=" + emotionRating + ", date=" + date + "]";
 	}
-	
-	
-	
 }

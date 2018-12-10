@@ -5,12 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
 <h1>How are you feeling now?</h1>
 	
-	<p> <button> <a onclick="history.back()">Same group of memes</a> </button> </p>
+	<p> <button class ="checkinbutton"> <a onclick="history.back()">Same group of memes</a> </button> </p>
 	
 	<form action="/gifs" name="mood-tracker" method="get">
 			<c:forEach var="category" items="${ categories }">
@@ -21,7 +23,7 @@
 				<h4>How Are you Feeling?</h4>
 				<input type="range" min="0" max="10" value="5" class="slider"
 					id="myRange" name="slidervalue">
-				<button>submit</button>
+				<button id = "submit">submit</button>
 			</div>
 		</form>
 			

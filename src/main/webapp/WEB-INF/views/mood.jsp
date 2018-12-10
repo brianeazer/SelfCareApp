@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="style.css" />
 <%@include file="partials/header.jsp"%>
 </head>
-<body>
+<body id ="moodbody">
 	<div class="container">
 		${ message }
 		<h1>Pick a gif category</h1>
@@ -23,31 +23,33 @@
 			</c:forEach>
 
 
+
+
+
+
+
 			<div class="slidecontainer">
 				<h4>How Are you Feeling?</h4>
 				<input type="range" min="0" max="10" value="5" class="slider"
 					id="myRange" name="slidervalue">
 			</div>
 
-
 			<div class="drakesadface">
-				<img src="https://i.gifer.com/1AYf.gif" height="330px"
-					;width="400px" ;
-					style="float: left; left: 0px; bottom: 0px;"Sad">
+				<img src="https://i.gifer.com/1AYf.gif" height="300px"
+					;width="300px" ;
+					style="float: left;"Sad">
 			</div>
-
 
 			<div class="drakeface">
-				<img src="https://i.gifer.com/ywJ.gif" height="350px"
-					; width="400px"
-					;
-					style="float: right; right: 0px; bottom: 0px;"Happy">
+				<img src="https://i.gifer.com/ywJ.gif" height="345px"
+					; width="300px" ;
+					style="float: right;"Happy">
 			</div>
 
 
-			<div class = "button">
-				<button class = "button" style="position: absolute; float: right;">submit</button>
-			</div>
+
+			<button class="button" style="position: absolute; float: right;">submit</button>
+
 
 		</form>
 	</div>

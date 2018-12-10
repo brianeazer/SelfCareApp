@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import co.grandcircus.selfcareapp.Dao.LikeDao;
 import co.grandcircus.selfcareapp.Dao.UserDao;
 import co.grandcircus.selfcareapp.Dao.UserEmotionDao;
@@ -126,7 +124,7 @@ public class MainController {
 				daysOfWeek.put(date, timeAndFeels);
 				count++;
 			} else {
-				daysOfWeek.put(gifService.convertToLocalDateViaInstant(userEmotion.getDate()), new ArrayList<>(Collections.singleton(userEmotion)));
+				daysOfWeek.put(date, new ArrayList<>(Collections.singleton(userEmotion)));
 			}
 			
 			System.out.println(daysOfWeek);
@@ -150,10 +148,10 @@ public class MainController {
 		// adds user's new emotion from mood page in the parameter to the database w/ a
 		// date
 		if (moodRating != null) {
-			Date today = new Date();
+			Instant instant = Instant.now();
 			UserEmotion userEmotion = new UserEmotion();
 			userEmotion.setEmotionRating(moodRating);
-			userEmotion.setDate(today);
+			userEmotion.setInstant(instant);
 			userEmotion.setUser(user);
 			userEmotionDao.createUserEmotion(userEmotion);
 		}
@@ -387,5 +385,16 @@ public class MainController {
 
 		return mv;
 	}
+	
+	@RequestMapping("/test") 
+	public ModelAndView test() {
+		Instant now = Instant.now();
+		System.out.println("This is what the time is now :" + now);
+		List <UserEmotion> userEmotions = userEmotionDao.getEmotionByDate(now);
+		System.out.println(userEmotions.get(0));
+		return new ModelAndView("test");
+		
+	}
+
 
 }
