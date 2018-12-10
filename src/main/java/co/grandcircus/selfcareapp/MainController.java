@@ -458,6 +458,11 @@ public class MainController {
 		}
 
 	}
+	@RequestMapping("/checkin")
+	public ModelAndView addGif() {
+		return new ModelAndView("checkin");
+	}
+	
 	
 
 }
