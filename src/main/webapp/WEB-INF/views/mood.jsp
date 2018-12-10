@@ -19,13 +19,21 @@
 		<h1>Pick a gif category</h1>
 		<form action="/gifs" name="mood-tracker" method="get">
 			<c:forEach var="category" items="${ categories }">
-				<input required name="category" type="radio"
-					value="${ category }">${ category }<br>
+				<input required name="category" type="radio" value="${ category }">${ category }<br>
 			</c:forEach>
 			<div class="slidecontainer">
 				<h4>How Are you Feeling?</h4>
 				<input type="range" min="0" max="10" value="5" class="slider"
 					id="myRange" name="slidervalue">
+					<div class="drakesadface" style= "height: 40; width: 50;">
+					<img src="https://i.gifer.com/1AYf.gif"
+						style="position: absolute;; float: left; left: 0px; bottom: 0px;"Sad">
+				</div>
+				<div class="drakeface" style="height: 4px; width: 5px;">
+					<img src="https://i.gifer.com/ywJ.gif"
+						style="position: absolute; float: right; right: 10px; bottom: 0px;"Happy">
+				</div>
+				
 				<button>submit</button>
 			</div>
 		</form>
