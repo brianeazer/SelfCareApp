@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -106,7 +107,7 @@ public class MainController {
 		User user = (User) session.getAttribute("user");
 		List<UserEmotion> userEmotions = userEmotionDao.getUserEmotions(user);
 
-		Map<LocalDate, List<UserEmotion>> daysOfWeek = new TreeMap<>();
+		Map<LocalDate, List<UserEmotion>> daysOfWeek = new TreeMap<>(Comparator.reverseOrder());
 		// dates in the format DAY Mon/day
 		// SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE MMM/dd");
 
