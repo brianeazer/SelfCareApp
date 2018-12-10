@@ -1,12 +1,14 @@
 package co.grandcircus.selfcareapp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import co.grandcircus.selfcareapp.Dao.LikeDao;
 import co.grandcircus.selfcareapp.Entity.GfyItem;
@@ -32,8 +34,7 @@ public class GifService {
 		String tag1;
 		String tag2;
 		// tagRequests is to prevent the app from slowing down by taking forever to find
-		// two
-		// seperate tags on the off chance that there is a large difference in
+		// two separate tags on the off chance that there is a large difference in
 		// probabilities
 		int tagRequests = 0;
 
@@ -81,13 +82,44 @@ public class GifService {
 
 	public List<UserLikes> getTopLikes(List<UserLikes> likes) {
 		Collections.sort(likes, (l1, l2) -> l1.getCount().compareTo(l2.getCount()));
-		List<UserLikes> top10 = new ArrayList<>();
+		List<UserLikes> topLikes = new ArrayList<>();
 		int count = 0;
 		while (count < 10) {
-			top10.add(likes.get(likes.size() - 1 - count));
+			topLikes.add(likes.get(likes.size() - 1 - count));
 			count++;
 		}
-		return top10;
+		return topLikes;
+	}
+	
+	public Map<String, List<String>> categoryMap() {
+		Map<String, List<String>> categories = new HashMap<>();
+		
+		categories.put("Food", Arrays.asList("recipe, food", "foodnetwork", "lunch", "meal", "koreanbbq", "bbq", "cook",
+				"dessert", "breakfast", "dinner"));
+		categories.put("Cartoons",
+				Arrays.asList("cartoonnetwork","spongebob", "nickelodeon", "boomerang", "nickjr", "cwkids", "cartoonmovie"));
+		categories.put("Holidays", Arrays.asList("happyholidays", "christmas", "thanksgiving", "festive", "holidays",
+				"christmascards", "merrychristmas"));
+		categories.put("Cats", Arrays.asList("kittens", "cute kittens", "cats, aww", "cats", "cat", "meow"));
+		categories.put("Sports", Arrays.asList("sports", "sport", "basketball", "football", "soccer", "hockey",
+				"baseball", "rugby", "volleyball", "golf", "tennis"));
+		categories.put("Fails", Arrays.asList("fail", "epicfail", "fails", "accident"));
+		categories.put("Nature",
+				Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
+		categories.put("Horror Movie Culture", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
+				"horrorfilm", "chucky", "horroredit"));
+		categories.put("All Movie Culture",
+				Arrays.asList("movies", "movie", "kidmovies", "Indiefilms", "animatedmovie"));
+		categories.put("Gaming",
+				Arrays.asList("gaming", "xbox", "playstation", "wii", "esports", "snes", "atari", "gamer", "pcgaming",
+						"csgo", "cod", "system", "xboxdvr", "carepackage", "sharefactory", "killstreak", "ps4share"));
+		categories.put("Anime", Arrays.asList("manga", "dbz", "deathnote", "anime", "naruto"));
+
+		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing"));
+
+		categories.put("Your Top Ten", Arrays.asList(""));
+		
+		return categories;
 	}
 
 	public void updateUserLikeTable(String tag, User user, Integer count) {
