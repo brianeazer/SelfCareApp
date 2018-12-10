@@ -174,10 +174,29 @@ public class MainController {
 
 			// if list is at least 10 tags
 			List<UserLikes> topLikes = getTopLikes(likes);
-
-			// gets random number to select index of a top like
-			UserLikes ul = weightedProbability(topLikes);
-			String tag = ul.getTag();
+			
+			
+			String tag1;
+			String tag2;
+			// tagRequests is to prevent the app from slowing down by taking forever to find two seperate tags on the off chance that there is a large difference
+			// in probabilities
+			int tagRequests = 0;
+			
+			// Here we get two tags so we can make more specific api calls
+			do {
+			UserLikes ul1 = weightedProbability(topLikes);
+			UserLikes ul2 = weightedProbability(topLikes);
+			tag1 = ul1.getTag();
+			tag2 = ul2.getTag();
+			tagRequests++;
+			} while(tag1.equals(tag2) || tagRequests <= 10);
+			
+			String tag;
+			if (!tag1.equals(tag2)) {
+			tag = tag1 + "+" + tag2;
+			} else {
+				tag = tag1;
+			}
 
 			// gets list of gifs based on chosen tags
 			List<GfyItem> gfyItems = apiService.options(tag, 50).getGfycats();
@@ -248,8 +267,29 @@ public class MainController {
 		if (likes.size() >= 10) {
 			// finds user's top tags and then choose one based on weighted probability
 			List<UserLikes> top10 = getTopLikes(likes);
-			UserLikes ul = weightedProbability(top10);
-			String tag = ul.getTag();
+			
+			String tag1;
+			String tag2;
+			// tagRequests is to prevent the app from slowing down by taking forever to find two seperate tags on the off chance that there is a large difference
+			// in probabilities
+			int tagRequests = 0;
+			
+			// Here we get two tags so we can make more specific api calls
+			do {
+			UserLikes ul1 = weightedProbability(top10);
+			UserLikes ul2 = weightedProbability(top10);
+			tag1 = ul1.getTag();
+			tag2 = ul2.getTag();
+			tagRequests++;
+			} while(tag1.equals(tag2) || tagRequests <= 10);
+			
+			String tag;
+			if (!tag1.equals(tag2)) {
+			tag = tag1 + "+" + tag2;
+			} else {
+				tag = tag1;
+			}
+			
 
 			List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
 			int indexGifList = randomInteger(gfyItems.size());

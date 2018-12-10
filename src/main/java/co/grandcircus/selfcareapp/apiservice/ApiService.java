@@ -108,6 +108,7 @@ public class ApiService {
 			
 			GifResponse gifResponse = restTemplate.getForObject(fullUrl, GifResponse.class);
 			GifResponse filteredGifResponse = isClean(gifResponse);
+			System.out.println("This is the full url" + fullUrl);
 			return filteredGifResponse;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
