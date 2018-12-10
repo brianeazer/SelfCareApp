@@ -21,21 +21,34 @@
 			<c:forEach var="category" items="${ categories }">
 				<input required name="category" type="radio" value="${ category }">${ category }<br>
 			</c:forEach>
+
+
 			<div class="slidecontainer">
 				<h4>How Are you Feeling?</h4>
 				<input type="range" min="0" max="10" value="5" class="slider"
 					id="myRange" name="slidervalue">
-					<div class="drakesadface" style= "height: 40; width: 50;">
-					<img src="https://i.gifer.com/1AYf.gif"
-						style="position: absolute;; float: left; left: 0px; bottom: 0px;"Sad">
-				</div>
-				<div class="drakeface" style="height: 4px; width: 5px;">
-					<img src="https://i.gifer.com/ywJ.gif"
-						style="position: absolute; float: right; right: 10px; bottom: 0px;"Happy">
-				</div>
-				
-				<button>submit</button>
 			</div>
+
+
+			<div class="drakesadface">
+				<img src="https://i.gifer.com/1AYf.gif" height="330px"
+					;width="400px" ;
+					style="float: left; left: 0px; bottom: 0px;"Sad">
+			</div>
+
+
+			<div class="drakeface">
+				<img src="https://i.gifer.com/ywJ.gif" height="350px"
+					; width="400px"
+					;
+					style="float: right; right: 0px; bottom: 0px;"Happy">
+			</div>
+
+
+			<div class = "button">
+				<button class = "button" style="position: absolute; float: right;">submit</button>
+			</div>
+
 		</form>
 	</div>
 

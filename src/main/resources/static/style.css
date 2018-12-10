@@ -107,14 +107,25 @@ width
 }
 
 .drakeface {
-  position: absolute;
-  bottom: 8px;
-  right: 160px;
+ 
+  
+   height: 50%;
+  width: 50%;
  
 }
 .drakesadface {
-  position: absolute;
-  bottom: 8px;
-  left: 160px;
+  
  
+  height: 50%;
+  width: 50%;
+}
+
+.button {
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: #ff0000; /* Green */
+  color: white;
 }
