@@ -1,8 +1,6 @@
 package co.grandcircus.selfcareapp;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -94,7 +92,8 @@ public class MainController {
 
 		// list of all categories
 		List<String> categories = new ArrayList<String>(
-				Arrays.asList("Your Top Ten", "Food", "Cats", "Sports", "Fails", "Nature", "Chill"));
+				Arrays.asList("Your Top Ten", "Food", "Cats", "Sports", "Fails", "Nature", "Chill", "Esports", "Anime",
+						"Cartoons", "All Movie Culture", "Horror Movie Culture", "Holidays"));
 		mav.addObject("categories", categories);
 
 		return mav;
@@ -133,33 +132,49 @@ public class MainController {
 
 		// map of all categories tags, with the category name as key
 		Map<String, List<String>> categories = new HashMap<>();
-		categories.put("Food", Arrays.asList("recipe, food", "foodnetwork"));
-		categories.put("Cats", Arrays.asList("kittens", "cute kittens", "cats, aww"));
-		categories.put("Sports", Arrays.asList("sports"));
-		categories.put("Fails", Arrays.asList("fail", "epicfail"));
+		categories.put("Food", Arrays.asList("recipe, food", "foodnetwork", "lunch", "meal", "koreanbbq", "bbq", "cook",
+				"dessert", "breakfast", "dinner"));
+		categories.put("Cartoons",
+				Arrays.asList("cartoonnetwork", "nickelodeon", "boomerang", "nickjr", "cwkids", "cartoonmovie"));
+		categories.put("Holidays", Arrays.asList("happyholidays", "christmas", "thanksgiving", "festive", "holidays",
+				"christmascards", "merrychristmas"));
+		categories.put("Cats", Arrays.asList("kittens", "cute kittens", "cats, aww", "cats", "cat", "meow"));
+		categories.put("Sports", Arrays.asList("sports", "sport", "basketball", "football", "soccer", "hockey",
+				"baseball", "rugby", "volleyball", "golf", "tennis"));
+		categories.put("Fails", Arrays.asList("fail", "epicfail", "fails", "accident"));
 		categories.put("Nature",
 				Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
-//		categories.put("Scare", Arrays.asList("crazy"));
+		categories.put("Horror Movie Culture", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
+				"horrorfilm", "chucky", "horroredit"));
+		categories.put("All Movie Culture",
+				Arrays.asList("movies", "movie", "kidmovies", "Indiefilms", "animatedmovie"));
+		categories.put("Gaming",
+				Arrays.asList("gaming", "xbox", "playstation", "wii", "esports", "snes", "atari", "gamer", "pcgaming",
+						"csgo", "cod", "system", "xboxdvr", "carepackage", "sharefactory", "killstreak", "ps4share"));
+		categories.put("Anime", Arrays.asList("manga", "dbz", "deathnote", "anime", "naruto"));
+
 		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing"));
+
 		categories.put("Your Top Ten", Arrays.asList(""));
 
 		List<GfyItem> gifs = new ArrayList<>();
-		// if user selected "random" will give them gifs based on their preferences
+		
+		// if user selected "top ten" will give them gifs based on their preferences
 		// else will choose randomly from selected category
 		if (category.equals("Your Top Ten")) {
 
 			// gets complete list of "likes" and sorts top 10 (if positive) likes
 			List<UserLikes> likes = likeDao.getUserLikes(user);
-			
+
 			// if list is not at least 10 tags, redirect to mood page to like more gifs
 			if (likes.size() < 10) {
 				redir.addFlashAttribute("message", "Sorry, you need to like at least ten tags to view this page!");
-				return new ModelAndView("redirect:/mood"); 
+				return new ModelAndView("redirect:/mood");
 			}
-			
+
 			// if list is at least 10 tags
 			List<UserLikes> topLikes = getTopLikes(likes);
-			
+
 			// gets random number to select index of a top like
 			UserLikes ul = weightedProbability(topLikes);
 			String tag = ul.getTag();
@@ -214,6 +229,9 @@ public class MainController {
 				"requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
 				"brownannualirishsetter", "rapidultimatedwarfmongoose", "secondhandellipticalaquaticleech",
 				"selfishorganichornet", "equatorialdisgustingcassowary", "fakepassionatearacari" };
+		if (count == gifIds.length) {
+			return new ModelAndView("mood");
+		}
 		String gifId = gifIds[count];
 		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ModelAndView mv = new ModelAndView("flavorProfile");
@@ -225,7 +243,7 @@ public class MainController {
 	public ModelAndView showGif(HttpSession session, RedirectAttributes redir) {
 		ModelAndView mv = new ModelAndView("top10likes");
 		User user = (User) session.getAttribute("user");
-		
+
 		List<UserLikes> likes = (List<UserLikes>) likeDao.getUserLikes(user);
 		if (likes.size() >= 10) {
 			// finds user's top tags and then choose one based on weighted probability
@@ -242,7 +260,7 @@ public class MainController {
 			return mv;
 		} else {
 			redir.addFlashAttribute("message", "Sorry, you need to like at least ten tags to view this page!");
-			return new ModelAndView("redirect:/mood"); 
+			return new ModelAndView("redirect:/mood");
 		}
 	}
 	
@@ -256,9 +274,9 @@ public class MainController {
 		List<UserLikes> top10 = new ArrayList<>();
 		int count = 0;
 		while (count < 10) {
-				top10.add(likes.get(likes.size()-1-count));
-				count++;
-			}
+			top10.add(likes.get(likes.size() - 1 - count));
+			count++;
+		}
 		return top10;
 	}
 	
