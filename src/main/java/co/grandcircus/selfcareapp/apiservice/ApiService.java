@@ -100,7 +100,7 @@ public class ApiService {
 		String charset = java.nio.charset.StandardCharsets.UTF_8.name();
 		String search_text = keyword;
 		String count = amount.toString();
-		//String cursor;
+		
 		try {
 			String query = String.format("search_text=%s&count=%s", URLEncoder.encode(search_text, charset),
 					URLEncoder.encode(count, charset));

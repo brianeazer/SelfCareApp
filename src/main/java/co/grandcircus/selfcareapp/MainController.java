@@ -48,6 +48,9 @@ public class MainController {
 
 	@Autowired
 	UserEmotionDao userEmotionDao;
+	
+	@Autowired
+	GifService gifService;
 
 	@RequestMapping("/")
 	public ModelAndView index() {
@@ -173,37 +176,13 @@ public class MainController {
 			}
 
 			// if list is at least 10 tags
-			List<UserLikes> topLikes = getTopLikes(likes);
-			
-			
-			String tag1;
-			String tag2;
-			// tagRequests is to prevent the app from slowing down by taking forever to find two seperate tags on the off chance that there is a large difference
-			// in probabilities
-			int tagRequests = 0;
-			
-			// Here we get two tags so we can make more specific api calls
-			do {
-			UserLikes ul1 = weightedProbability(topLikes);
-			UserLikes ul2 = weightedProbability(topLikes);
-			tag1 = ul1.getTag();
-			tag2 = ul2.getTag();
-			tagRequests++;
-			} while(tag1.equals(tag2) || tagRequests <= 10);
-			
-			String tag;
-			if (!tag1.equals(tag2)) {
-			tag = tag1 + "+" + tag2;
-			} else {
-				tag = tag1;
-			}
+			List<UserLikes> topLikes = gifService.getTopLikes(likes);
 
-			// gets list of gifs based on chosen tags
-			List<GfyItem> gfyItems = apiService.options(tag, 50).getGfycats();
+			List<GfyItem> gfyItems = gifService.getGifList(topLikes);
 
 			// gets the random index based on the list's size and finds gif at that random
 			// index
-			int indexGifList = randomInteger(gfyItems.size());
+			int indexGifList = gifService.randomInteger(gfyItems.size());
 			GfyItem gifItem = gfyItems.get(indexGifList);
 
 			// adds the gif and the gifId to the view
@@ -220,7 +199,8 @@ public class MainController {
 				gifs.addAll(gifResponse.getGfycats());
 			}
 			// randomly select an index
-			int index = (int) Math.floor(Math.random() * gifs.size());
+			int index = gifService.randomInteger(gifs.size());
+			
 			// find item at that index & show the gif
 			GfyItem gfyItem = gifs.get(index);
 			mav.addObject("gif", gfyItem.getMax5mbGif());
@@ -243,6 +223,8 @@ public class MainController {
 			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
 		}
 		int count = (int) session.getAttribute("count");
+		
+		// set 14 gifs to get a user's initial preference
 		String[] gifIds = { "longhandyaxisdeer", "requiredlawfulchupacabra", "mildsardonicasianconstablebutterfly",
 				"tightfluffyaustraliankelpie", "masculinecalmeelelephant", "coarseselfassuredboutu",
 				"requiredunawarebirdofparadise", "creepydevotedcoral", "thoroughgreedyhagfish",
@@ -266,37 +248,15 @@ public class MainController {
 		List<UserLikes> likes = (List<UserLikes>) likeDao.getUserLikes(user);
 		if (likes.size() >= 10) {
 			// finds user's top tags and then choose one based on weighted probability
-			List<UserLikes> top10 = getTopLikes(likes);
+			List<UserLikes> topLikes = gifService.getTopLikes(likes);
 			
-			String tag1;
-			String tag2;
-			// tagRequests is to prevent the app from slowing down by taking forever to find two seperate tags on the off chance that there is a large difference
-			// in probabilities
-			int tagRequests = 0;
+			List<GfyItem> gfyItems = gifService.getGifList(topLikes);
 			
-			// Here we get two tags so we can make more specific api calls
-			do {
-			UserLikes ul1 = weightedProbability(top10);
-			UserLikes ul2 = weightedProbability(top10);
-			tag1 = ul1.getTag();
-			tag2 = ul2.getTag();
-			tagRequests++;
-			} while(tag1.equals(tag2) || tagRequests <= 10);
-			
-			String tag;
-			if (!tag1.equals(tag2)) {
-			tag = tag1 + "+" + tag2;
-			} else {
-				tag = tag1;
-			}
-			
-
-			List<GfyItem> gfyItems = apiService.options(tag, 10).getGfycats();
-			int indexGifList = randomInteger(gfyItems.size());
+			int indexGifList = gifService.randomInteger(gfyItems.size());
 			GfyItem gifItem = gfyItems.get(indexGifList);
 			mv.addObject("gif", gifItem);
 
-			mv.addObject("likes", top10);
+			mv.addObject("likes", topLikes);
 			return mv;
 		} else {
 			redir.addFlashAttribute("message", "Sorry, you need to like at least ten tags to view this page!");
@@ -308,64 +268,14 @@ public class MainController {
 	public ModelAndView addTop10ToDatabase(@RequestParam(name = "count", required = false) Integer count,
 			@RequestParam(name = "id") String gifId,
 			HttpSession session) {
-		System.out.println("Let's store some info");
 		ModelAndView mav = new ModelAndView("redirect:/pastlikegifs");
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
-			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
+			gifService.updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
 		}
 		return mav;
-	}
-	
-		public int randomInteger(int max) {
-		int num = (int) Math.floor(Math.random() * max);
-		return num;
-	}
-
-	public List<UserLikes> getTopLikes(List<UserLikes> likes) {
-		Collections.sort(likes, (l1, l2) -> l1.getCount().compareTo(l2.getCount()));
-		List<UserLikes> top10 = new ArrayList<>();
-		int count = 0;
-		while (count < 10) {
-			top10.add(likes.get(likes.size() - 1 - count));
-			count++;
-		}
-		return top10;
-	}
-	
-	public UserLikes weightedProbability(List<UserLikes> top10) {
-	    int totalSum = 0;
-
-	    for(UserLikes tag : top10) {
-	    	totalSum = totalSum + tag.getCount();
-	    }
-	    int index = randomInteger(totalSum);
-        int sum = 0;
-        int i = 0;
-        
-        while(sum < index ) {
-             sum = sum +top10.get(i++).getCount();
-        }
-        return top10.get(Math.max(0,i-1));
-	}
-	
-	public void updateUserLikeTable(String tag, User user, Integer count) {
-		UserLikes userLike = likeDao.getUserLikes(user, tag);
-		if (userLike == null) {
-			userLike = new UserLikes();
-			userLike.setCount(count);
-			userLike.setTag(tag);
-			userLike.setUser(user);
-			likeDao.createUserLike(userLike);
-		} else {
-			Integer likes = userLike.getCount();
-			likes += count;
-			userLike.setCount(likes);
-			likeDao.update(userLike);
-		}
-
 	}
 
 	@RequestMapping("/storelikes")
@@ -375,7 +285,7 @@ public class MainController {
 		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
-			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
+			gifService.updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
 		}
 		return mv;
 	}
@@ -387,7 +297,7 @@ public class MainController {
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
-			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
+			gifService.updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
 		}
 		Integer num = (Integer) session.getAttribute("count");
 		
@@ -407,7 +317,7 @@ public class MainController {
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
-			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
+			gifService.updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
 		}
 		mav.addObject("category", category);
 		return mav;
