@@ -27,12 +27,12 @@ public class UserEmotion {
 	
 	public UserEmotion() {}
 
-	public UserEmotion(Long id, User user, Integer emotionRating, Instant instant) {
+	public UserEmotion(Long id, User user, Integer emotionRating, Instant date) {
 		super();
 		this.id = id;
 		this.user = user;
 		this.emotionRating = emotionRating;
-		this.instant = instant;
+		this.date = date;
 	}
 
 	public Long getId() {
@@ -59,17 +59,16 @@ public class UserEmotion {
 		this.emotionRating = emotionRating;
 	}
 
-	public Instant getInstant() {
-		return instant;
+	public Instant getDate() {
+		return date;
 	}
 
-	public void setInstant(Instant instant) {
-		this.instant = instant;
+	public void setDate(Instant date) {
+		this.date = date;
 	}
 
 	@Override
 	public String toString() {
-		return "UserEmotion [id=" + id + ", user=" + user + ", emotionRating=" + emotionRating + ", instant=" + instant
-				+ "]";
+		return "UserEmotion [id=" + id + ", user=" + user + ", emotionRating=" + emotionRating + ", date=" + date + "]";
 	}
 }

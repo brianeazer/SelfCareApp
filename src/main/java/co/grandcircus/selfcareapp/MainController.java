@@ -115,7 +115,7 @@ public class MainController {
 		
 		// This object can interpret strings representing dates in the format MM/dd/yyyy
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		Date newDate;
+		Instant newDate;
 		try {
 			newDate = df.parse(startDateString);
 
@@ -123,12 +123,12 @@ public class MainController {
 			int howManyDays = 1;
 
 			for (UserEmotion dayOfWeek : userEmotion) {
-				daysOfWeek.put(count, simpleDateFormat.format(dayOfWeek.getDate()).toUpperCase());
-				System.out.println(simpleDateFormat.format(dayOfWeek.getDate()).toUpperCase());
+				daysOfWeek.put(count, simpleDateFormat.format(dayOfWeek.getInstant()).toUpperCase());
+				System.out.println(simpleDateFormat.format(dayOfWeek.getInstant()).toUpperCase());
 				
-				if (!simpleDateFormat.format(dayOfWeek.getDate()).equals(simpleDateFormat.format(newDate))) {
+				if (!simpleDateFormat.format(dayOfWeek.getInstant()).equals(simpleDateFormat.format(newDate))) {
 					
-					newDate = dayOfWeek.getDate();
+					newDate = dayOfWeek.getInstant();
 					howManyDays++;
 				}
 				count++;
@@ -153,10 +153,10 @@ public class MainController {
 		// adds user's new emotion from mood page in the parameter to the database w/ a
 		// date
 		if (moodRating != null) {
-			Date today = new Date();
+			Instant instant = Instant.now();
 			UserEmotion userEmotion = new UserEmotion();
 			userEmotion.setEmotionRating(moodRating);
-			userEmotion.setDate(today);
+			userEmotion.setInstant(instant);
 			userEmotion.setUser(user);
 			userEmotionDao.createUserEmotion(userEmotion);
 		}
@@ -394,7 +394,7 @@ public class MainController {
 	@RequestMapping("/test") 
 	public ModelAndView test() {
 		Instant now = Instant.now();
-		System.out.println(now);
+		System.out.println("This is what the time is now :" + now);
 		List <UserEmotion> userEmotions = userEmotionDao.getEmotionByDate(now);
 		System.out.println(userEmotions.get(0));
 		return new ModelAndView("test");
