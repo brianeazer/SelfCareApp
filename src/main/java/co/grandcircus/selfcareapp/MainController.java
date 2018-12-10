@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -389,14 +390,12 @@ public class MainController {
 
 		return mv;
 	}
-	@SuppressWarnings("deprecation")
+	
 	@RequestMapping("/test") 
 	public ModelAndView test() {
-		Date date = new Date();
-		date.setYear(2018);
-		date.setMonth(12);
-		date.setDate(10);
-		List <UserEmotion> userEmotions = userEmotionDao.getEmotionByDate(date);
+		Instant now = Instant.now();
+		System.out.println(now);
+		List <UserEmotion> userEmotions = userEmotionDao.getEmotionByDate(now);
 		System.out.println(userEmotions.get(0));
 		return new ModelAndView("test");
 		

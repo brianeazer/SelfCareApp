@@ -1,5 +1,6 @@
 package co.grandcircus.selfcareapp.Dao;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -35,9 +36,9 @@ public class UserEmotionDao {
 				.setParameter("user", user)
 				.getResultList();
 	}
-	public List<UserEmotion> getEmotionByDate(Date date) {
-		return em.createQuery("FROM UserEmotion WHERE date = :date ORDER BY date DESC", UserEmotion.class)
-				.setParameter("date", date)
+	public List<UserEmotion> getEmotionByDate(Instant instant) {
+		return em.createQuery("FROM UserEmotion WHERE instant=: instant", UserEmotion.class)
+				.setParameter("instant", instant)
 				.getResultList();		
 	}
 
