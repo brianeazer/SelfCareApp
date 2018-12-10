@@ -369,8 +369,14 @@ public class MainController {
 
 	}
 	@RequestMapping("/checkin")
-	public ModelAndView addGif() {
-		return new ModelAndView("checkin");
+	public ModelAndView addGif(HttpSession session) {
+		ModelAndView mv = new ModelAndView("checkin");
+		List<String> categories = new ArrayList<String>(
+				Arrays.asList("Your Top Ten", "Food", "Cats", "Sports", "Fails", "Nature", "Chill", "Gaming", "Anime",
+						"Cartoons", "All Movie Culture", "Horror Movie Culture", "Holidays"));
+		mv.addObject("categories", categories);
+
+		return mv;
 	}
 	
 	
