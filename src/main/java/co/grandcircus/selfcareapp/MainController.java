@@ -288,7 +288,7 @@ public class MainController {
 	@RequestMapping("/random-store-info")
 	public ModelAndView addRandomToDatabase(@RequestParam(name = "count", required = false) Integer rating,
 			@RequestParam(name = "id") String gifId, @RequestParam(name = "category") String category,
-			HttpSession session) {
+			HttpSession session, RedirectAttributes redir) {
 	
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
@@ -302,8 +302,9 @@ public class MainController {
 			return new ModelAndView("redirect:/gifs", "category", category);
 		} else {
 			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
-			if ((int) session.getAttribute("count") % 10 == 0) {
-				return new ModelAndView("redirect:/checkin");
+			if ((int) session.getAttribute("count") % 3 == 0) {
+				redir.addFlashAttribute("message", "Please pic another category and select your mood");
+				return new ModelAndView("redirect:/mood");
 			}
 			else {
 				return new ModelAndView("redirect:/gifs", "category", category);
