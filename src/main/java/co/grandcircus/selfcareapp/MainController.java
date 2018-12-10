@@ -317,7 +317,7 @@ public class MainController {
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
-			gifService.updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
+			gifService.updateUserLikeTable(tag, (User) session.getAttribute("user"), rating);
 		}
 	
 		if (session.getAttribute("count") == null) {
