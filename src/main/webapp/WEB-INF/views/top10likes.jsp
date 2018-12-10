@@ -11,14 +11,14 @@
 	<%@include file="partials/header.jsp"%>
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="container-fluid" >
 
 		<h1>Your top 10 liked tags</h1>
-		<ol>
+		<div class = "orderedlist">
 			<c:forEach var="userlike" items="${likes }">
 				<li>${userlike.tag } ${userlike.count}</li>
 			</c:forEach>
-		</ol>
+		</div>
 		<form>
 			<p><img src="${gif.gifUrl }"></p>
 			<a href="/top10-store-info?count=1&id=${ gif.gfyId }" class="btn btn-secondary mb-2">Like</a>
