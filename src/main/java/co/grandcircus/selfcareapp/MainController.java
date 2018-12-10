@@ -3,7 +3,6 @@ package co.grandcircus.selfcareapp;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -148,10 +147,10 @@ public class MainController {
 		// adds user's new emotion from mood page in the parameter to the database w/ a
 		// date
 		if (moodRating != null) {
-			Instant instant = Instant.now();
+			Date today = new Date();
 			UserEmotion userEmotion = new UserEmotion();
 			userEmotion.setEmotionRating(moodRating);
-			userEmotion.setInstant(instant);
+			userEmotion.setDate(today);
 			userEmotion.setUser(user);
 			userEmotionDao.createUserEmotion(userEmotion);
 		}
@@ -388,9 +387,11 @@ public class MainController {
 	
 	@RequestMapping("/test") 
 	public ModelAndView test() {
-		Instant now = Instant.now();
-		System.out.println("This is what the time is now :" + now);
-		List <UserEmotion> userEmotions = userEmotionDao.getEmotionByDate(now);
+		Date date = new Date();
+		date.setYear(2018);
+		date.setMonth(12);
+		date.setDate(10);
+		List <UserEmotion> userEmotions = userEmotionDao.getEmotionByDate(date);
 		System.out.println(userEmotions.get(0));
 		return new ModelAndView("test");
 		

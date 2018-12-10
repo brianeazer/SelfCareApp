@@ -23,11 +23,11 @@ public class UserEmotion {
 	private User user;
 	private Integer emotionRating;
 	@Column(name= "date")
-	private Instant instant;
+	private Date date;
 	
 	public UserEmotion() {}
 
-	public UserEmotion(Long id, User user, Integer emotionRating, Instant date) {
+	public UserEmotion(Long id, User user, Integer emotionRating, Date date) {
 		super();
 		this.id = id;
 		this.user = user;
@@ -59,11 +59,11 @@ public class UserEmotion {
 		this.emotionRating = emotionRating;
 	}
 
-	public Instant getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(Instant date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
