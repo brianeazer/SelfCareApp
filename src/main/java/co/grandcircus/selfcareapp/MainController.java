@@ -96,7 +96,7 @@ public class MainController {
 
 		// list of all categories
 		List<String> categories = new ArrayList<String>(
-				Arrays.asList("Your Top Ten", "Food", "Cats", "Sports", "Fails", "Nature", "Chill", "Esports", "Anime",
+				Arrays.asList("Your Top Ten", "Food", "Cats", "Sports", "Fails", "Nature", "Chill", "Gaming", "Anime",
 						"Cartoons", "All Movie Culture", "Horror Movie Culture", "Holidays"));
 		mav.addObject("categories", categories);
 
@@ -141,7 +141,7 @@ public class MainController {
 		categories.put("Food", Arrays.asList("recipe, food", "foodnetwork", "lunch", "meal", "koreanbbq", "bbq", "cook",
 				"desert", "breakfast", "dinner"));
 		categories.put("Cartoons",
-				Arrays.asList("cartoonnetwork", "nickelodeon", "boomerang", "nickjr", "cwkids", "cartoonmovie"));
+				Arrays.asList("cartoonnetwork","spongebob", "nickelodeon", "boomerang", "nickjr", "cwkids", "cartoonmovie"));
 		categories.put("Holidays", Arrays.asList("happyholidays", "christmas", "thanksgiving", "festive", "holidays",
 				"christmascards", "merrychristmas"));
 		categories.put("Cats", Arrays.asList("kittens", "cute kittens", "cats, aww", "cats", "cat", "meow"));
