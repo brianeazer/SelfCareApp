@@ -32,7 +32,7 @@ public class UserEmotionDao {
 	}
 
 	public List<UserEmotion> getUserEmotions(User user) {
-		return em.createQuery("FROM UserEmotion WHERE user = :user", UserEmotion.class)
+		return em.createQuery("FROM UserEmotion WHERE user = :user ORDER BY date DESC", UserEmotion.class)
 				.setParameter("user", user)
 				.getResultList();
 	}
