@@ -416,7 +416,7 @@ public class MainController {
 		} else {
 			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
 			if ((int) session.getAttribute("count") % 10 == 0) {
-				return new ModelAndView("redirect:/checkin", "category", category);
+				return new ModelAndView("redirect:/checkin");
 			}
 			else {
 				return new ModelAndView("redirect:/gifs", "category", category);
