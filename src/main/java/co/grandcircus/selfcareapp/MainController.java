@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -115,7 +114,7 @@ public class MainController {
 		
 		// This object can interpret strings representing dates in the format MM/dd/yyyy
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		Instant newDate;
+		Date newDate;
 		try {
 			newDate = df.parse(startDateString);
 
@@ -123,12 +122,12 @@ public class MainController {
 			int howManyDays = 1;
 
 			for (UserEmotion dayOfWeek : userEmotion) {
-				daysOfWeek.put(count, simpleDateFormat.format(dayOfWeek.getInstant()).toUpperCase());
-				System.out.println(simpleDateFormat.format(dayOfWeek.getInstant()).toUpperCase());
+				daysOfWeek.put(count, simpleDateFormat.format(dayOfWeek.getDate()).toUpperCase());
+				System.out.println(simpleDateFormat.format(dayOfWeek.getDate()).toUpperCase());
 				
-				if (!simpleDateFormat.format(dayOfWeek.getInstant()).equals(simpleDateFormat.format(newDate))) {
+				if (!simpleDateFormat.format(dayOfWeek.getDate()).equals(simpleDateFormat.format(newDate))) {
 					
-					newDate = dayOfWeek.getInstant();
+					newDate = dayOfWeek.getDate();
 					howManyDays++;
 				}
 				count++;
@@ -153,10 +152,10 @@ public class MainController {
 		// adds user's new emotion from mood page in the parameter to the database w/ a
 		// date
 		if (moodRating != null) {
-			Instant instant = Instant.now();
+			Date today = new Date();
 			UserEmotion userEmotion = new UserEmotion();
 			userEmotion.setEmotionRating(moodRating);
-			userEmotion.setInstant(instant);
+			userEmotion.setDate(today);
 			userEmotion.setUser(user);
 			userEmotionDao.createUserEmotion(userEmotion);
 		}
@@ -393,9 +392,11 @@ public class MainController {
 	
 	@RequestMapping("/test") 
 	public ModelAndView test() {
-		Instant now = Instant.now();
-		System.out.println("This is what the time is now :" + now);
-		List <UserEmotion> userEmotions = userEmotionDao.getEmotionByDate(now);
+		Date date = new Date();
+		date.setYear(2018);
+		date.setMonth(12);
+		date.setDate(10);
+		List <UserEmotion> userEmotions = userEmotionDao.getEmotionByDate(date);
 		System.out.println(userEmotions.get(0));
 		return new ModelAndView("test");
 		
