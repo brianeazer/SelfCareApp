@@ -10,8 +10,7 @@
 
 <h1> Whoops! </h1>
 
-<p> <button> <a onclick="history.back()">Back to safety </a> </button> </p>
-<!-- <p> <a href="/index">Back to Home </p> -->
+<p> <button> <a onclick="history.back()">Back to previous page</a> </button> </p>
 
 </body>
 </html>

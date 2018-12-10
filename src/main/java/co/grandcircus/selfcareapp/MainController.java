@@ -309,18 +309,29 @@ public class MainController {
 	}
 	
 	@RequestMapping("/random-store-info")
-	public ModelAndView addRandomToDatabase(@RequestParam(name = "count", required = false) Integer count,
+	public ModelAndView addRandomToDatabase(@RequestParam(name = "count", required = false) Integer rating,
 			@RequestParam(name = "id") String gifId, @RequestParam(name = "category") String category,
 			HttpSession session) {
-		ModelAndView mav = new ModelAndView("redirect:/gifs");
+	
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
 			gifService.updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
 		}
-		mav.addObject("category", category);
-		return mav;
+	
+		if (session.getAttribute("count") == null) {
+			session.setAttribute("count", 1);
+			return new ModelAndView("redirect:/gifs", "category", category);
+		} else {
+			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
+			if ((int) session.getAttribute("count") % 10 == 0) {
+				return new ModelAndView("redirect:/checkin");
+			}
+			else {
+				return new ModelAndView("redirect:/gifs", "category", category);
+			}
+		}
 	}
 
 	@WebServlet("/ErrorHandler")
@@ -357,5 +368,11 @@ public class MainController {
 		}
 
 	}
+	@RequestMapping("/checkin")
+	public ModelAndView addGif() {
+		return new ModelAndView("checkin");
+	}
+	
+	
 
 }
