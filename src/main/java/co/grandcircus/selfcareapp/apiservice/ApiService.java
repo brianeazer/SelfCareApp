@@ -135,14 +135,13 @@ public class ApiService {
 public GifResponse isClean(GifResponse gifResponse) {
 	System.out.println("start cleaning");
 	List<GfyItem> gifs = gifResponse.getGfycats();
-	System.out.println("This gif response has " + gifs.size() + " gif items");
 	//filter nsfw gfyItems
-//	for (int i = 0; i < gifs.size(); i++) {
-//		if (!gifs.get(i).getNsfw().equals("0")) {
-//			System.out.println(gifs.get(i).getGifUrl());
-//			gifs.remove(i);
-//		}
-//	}
+	for (int i = 0; i < gifs.size(); i++) {
+		if (!gifs.get(i).getNsfw().equals("0")) {
+			System.out.println(gifs.get(i).getGifUrl());
+			gifs.remove(i);
+		}
+	}
 	
 	//filter certain tags
 	ArrayList<String> avoidables = new ArrayList<>();

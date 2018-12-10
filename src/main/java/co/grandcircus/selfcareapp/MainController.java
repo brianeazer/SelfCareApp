@@ -304,7 +304,6 @@ public class MainController {
 		User user = (User) session.getAttribute("user");
 
 		List<UserLikes> likes = (List<UserLikes>) likeDao.getUserLikes(user);
-		System.out.println("My name is " + user.getUsername() + " and I have a list of " + likes.size());
 		if (likes.size() >= 10) {
 			// finds user's top tags and then choose one based on weighted probability
 			List<UserLikes> top10 = getTopLikes(likes);
@@ -323,6 +322,21 @@ public class MainController {
 			return new ModelAndView("redirect:/mood");
 		}
 	}
+	
+	@RequestMapping("/top10-store-info")
+	public ModelAndView addTop10ToDatabase(@RequestParam(name = "count", required = false) Integer count,
+			@RequestParam(name = "id") String gifId,
+			HttpSession session) {
+		System.out.println("Let's store some info");
+		ModelAndView mav = new ModelAndView("redirect:/pastlikegifs");
+		GfyItem gfyItem = new GfyItem();
+		gfyItem = apiService.getAGif(gifId).getGfyItem();
+		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
+		for (String tag : tags) {
+			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
+		}
+		return mav;
+	}
 
 	public List<UserLikes> getTopLikes(List<UserLikes> likes) {
 		Collections.sort(likes, (l1, l2) -> l1.getCount().compareTo(l2.getCount()));
@@ -339,7 +353,7 @@ public class MainController {
 	@RequestMapping("/storelikes")
 	public ModelAndView storeLikes(@RequestParam(name = "count", required = false) Integer count,
 			@RequestParam(name = "id") String gifId, HttpSession session) {
-		ModelAndView mv = new ModelAndView("redirect:/randomgif");
+		ModelAndView mv = new ModelAndView("redirect:/r\andomgif");
 		GfyItem gfyItem = apiService.getAGif(gifId).getGfyItem();
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
