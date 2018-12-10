@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<jsp:useBean id="now" class="java.util.Date" />
+<%@ page import="java.io.*,java.util.*"%>
+<%@ page import="javax.servlet.*,java.text.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,29 +17,23 @@
 <%@include file="partials/header.jsp"%>
 </head>
 <body>
-	<div>
-
+	<div class="container">
 		<table class="table">
 			<tr class="tr">
-				<th >Date</th>
-				<th>Mood(0-10)</th>
+				<th colspan="2">Day of Week</th>
 			</tr>
-			<c:forEach var="ue" items="${userEmotions }">
+			<c:forEach var="ue" items="${ userEmotions }">
 				<tr class="tr">
+					<th>Date</th>
+					<th>Mood(0-10)</th>
+				</tr>
+				<tr>
 					<td class="td">${ ue.date }</td>
 					<td class="td">${ ue.emotionRating }</td>
 				</tr>
-
-				<!-- <table class="table">
-					<tr>
-						<td class="td">Emotion</td>
-						<td>Frequency</td>
-					</tr>
- -->
-
 			</c:forEach>
 
-				</table>
-				</div>
+		</table>
+	</div>
 </body>
 </html>
