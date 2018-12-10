@@ -264,7 +264,22 @@ public class MainController {
 		}
 	}
 	
-	public int randomInteger(int max) {
+	@RequestMapping("/top10-store-info")
+	public ModelAndView addTop10ToDatabase(@RequestParam(name = "count", required = false) Integer count,
+			@RequestParam(name = "id") String gifId,
+			HttpSession session) {
+		System.out.println("Let's store some info");
+		ModelAndView mav = new ModelAndView("redirect:/pastlikegifs");
+		GfyItem gfyItem = new GfyItem();
+		gfyItem = apiService.getAGif(gifId).getGfyItem();
+		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
+		for (String tag : tags) {
+			updateUserLikeTable(tag, (User) session.getAttribute("user"), count);
+		}
+		return mav;
+	}
+	
+		public int randomInteger(int max) {
 		int num = (int) Math.floor(Math.random() * max);
 		return num;
 	}
