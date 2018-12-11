@@ -36,9 +36,8 @@ public class UserEmotionDao {
 				.getResultList();
 	}
 	public List<UserEmotion> getEmotionByDate(Date date) {
-		return em.createQuery("FROM UserEmotion WHERE date = :date ORDER BY date DESC", UserEmotion.class)
+		return em.createQuery("FROM UserEmotion WHERE date <= :date", UserEmotion.class)
 				.setParameter("date", date)
 				.getResultList();		
 	}
-
 }
