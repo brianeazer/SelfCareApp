@@ -21,10 +21,10 @@
 		<h2>You've visited us ${ days } days!</h2>
 		<table class="table">
 			<c:forEach var="element" items="${ daysOfWeek }" varStatus="status">
-				<tr>
-					<th colspan="2"><c:out value="${element.key}"/></th>
-				</tr>
-				<tr><td>Average mood rating: ${averageMoodRatings[status.index] }</td><td>Your most liked tag: ${topTag}</td></tr>
+					<tr>
+						<th colspan="2"><c:out value="${element.key}"/></th>
+					</tr>
+				<tr id="average-row"><td>Average mood rating: ${averageMoodRatings[status.index] }</td><td>Your most liked tag: ${topTag}</td></tr>
 				<tr class="tr">
 					<th>Time</th>
 					<th>Mood(0-10)</th>

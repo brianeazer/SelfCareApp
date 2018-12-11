@@ -1,6 +1,5 @@
 package co.grandcircus.selfcareapp;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -13,12 +12,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import co.grandcircus.selfcareapp.Dao.LikeDao;
 import co.grandcircus.selfcareapp.Dao.UserDao;
 import co.grandcircus.selfcareapp.Dao.UserEmotionDao;
@@ -124,6 +120,9 @@ public class MainController {
 			}
 			
 		}
+		
+		
+		
 		//Get a list of averages for how the user was feeling on each day
 		ArrayList<Double> averageMoodRatings = gifService.getAverageMoodRating(daysOfWeek);
 
@@ -334,40 +333,46 @@ public class MainController {
 		}
 	}
 
-	@WebServlet("/ErrorHandler")
-	public class ErrorHandler extends HttpServlet {
-		private static final long serialVersionUID = 1L;
-
-		protected void doGet(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			processError(request, response);
-		}
-
-		protected void doPost(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			processError(request, response);
-		}
-
-		private void processError(HttpServletRequest request, HttpServletResponse response)
-				throws IOException, ServletException {
-			// customize error message
-			Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-//	        Integer statusCode = (Integer) request
-//	                .getAttribute("javax.servlet.error.status_code");
-			String servletName = (String) request.getAttribute("javax.servlet.error.servlet_name");
-			if (servletName == null) {
-				servletName = "Unknown";
-			}
-			String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
-			if (requestUri == null) {
-				requestUri = "Unknown";
-			}
-			request.setAttribute("error", "Servlet " + servletName + " has thrown an exception "
-					+ throwable.getClass().getName() + " : " + throwable.getMessage());
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
-		}
-
-	}
+	
+//	@RequestMapping("/error")
+//	public ModelAndView errorpagez() {
+//		return new ModelAndView("error");
+//	}
+	
+//	@WebServlet("/error")
+//	public class ErrorHandler extends HttpServlet {
+//		private static final long serialVersionUID = 1L;
+//
+//		protected void doGet(HttpServletRequest request, HttpServletResponse response)
+//				throws ServletException, IOException {
+//			processError(request, response);
+//		}
+//
+//		protected void doPost(HttpServletRequest request, HttpServletResponse response)
+//				throws ServletException, IOException {
+//			processError(request, response);
+//		}
+//
+//		private void processError(HttpServletRequest request, HttpServletResponse response)
+//				throws IOException, ServletException {
+//			// customize error message
+//			Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+////	        Integer statusCode = (Integer) request
+////	                .getAttribute("javax.servlet.error.status_code");
+//			String servletName = (String) request.getAttribute("javax.servlet.error.servlet_name");
+//			if (servletName == null) {
+//				servletName = "Unknown";
+//			}
+//			String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
+//			if (requestUri == null) {
+//				requestUri = "Unknown";
+//			}
+//			request.setAttribute("error", "Servlet " + servletName + " has thrown an exception "
+//					+ throwable.getClass().getName() + " : " + throwable.getMessage());
+//			request.getRequestDispatcher("/error.jsp").forward(request, response);
+//		}
+//
+//	}
 
 	@RequestMapping("/checkin")
 	public ModelAndView addGif(HttpSession session) {

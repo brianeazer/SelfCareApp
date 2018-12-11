@@ -537,47 +537,6 @@ body {
 	margin-top: 78px;
 }
 
-@
--webkit-keyframes snow { 0% {
-	-moz-transform: translateY(-110px);
-	-ms-transform: translateY(-110px);
-	-webkit-transform: translateY(-110px);
-	transform: translateY(-110px);
-}
-
-100%
-{
--moz-transform
-:
- 
-translateY
-(160px);
-
-    
--ms-transform
-:
- 
-translateY
-(160px);
-
-    
--webkit-transform
-:
- 
-translateY
-(160px);
-
-    
-transform
-:
- 
-translateY
-(160px);
-
-  
-}
-}
-@
 -moz-keyframes snow { 0% {
 	-moz-transform: translateY(-110px);
 	-ms-transform: translateY(-110px);
@@ -585,39 +544,6 @@ translateY
 	transform: translateY(-110px);
 }
 
-100%
-{
--moz-transform
-:
- 
-translateY
-(160px);
-
-    
--ms-transform
-:
- 
-translateY
-(160px);
-
-    
--webkit-transform
-:
- 
-translateY
-(160px);
-
-    
-transform
-:
- 
-translateY
-(160px);
-
-  
-}
-}
-@
 -ms-keyframes snow { 0% {
 	-moz-transform: translateY(-110px);
 	-ms-transform: translateY(-110px);
@@ -754,8 +680,7 @@ Slider CSS properties
 	cursor: pointer; /* Cursor on hover */
 }
 
-//
-Hover for the past feels log page
+/*Hover for the past feels log page*/
 .td, #customers th {
 	border: 1px solid #ddd;
 	padding: 8px;
@@ -777,6 +702,16 @@ Hover for the past feels log page
 	color: white;
 }
 
+#date-row {
+	background-color: #330303;
+	color: white;
+}
+
+#date-row:hover {
+	background-color: #999999;
+	color: black;
+}
+
 /* .drakeface {
    height: 300px;
   width: 300px;
@@ -786,8 +721,8 @@ Hover for the past feels log page
   height: 300px;
   width: 300px;
 } */
-//
-For the top ten likes page
+
+/*For the top ten likes page*/
 .orderedlist {
 	margin-left: 0;
 	padding-right: 0;
@@ -810,7 +745,7 @@ For the top ten likes page
 	border-radius: 3px;
 }
 
-//For buttons 
+/*For buttons */
  .button {
   -webkit-transition-duration: 0.4s; Safari
   transition-duration: 0.4s;

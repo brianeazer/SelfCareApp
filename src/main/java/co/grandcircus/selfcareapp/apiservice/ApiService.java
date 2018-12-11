@@ -1,24 +1,11 @@
 package co.grandcircus.selfcareapp.apiservice;
 
-import java.awt.Cursor;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
-import co.grandcircus.selfcareapp.Entity.GfyItem;
-import co.grandcircus.selfcareapp.model.GifResponse;
-import co.grandcircus.selfcareapp.model.TokenRequest;
-import co.grandcircus.selfcareapp.model.TokenResponse;
-
-import org.h2.engine.Database;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +13,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import co.grandcircus.selfcareapp.Entity.GfyItem;
+import co.grandcircus.selfcareapp.model.GifResponse;
+import co.grandcircus.selfcareapp.model.TokenRequest;
+import co.grandcircus.selfcareapp.model.TokenResponse;
 
 @Component
 public class ApiService {
