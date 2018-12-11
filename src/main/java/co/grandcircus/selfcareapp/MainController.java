@@ -130,7 +130,7 @@ public class MainController {
 
 		}
 
-		//Get a list of averages for how the user was feeling on each day
+		// Get a list of averages for how the user was feeling on each day
 		ArrayList<Double> averageMoodRatings = gifService.getAverageMoodRating(daysOfWeek);
 		// find the most liked category on a certain day
 		ArrayList<String> categories = gifService.getTopCategories(daysOfWeek);
@@ -148,7 +148,7 @@ public class MainController {
 		User user = (User) session.getAttribute("user");
 		// adds user's new emotion from mood page in the parameter to the database w/ a
 		// date
-	
+
 		ModelAndView mav = new ModelAndView("randomgif");
 		// adds the current category to the JSP for display
 		mav.addObject("category", category);
@@ -318,55 +318,71 @@ public class MainController {
 		for (String tag : tags) {
 			gifService.updateUserLikeTable(tag, (User) session.getAttribute("user"), rating);
 		}
+		MoodSummary moodSummary = (MoodSummary) session.getAttribute("prevMoodSummary");
 
-		if (session.getAttribute("count") == null) {
-			session.setAttribute("count", 1);
-			return new ModelAndView("redirect:/gifs", "category", category);
-		} else {
-			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
-			if ((int) session.getAttribute("count") % GIF_COUNT_BETWEEN_CHECKIN == 0) {
-				redir.addFlashAttribute("message", "Please pic another category and select your mood");
-				return new ModelAndView("redirect:/mood");
-			} else {
+		System.out.println(rating);
+
+		if (rating == 1) {
+
+			try {
+				if (moodSummary.getLikesPerCategory().containsKey(category) == false) {
+					moodSummary.getLikesPerCategory().put(category, rating);
+
+				} else {
+					Integer value = moodSummary.getLikesPerCategory().get(category);
+					moodSummary.getLikesPerCategory().put(category, value + 1);
+				}
+			} catch (NullPointerException ex) {
+				moodSummary.getLikesPerCategory().put(category, 1);
+
+			}
+			if (session.getAttribute("count") == null) {
+				session.setAttribute("count", 1);
 				return new ModelAndView("redirect:/gifs", "category", category);
+			} else {
+				session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
+				if ((int) session.getAttribute("count") % GIF_COUNT_BETWEEN_CHECKIN == 0) {
+					redir.addFlashAttribute("message", "Please pic another category and select your mood");
+					return new ModelAndView("redirect:/mood");
+				} else {
+					return new ModelAndView("redirect:/gifs", "category", category);
+				
 			}
 		}
-	}
 
-	@WebServlet("/ErrorHandler")
-	public class ErrorHandler extends HttpServlet {
-		private static final long serialVersionUID = 1L;
+		@WebServlet("/ErrorHandler") 
+		public class ErrorHandler extends HttpServlet {
+			private static final long  serialVersionUID = 1L;
 
-		protected void doGet(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			processError(request, response);
-		}
+			protected void doGet(HttpServletRequest request, HttpServletResponse response)
+					throws ServletException, IOException {
+				processError(request, response);
+			}
 
-		protected void doPost(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			processError(request, response);
-		}
+			protected void doPost(HttpServletRequest request, HttpServletResponse response)
+					throws ServletException, IOException {
+				processError(request, response);
+			}
 
-		private void processError(HttpServletRequest request, HttpServletResponse response)
-				throws IOException, ServletException {
-			// customize error message
-			Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+			private void processError(HttpServletRequest request, HttpServletResponse response)
+					throws IOException, ServletException {
+				// customize error message
+				Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
 //	        Integer statusCode = (Integer) request
 //	                .getAttribute("javax.servlet.error.status_code");
-			String servletName = (String) request.getAttribute("javax.servlet.error.servlet_name");
-			if (servletName == null) {
-				servletName = "Unknown";
+				String servletName = (String) request.getAttribute("javax.servlet.error.servlet_name");
+				if (servletName == null) {
+					servletName = "Unknown";
+				}
+				String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
+				if (requestUri == null) {
+					requestUri = "Unknown";
+				}
+				request.setAttribute("error", "Servlet " + servletName + " has thrown an exception "
+						+ throwable.getClass().getName() + " : " + throwable.getMessage());
+				request.getRequestDispatcher("/error.jsp").forward(request, response);
 			}
-			String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
-			if (requestUri == null) {
-				requestUri = "Unknown";
-			}
-			request.setAttribute("error", "Servlet " + servletName + " has thrown an exception "
-					+ throwable.getClass().getName() + " : " + throwable.getMessage());
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
-		}
-
-	}
+}
 
 	@RequestMapping("/checkin")
 	public ModelAndView addGif(HttpSession session) {
@@ -392,6 +408,7 @@ public class MainController {
 			userEmotion.setEmotionRating(moodRating);
 			userEmotion.setDate(today);
 			userEmotion.setUser(user);
+			userEmotion.setCategory(category);
 			userEmotionDao.createUserEmotion(userEmotion);
 		}
 

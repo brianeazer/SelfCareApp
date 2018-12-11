@@ -20,9 +20,15 @@ public class MoodSummary implements Serializable {
 		this.likesPerCategory = likesPerCategory;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
 		return "MoodSummary [likesPerCategory=" + likesPerCategory + "]";
 	}
+
+	
 
 }
