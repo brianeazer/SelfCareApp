@@ -18,6 +18,7 @@
 </head>
 <body>
 	<div class="container">
+		<h2>You've visited us ${ days } days!</h2>
 		<table class="table">
 			<c:forEach var="ue" items="${ daysOfWeek }">
 				<tr>
