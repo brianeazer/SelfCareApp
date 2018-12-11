@@ -17,9 +17,8 @@
 	<div class="container">
 		<h1>Your Mood Summary</h1>
 
-		${ moodSummary }
-
-
+		<h3>Your Viewed GIFS</h3>
+		<p>You mood summary is ${moodSummary }</p>
 		<a href="/gifs?category=${param.category }" class="btn btn-primary">OK</a>
 	</div>
 

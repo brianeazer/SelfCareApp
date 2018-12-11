@@ -38,7 +38,7 @@ import co.grandcircus.selfcareapp.model.MoodSummary;
 @Controller
 public class MainController {
 	
-	private static final int GIF_COUNT_BETWEEN_CHECKIN = 10;
+	private static final int GIF_COUNT_BETWEEN_CHECKIN = 5;
 
 	@Autowired
 	ApiService apiService;
