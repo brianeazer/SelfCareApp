@@ -24,15 +24,17 @@ public class UserEmotion {
 	private Integer emotionRating;
 	@Column(name= "date")
 	private Date date;
+	private String category;
 	
 	public UserEmotion() {}
 
-	public UserEmotion(Long id, User user, Integer emotionRating, Date date) {
+	public UserEmotion(Long id, User user, Integer emotionRating, Date date, String category) {
 		super();
 		this.id = id;
 		this.user = user;
 		this.emotionRating = emotionRating;
 		this.date = date;
+		this.category = category;
 	}
 
 	public Long getId() {
@@ -69,6 +71,14 @@ public class UserEmotion {
 
 	@Override
 	public String toString() {
-		return "UserEmotion [id=" + id + ", user=" + user + ", emotionRating=" + emotionRating + ", date=" + date + "]";
+		return "UserEmotion [id=" + id + ", user=" + user + ", emotionRating=" + emotionRating + ", date=" + date + "category" + category+ "]";
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 }

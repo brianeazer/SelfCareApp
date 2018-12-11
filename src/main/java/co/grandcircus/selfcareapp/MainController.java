@@ -108,7 +108,9 @@ public class MainController {
 
 		// pulls list of user's past emotions from the database
 		User user = (User) session.getAttribute("user");
+		System.out.println(user.getId());
 		List<UserEmotion> userEmotions = userEmotionDao.getUserEmotions(user);
+		System.out.println(userEmotions);
 
 		Map<LocalDate, List<UserEmotion>> daysOfWeek = new TreeMap<>(Comparator.reverseOrder());
 		Integer howManyDays = 0;
@@ -126,6 +128,13 @@ public class MainController {
 
 		}
 
+		//Get a list of averages for how the user was feeling on each day
+		ArrayList<Double> averageMoodRatings = gifService.getAverageMoodRating(daysOfWeek);
+		// find the most liked category on a certain day
+		ArrayList<String> categories = gifService.getTopCategories(daysOfWeek);
+		System.out.println("marks categories are " + categories);
+		mav.addObject("categories", categories);
+		mav.addObject("averageMoodRatings", averageMoodRatings);
 		mav.addObject("days", howManyDays);
 		mav.addObject("daysOfWeek", daysOfWeek);
 		mav.addObject("userEmotions", userEmotions);
