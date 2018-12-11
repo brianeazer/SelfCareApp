@@ -37,7 +37,7 @@ import co.grandcircus.selfcareapp.model.MoodSummary;
 
 @Controller
 public class MainController {
-	
+
 	private static final int GIF_COUNT_BETWEEN_CHECKIN = 5;
 
 	@Autowired
@@ -376,7 +376,8 @@ public class MainController {
 	}
 
 	@RequestMapping("/mood-summary")
-	public ModelAndView moodSummary(HttpSession session, @RequestParam(name = "slidervalue", required = false) Integer moodRating,
+	public ModelAndView moodSummary(HttpSession session,
+			@RequestParam(name = "slidervalue", required = false) Integer moodRating,
 			@RequestParam("category") String category) {
 		User user = (User) session.getAttribute("user");
 
@@ -390,12 +391,12 @@ public class MainController {
 			userEmotion.setUser(user);
 			userEmotionDao.createUserEmotion(userEmotion);
 		}
-		
+
 		// grab finished tracking "timeframe"
 		MoodSummary prevMoodSummary = (MoodSummary) session.getAttribute("moodSummary");
 		// start a new tracking timeframe
 		session.setAttribute("moodSummary", new MoodSummary());
-		
+
 		if (prevMoodSummary == null) {
 			// It's the first time. Skip the summary.
 			return new ModelAndView("redirect:/gifs", "category", category);
