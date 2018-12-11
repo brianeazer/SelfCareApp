@@ -13,14 +13,14 @@
 <link rel="stylesheet" href="style.css" />
 <%@include file="partials/header.jsp"%>
 </head>
-<body id ="moodbody">
+<body id="moodbody">
 	<div class="container">
 		<h1>Your Mood Summary</h1>
-		
+
+		${ moodSummary }
 
 
-
-			<a href="/gifs?category=Food" class="btn btn-primary">OK</a>
+		<a href="/gifs?category=${param.category }" class="btn btn-primary">OK</a>
 	</div>
 
 

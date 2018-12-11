@@ -33,9 +33,12 @@ import co.grandcircus.selfcareapp.Entity.UserEmotion;
 import co.grandcircus.selfcareapp.Entity.UserLikes;
 import co.grandcircus.selfcareapp.apiservice.ApiService;
 import co.grandcircus.selfcareapp.model.GifResponse;
+import co.grandcircus.selfcareapp.model.MoodSummary;
 
 @Controller
 public class MainController {
+	
+	private static final int GIF_COUNT_BETWEEN_CHECKIN = 10;
 
 	@Autowired
 	ApiService apiService;
@@ -120,9 +123,9 @@ public class MainController {
 				daysOfWeek.put(date, new ArrayList<>(Collections.singleton(userEmotion)));
 				howManyDays++;
 			}
-			
+
 		}
-		
+
 		mav.addObject("days", howManyDays);
 		mav.addObject("daysOfWeek", daysOfWeek);
 		mav.addObject("userEmotions", userEmotions);
@@ -131,19 +134,8 @@ public class MainController {
 
 	@RequestMapping("/gifs")
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category,
-			RedirectAttributes redir, @RequestParam(name = "slidervalue", required = false) Integer moodRating) {
+			RedirectAttributes redir) {
 		User user = (User) session.getAttribute("user");
-
-		// adds user's new emotion from mood page in the parameter to the database w/ a
-		// date
-		if (moodRating != null) {
-			Date today = new Date();
-			UserEmotion userEmotion = new UserEmotion();
-			userEmotion.setEmotionRating(moodRating);
-			userEmotion.setDate(today);
-			userEmotion.setUser(user);
-			userEmotionDao.createUserEmotion(userEmotion);
-		}
 
 		ModelAndView mav = new ModelAndView("randomgif");
 		// adds the current category to the JSP for display
@@ -281,8 +273,6 @@ public class MainController {
 		}
 		return mv;
 	}
-	
-	
 
 	@RequestMapping("/store-info")
 	public ModelAndView addToDatabase(@RequestParam(name = "count", required = false) Integer count,
@@ -322,11 +312,10 @@ public class MainController {
 			return new ModelAndView("redirect:/gifs", "category", category);
 		} else {
 			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
-			if ((int) session.getAttribute("count") % 10 == 0) {
+			if ((int) session.getAttribute("count") % GIF_COUNT_BETWEEN_CHECKIN == 0) {
 				redir.addFlashAttribute("message", "Please pic another category and select your mood");
 				return new ModelAndView("redirect:/mood");
-			}
-			else {
+			} else {
 				return new ModelAndView("redirect:/gifs", "category", category);
 			}
 		}
@@ -376,27 +365,48 @@ public class MainController {
 
 		return mv;
 	}
-	
+
 	@RequestMapping("/mood-summary")
-	public ModelAndView moodSummary() {
-		ModelAndView mv = new ModelAndView("mood-summary");
+	public ModelAndView moodSummary(HttpSession session, @RequestParam(name = "slidervalue", required = false) Integer moodRating,
+			@RequestParam("category") String category) {
+		User user = (User) session.getAttribute("user");
 
-//		mv.addObject("categories", categories);
-
-		return mv;
+		// adds user's new emotion from mood page in the parameter to the database w/ a
+		// date
+		if (moodRating != null) {
+			Date today = new Date();
+			UserEmotion userEmotion = new UserEmotion();
+			userEmotion.setEmotionRating(moodRating);
+			userEmotion.setDate(today);
+			userEmotion.setUser(user);
+			userEmotionDao.createUserEmotion(userEmotion);
+		}
+		
+		// grab finished tracking "timeframe"
+		MoodSummary prevMoodSummary = (MoodSummary) session.getAttribute("moodSummary");
+		// start a new tracking timeframe
+		session.setAttribute("moodSummary", new MoodSummary());
+		
+		if (prevMoodSummary == null) {
+			// It's the first time. Skip the summary.
+			return new ModelAndView("redirect:/gifs", "category", category);
+		} else {
+			ModelAndView mv = new ModelAndView("mood-summary");
+			mv.addObject("moodSummary", prevMoodSummary);
+			return mv;
+		}
 	}
-	
-	@RequestMapping("/test") 
+
+	@RequestMapping("/test")
 	public ModelAndView test() {
 		Date date = new Date();
 		date.setYear(2018);
 		date.setMonth(12);
 		date.setDate(10);
-		List <UserEmotion> userEmotions = userEmotionDao.getEmotionByDate(date);
+		List<UserEmotion> userEmotions = userEmotionDao.getEmotionByDate(date);
 		System.out.println(userEmotions.get(0));
 		return new ModelAndView("test");
-		
-	}
 
+	}
 
 }
