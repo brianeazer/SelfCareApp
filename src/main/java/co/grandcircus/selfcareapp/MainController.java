@@ -1,7 +1,5 @@
 package co.grandcircus.selfcareapp;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,9 +29,12 @@ import co.grandcircus.selfcareapp.Entity.UserEmotion;
 import co.grandcircus.selfcareapp.Entity.UserLikes;
 import co.grandcircus.selfcareapp.apiservice.ApiService;
 import co.grandcircus.selfcareapp.model.GifResponse;
+import co.grandcircus.selfcareapp.model.MoodSummary;
 
 @Controller
 public class MainController {
+
+	private static final int GIF_COUNT_BETWEEN_CHECKIN = 5;
 
 	@Autowired
 	ApiService apiService;
@@ -103,7 +104,9 @@ public class MainController {
 
 		// pulls list of user's past emotions from the database
 		User user = (User) session.getAttribute("user");
+		System.out.println(user.getId());
 		List<UserEmotion> userEmotions = userEmotionDao.getUserEmotions(user);
+		System.out.println(userEmotions);
 
 		Map<LocalDate, List<UserEmotion>> daysOfWeek = new TreeMap<>(Comparator.reverseOrder());
 		Integer howManyDays = 0;
@@ -118,14 +121,15 @@ public class MainController {
 				daysOfWeek.put(date, new ArrayList<>(Collections.singleton(userEmotion)));
 				howManyDays++;
 			}
-			
+
 		}
-		
-		
 		
 		//Get a list of averages for how the user was feeling on each day
 		ArrayList<Double> averageMoodRatings = gifService.getAverageMoodRating(daysOfWeek);
+		// find the most liked category on a certain day
+		ArrayList<String> categories = gifService.getTopCategories(daysOfWeek);
 
+		mav.addObject("categories", categories);
 		mav.addObject("averageMoodRatings", averageMoodRatings);
 		mav.addObject("days", howManyDays);
 		mav.addObject("daysOfWeek", daysOfWeek);
@@ -134,19 +138,10 @@ public class MainController {
 
 	@RequestMapping("/gifs")
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category,
-			RedirectAttributes redir, @RequestParam(name = "slidervalue", required = false) Integer moodRating) {
+			RedirectAttributes redir) {
 		User user = (User) session.getAttribute("user");
-
 		// adds user's new emotion from mood page in the parameter to the database w/ a
 		// date
-		if (moodRating != null) {
-			Date today = new Date();
-			UserEmotion userEmotion = new UserEmotion();
-			userEmotion.setEmotionRating(moodRating);
-			userEmotion.setDate(today);
-			userEmotion.setUser(user);
-			userEmotionDao.createUserEmotion(userEmotion);
-		}
 
 		ModelAndView mav = new ModelAndView("randomgif");
 		// adds the current category to the JSP for display
@@ -317,83 +312,72 @@ public class MainController {
 		for (String tag : tags) {
 			gifService.updateUserLikeTable(tag, (User) session.getAttribute("user"), rating);
 		}
+		MoodSummary moodSummary = (MoodSummary) session.getAttribute("prevMoodSummary");
 
-		if (session.getAttribute("count") == null) {
-			session.setAttribute("count", 1);
-			return new ModelAndView("redirect:/gifs", "category", category);
-		} else {
-			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
-			if ((int) session.getAttribute("count") % 10 == 0) {
-				redir.addFlashAttribute("message", "Please pic another category and select your mood");
-				return new ModelAndView("redirect:/mood");
+		System.out.println(rating);
+
+		if (rating == 1) {
+
+			try {
+				if (moodSummary.getLikesPerCategory().containsKey(category) == false) {
+					moodSummary.getLikesPerCategory().put(category, rating);
+
+				} else {
+					Integer value = moodSummary.getLikesPerCategory().get(category);
+					moodSummary.getLikesPerCategory().put(category, value + 1);
+				}
+			} catch (NullPointerException ex) {
+				moodSummary.getLikesPerCategory().put(category, 1);
+
 			}
-			else {
+			if (session.getAttribute("count") == null) {
+				session.setAttribute("count", 1);
 				return new ModelAndView("redirect:/gifs", "category", category);
+			} else {
+				session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
+				if ((int) session.getAttribute("count") % GIF_COUNT_BETWEEN_CHECKIN == 0) {
+					redir.addFlashAttribute("message", "Please pic another category and select your mood");
+					return new ModelAndView("redirect:/mood");
+				} else {
+					return new ModelAndView("redirect:/gifs", "category", category);
+				}
 			}
 		}
-	}
-
-	
-//	@RequestMapping("/error")
-//	public ModelAndView errorpagez() {
-//		return new ModelAndView("error");
-//	}
-	
-//	@WebServlet("/error")
-//	public class ErrorHandler extends HttpServlet {
-//		private static final long serialVersionUID = 1L;
-//
-//		protected void doGet(HttpServletRequest request, HttpServletResponse response)
-//				throws ServletException, IOException {
-//			processError(request, response);
-//		}
-//
-//		protected void doPost(HttpServletRequest request, HttpServletResponse response)
-//				throws ServletException, IOException {
-//			processError(request, response);
-//		}
-//
-//		private void processError(HttpServletRequest request, HttpServletResponse response)
-//				throws IOException, ServletException {
-//			// customize error message
-//			Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-////	        Integer statusCode = (Integer) request
-////	                .getAttribute("javax.servlet.error.status_code");
-//			String servletName = (String) request.getAttribute("javax.servlet.error.servlet_name");
-//			if (servletName == null) {
-//				servletName = "Unknown";
-//			}
-//			String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
-//			if (requestUri == null) {
-//				requestUri = "Unknown";
-//			}
-//			request.setAttribute("error", "Servlet " + servletName + " has thrown an exception "
-//					+ throwable.getClass().getName() + " : " + throwable.getMessage());
-//			request.getRequestDispatcher("/error.jsp").forward(request, response);
-//		}
-//
-//	}
-
-	@RequestMapping("/checkin")
-	public ModelAndView addGif(HttpSession session) {
-		ModelAndView mv = new ModelAndView("checkin");
-
-		Set<String> categories = gifService.categoryMap().keySet();
-		mv.addObject("categories", categories);
-
-		return mv;
-	}
-	
-	@RequestMapping("/test") 
-	public ModelAndView test() throws ParseException {
-		String d = "2018-12-10";
-		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-		Date date = formatter.parse(d);
-		List <UserEmotion> userEmotions = userEmotionDao.getEmotionByDate(date);
-		System.out.println(userEmotions.get(0));
-		return new ModelAndView("test");
 		
+		return new ModelAndView("error");
 	}
 
+	@RequestMapping("/mood-summary")
+	public ModelAndView moodSummary(HttpSession session,
+			@RequestParam(name = "slidervalue", required = false) Integer moodRating,
+			@RequestParam("category") String category) {
+		User user = (User) session.getAttribute("user");
+
+		// adds user's new emotion from mood page in the parameter to the database w/ a
+		// date
+		if (moodRating != null) {
+			Date today = new Date();
+			UserEmotion userEmotion = new UserEmotion();
+			userEmotion.setEmotionRating(moodRating);
+			userEmotion.setDate(today);
+			userEmotion.setUser(user);
+			userEmotion.setCategory(category);
+			userEmotionDao.createUserEmotion(userEmotion);
+		}
+
+
+		MoodSummary prevMoodSummary = (MoodSummary) session.getAttribute("moodSummary");
+		// start a new tracking timeframe
+		session.setAttribute("moodSummary", new MoodSummary());
+
+		if (prevMoodSummary == null) {
+			// It's the first time. Skip the summary.
+			return new ModelAndView("redirect:/gifs", "category", category);
+		} else {
+			ModelAndView mv = new ModelAndView("mood-summary");
+			mv.addObject("moodSummary", prevMoodSummary);
+			return mv;
+		}
+	}
 
 }

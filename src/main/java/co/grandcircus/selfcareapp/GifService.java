@@ -5,8 +5,10 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -166,4 +168,32 @@ public class GifService {
 		}
 		return averageMoodRatings;
 	}
+
+	public ArrayList<String> getTopCategories(Map<LocalDate, List<UserEmotion>> daysOfWeek) {
+		ArrayList<String> topCategories = new ArrayList<>();
+		for (Entry<LocalDate, List<UserEmotion>> ld: daysOfWeek.entrySet()) {
+			HashMap<String, Integer> topCategoriesByDay = new HashMap<>();
+			for (UserEmotion ue : ld.getValue()) {
+				if (topCategoriesByDay.containsKey(ue.getCategory())== false){
+					topCategoriesByDay.put(ue.getCategory(), 1);
+				} else {
+					Integer currentValue = topCategoriesByDay.get(ue.getCategory());
+					currentValue++;
+					topCategoriesByDay.put(ue.getCategory(), currentValue);
+				}
+			}
+			Map.Entry<String, Integer> maxEntry = null;
+
+			for (Map.Entry<String, Integer> cat : topCategoriesByDay.entrySet()) {
+			    if (maxEntry == null || cat.getValue().compareTo(maxEntry.getValue()) > 0)
+			    {
+			        maxEntry = cat;
+			       
+			    }
+			}
+			topCategories.add(maxEntry.getKey());
+		}
+		return topCategories;
+	}
+
 }

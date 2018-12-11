@@ -31,7 +31,6 @@ public class ApiService {
 		TokenRequest request = new TokenRequest("client_credentials", "2_iD1qPC", clientSecret);
 		RestTemplate rest = new RestTemplate();
 
-		@SuppressWarnings("unchecked")
 		TokenResponse token = rest.postForObject("https://api.gfycat.com/v1/oauth/token", request, TokenResponse.class);
 		// "https://api.gfycat.com/v1/oauth/token"
 		// System.out.println(response.getAccess_token());
