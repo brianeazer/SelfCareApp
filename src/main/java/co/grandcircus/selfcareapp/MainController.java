@@ -132,7 +132,7 @@ public class MainController {
 		ArrayList<Double> averageMoodRatings = gifService.getAverageMoodRating(daysOfWeek);
 		// find the most liked category on a certain day
 		ArrayList<String> categories = gifService.getTopCategories(daysOfWeek);
-		System.out.println("marks categories are " + categories);
+
 		mav.addObject("categories", categories);
 		mav.addObject("averageMoodRatings", averageMoodRatings);
 		mav.addObject("days", howManyDays);
@@ -145,7 +145,9 @@ public class MainController {
 	public ModelAndView moodCategory(HttpSession session, @RequestParam(name = "category") String category,
 			RedirectAttributes redir) {
 		User user = (User) session.getAttribute("user");
-
+		// adds user's new emotion from mood page in the parameter to the database w/ a
+		// date
+	
 		ModelAndView mav = new ModelAndView("randomgif");
 		// adds the current category to the JSP for display
 		mav.addObject("category", category);

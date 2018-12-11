@@ -171,7 +171,7 @@ public class GifService {
 
 	public ArrayList<String> getTopCategories(Map<LocalDate, List<UserEmotion>> daysOfWeek) {
 		ArrayList<String> topCategories = new ArrayList<>();
-		for (java.util.Map.Entry<LocalDate, List<UserEmotion>> ld: daysOfWeek.entrySet()) {
+		for (Entry<LocalDate, List<UserEmotion>> ld: daysOfWeek.entrySet()) {
 			HashMap<String, Integer> topCategoriesByDay = new HashMap<>();
 			for (UserEmotion ue : ld.getValue()) {
 				if (topCategoriesByDay.containsKey(ue.getCategory())== false){
@@ -195,4 +195,5 @@ public class GifService {
 		}
 		return topCategories;
 	}
+
 }
