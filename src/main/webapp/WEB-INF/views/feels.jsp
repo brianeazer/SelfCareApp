@@ -22,9 +22,12 @@
 		<table class="table">
 			<c:forEach var="element" items="${ daysOfWeek }" varStatus="status">
 				<tr>
-					<th colspan="2"><c:out value="${element.key}"/></th>
+					<th colspan="2"><c:out value="${element.key}" /></th>
 				</tr>
-				<tr><td>Average mood rating: ${averageMoodRatings[status.index] }</td><td>Your most liked tag: ${topTag}</td></tr>
+				<tr>
+					<td>Average mood rating: ${averageMoodRatings[status.index] }</td>
+					<td>Your most viewed category: ${categories[status.index] }</td>
+				</tr>
 				<tr class="tr">
 					<th>Time</th>
 					<th>Mood(0-10)</th>

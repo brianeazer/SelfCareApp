@@ -17,7 +17,7 @@
 	<div class="container">
 		${ message }
 		<h1>Pick a gif category</h1>
-		<form action="/gifs" name="mood-tracker" method="get">
+		<form action="/mood-summary" name="mood-tracker" method="get">
 			<c:forEach var="category" items="${ categories }">
 				<input required name="category" type="radio" value="${ category }">${ category }<br>
 			</c:forEach>
