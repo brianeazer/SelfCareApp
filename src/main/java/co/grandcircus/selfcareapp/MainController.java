@@ -108,32 +108,21 @@ public class MainController {
 		List<UserEmotion> userEmotions = userEmotionDao.getUserEmotions(user);
 
 		Map<LocalDate, List<UserEmotion>> daysOfWeek = new TreeMap<>(Comparator.reverseOrder());
-		// dates in the format DAY Mon/day
-		// SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE MMM/dd");
-
-		int count = 0;
-		Integer howManyDays = 1;
+		Integer howManyDays = 0;
 
 		for (UserEmotion userEmotion : userEmotions) {
 			LocalDate date = gifService.convertToLocalDateViaInstant(userEmotion.getDate());
 			if (daysOfWeek.containsKey(date)) {
 				List<UserEmotion> timeAndFeels = daysOfWeek.get(date);
 				timeAndFeels.add(userEmotion);
-				System.out.println(timeAndFeels);
-			//	timeAndFeels.add(userEmotion);
 				daysOfWeek.put(date, timeAndFeels);
-				count++;
 			} else {
 				daysOfWeek.put(date, new ArrayList<>(Collections.singleton(userEmotion)));
+				howManyDays++;
 			}
 			
-			System.out.println(daysOfWeek);
-			// gifService.convertToLocalDateViaInstant(userEmotion.getDate())
-			howManyDays++;
 		}
 		
-		System.out.println("Count: " + count + "; Days: " + howManyDays);
-		System.out.println("MAP: " + daysOfWeek);
 		mav.addObject("days", howManyDays);
 		mav.addObject("daysOfWeek", daysOfWeek);
 		mav.addObject("userEmotions", userEmotions);
