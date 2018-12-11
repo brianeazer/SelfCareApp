@@ -292,6 +292,8 @@ public class MainController {
 		}
 		return mv;
 	}
+	
+	
 
 	@RequestMapping("/store-info")
 	public ModelAndView addToDatabase(@RequestParam(name = "count", required = false) Integer count,
@@ -382,6 +384,15 @@ public class MainController {
 
 		Set<String> categories = gifService.categoryMap().keySet();
 		mv.addObject("categories", categories);
+
+		return mv;
+	}
+	
+	@RequestMapping("/mood-summary")
+	public ModelAndView moodSummary() {
+		ModelAndView mv = new ModelAndView("mood-summary");
+
+//		mv.addObject("categories", categories);
 
 		return mv;
 	}
