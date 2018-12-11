@@ -412,7 +412,7 @@ public class MainController {
 			userEmotionDao.createUserEmotion(userEmotion);
 		}
 
-		// grab finished tracking "timeframe"
+
 		MoodSummary prevMoodSummary = (MoodSummary) session.getAttribute("moodSummary");
 		// start a new tracking timeframe
 		session.setAttribute("moodSummary", new MoodSummary());
