@@ -821,8 +821,10 @@ For the top ten likes page
   color: #0080c0;
 } 
 
-#moodbody{
+/* #moodbody{
 	background-image: url("http://toolkit.salvos.org.au/scribe/sites/toolkit.salvos.org.au/files/resources-uploads/895892992-background-balance-beach-289586.jpg");
 	
+} */
+#moodbody{
+	background-color: teal;
 }
-

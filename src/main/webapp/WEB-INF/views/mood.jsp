@@ -22,12 +22,6 @@
 				<input required name="category" type="radio" value="${ category }">${ category }<br>
 			</c:forEach>
 
-
-
-
-
-
-
 			<div class="slidecontainer">
 				<h4>How Are you Feeling?</h4>
 				<input type="range" min="0" max="10" value="5" class="slider"
