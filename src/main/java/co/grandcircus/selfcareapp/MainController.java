@@ -1,6 +1,8 @@
 package co.grandcircus.selfcareapp;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -122,10 +124,12 @@ public class MainController {
 			}
 			
 		}
-		
+		//Get a list of averages for how the user was feeling on each day
+		ArrayList<Double> averageMoodRatings = gifService.getAverageMoodRating(daysOfWeek);
+
+		mav.addObject("averageMoodRatings", averageMoodRatings);
 		mav.addObject("days", howManyDays);
 		mav.addObject("daysOfWeek", daysOfWeek);
-		mav.addObject("userEmotions", userEmotions);
 		return mav;
 	}
 
@@ -376,11 +380,10 @@ public class MainController {
 	}
 	
 	@RequestMapping("/test") 
-	public ModelAndView test() {
-		Date date = new Date();
-		date.setYear(2018);
-		date.setMonth(12);
-		date.setDate(10);
+	public ModelAndView test() throws ParseException {
+		String d = "2018-12-10";
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+		Date date = formatter.parse(d);
 		List <UserEmotion> userEmotions = userEmotionDao.getEmotionByDate(date);
 		System.out.println(userEmotions.get(0));
 		return new ModelAndView("test");

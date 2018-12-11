@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import co.grandcircus.selfcareapp.Dao.LikeDao;
 import co.grandcircus.selfcareapp.Entity.GfyItem;
 import co.grandcircus.selfcareapp.Entity.User;
+import co.grandcircus.selfcareapp.Entity.UserEmotion;
 import co.grandcircus.selfcareapp.Entity.UserLikes;
 import co.grandcircus.selfcareapp.apiservice.ApiService;
 
@@ -146,5 +148,22 @@ public class GifService {
 	    return dateToConvert.toInstant()
 	      .atZone(ZoneId.systemDefault())
 	      .toLocalDate();
+	}
+
+	public ArrayList<Double> getAverageMoodRating(Map<LocalDate, List<UserEmotion>> daysOfWeek) {
+		ArrayList<Double> averageMoodRatings = new ArrayList<>();
+		// ld gets the list of UserEmotions for that day
+		for (Entry<LocalDate, List<UserEmotion>> ld: daysOfWeek.entrySet()) {
+			Double sum = 0.0;
+			Integer count = 0;
+			for (UserEmotion ue : ld.getValue()) {
+				System.out.println(ue.getEmotionRating());
+				count++;
+				sum += ue.getEmotionRating();
+			}
+			Double averageMoodRating = sum/count;
+			averageMoodRatings.add(averageMoodRating);
+		}
+		return averageMoodRatings;
 	}
 }
