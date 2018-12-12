@@ -20,6 +20,7 @@
 <body>
 	<div class="container">
 		<h2>You've visited us ${ days } days!</h2>
+		<h3>You've used the app ${consecutiveDays } consecutive days!</h3>
 		<table class="table">
 			<c:forEach var="element" items="${ daysOfWeek }" varStatus="status">
 			<tbody class="accordion">

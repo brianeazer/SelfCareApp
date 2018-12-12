@@ -13,7 +13,7 @@
 <body>
 	<div class="container-fluid" >
 
-		<h1>Your top 10 liked tags</h1>
+		<h1>Your top 10 liked tags of all time</h1>
 		<div class = "orderedlist">
 			<c:forEach var="userlike" items="${likes }">
 				<li>${userlike.tag } ${userlike.count}</li>

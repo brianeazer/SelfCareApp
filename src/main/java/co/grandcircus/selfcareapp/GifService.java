@@ -2,6 +2,8 @@ package co.grandcircus.selfcareapp;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+// import java.time.temporal.ChronoUnit;
+import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,10 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import ch.qos.logback.core.util.Duration;
 import co.grandcircus.selfcareapp.Dao.LikeDao;
 import co.grandcircus.selfcareapp.Entity.GfyItem;
 import co.grandcircus.selfcareapp.Entity.User;
@@ -192,6 +196,25 @@ public class GifService {
 			topCategories.add(maxEntry.getKey());
 		}
 		return topCategories;
+	}
+
+	public Integer getConsecutiveDays(Set<LocalDate> keySet) {
+		Integer count = 1;
+		ArrayList<LocalDate> days = new ArrayList<>();
+		for (LocalDate ld: keySet) {
+			days.add(ld);
+		}
+		for (int i = 0; i < days.size()-1; i++) {
+			LocalDate today = days.get(i);
+			LocalDate nextDay = days.get(i+1);
+			Long cDays = DAYS.between(nextDay, today);
+			if (cDays==1) {
+				count++;
+			} else {
+				break;
+			}
+		}
+		return count;
 	}
 
 }

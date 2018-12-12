@@ -127,9 +127,13 @@ public class MainController {
 		ArrayList<Double> averageMoodRatings = gifService.getAverageMoodRating(daysOfWeek);
 		// find the most liked category on a certain day
 		ArrayList<String> categories = gifService.getTopCategories(daysOfWeek);
-
+		Integer consecutiveDays = gifService.getConsecutiveDays(daysOfWeek.keySet());
+		System.out.println(consecutiveDays);
 		mav.addObject("categories", categories);
 		mav.addObject("averageMoodRatings", averageMoodRatings);
+		if (consecutiveDays >1) {
+		mav.addObject("consecutiveDays", consecutiveDays);
+		}
 		mav.addObject("days", howManyDays);
 		mav.addObject("daysOfWeek", daysOfWeek);
 		return mav;
