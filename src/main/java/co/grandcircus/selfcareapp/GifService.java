@@ -113,7 +113,7 @@ public class GifService {
 		categories.put("Fails", Arrays.asList("fail", "epicfail", "fails", "accident"));
 		categories.put("Nature",
 				Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
-		categories.put("Horror Movie Culture", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
+		categories.put("Horror", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
 				"horrorfilm", "chucky", "horroredit"));
 		categories.put("All Movie Culture",
 				Arrays.asList("movies", "movie", "kidmovies", "Indiefilms", "animatedmovie"));
@@ -122,7 +122,9 @@ public class GifService {
 						"csgo", "cod", "system", "xboxdvr", "carepackage", "sharefactory", "killstreak", "ps4share"));
 		categories.put("Anime", Arrays.asList("manga", "dbz", "deathnote", "anime", "naruto"));
 
-		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing"));
+		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing", "slow motion"));
+		
+		categories.put("Drizzy", Arrays.asList("Drake", "Drizzy Drake", "aubrey drake graham"));
 
 		categories.put("Your Top Ten", Arrays.asList(""));
 		
