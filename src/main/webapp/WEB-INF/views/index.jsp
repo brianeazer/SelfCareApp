@@ -10,10 +10,10 @@
 <link rel="stylesheet" href="style.css" />
 <%@include file="partials/header.jsp"%>
 </head>
-<body>
+<body  id ="indexbody">
 
-<div class ="container">
-	<h1>Welcome</h1>
+<div>
+	<h1>Self Care Is The Only Thing That Matters!</h1>
 	<p>${ message } </p>
 	<form action="/" method="post">
 		<p>
@@ -27,7 +27,8 @@
 		
 			<button type="submit">Submit</button>
 	</form>
-
+	</div>
+<div>
 	<form action="/register">
 		<button type="submit">Register</button>
 	</form>
