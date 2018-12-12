@@ -24,7 +24,7 @@
 			<c:forEach var="element" items="${ daysOfWeek }" varStatus="status">
 			<tbody class="accordion">
 				<tr>
-					<th colspan="2"><button class="button">view</button><c:out value="${element.key}" /></th>
+					<th colspan="1"><button id="button" >view</button></th><th><c:out value="${element.key}"  /></th>
 				</tr>
 				</tbody>
 			<tbody style="display:none">
@@ -57,8 +57,13 @@ for (i = 0; i < acc.length; i++) {
   acc[i].addEventListener("click", function() {
     /* Toggle between adding and removing the "active" class,
     to highlight the button that controls the panel */
+	if (document.getElementById("button").innerHTML === "view"){
+		document.getElementById("button").innerHTML = "close";
+	} else{
+		document.getElementById("button").innerHTML = "view"
+	}
     this.classList.toggle("active");
-
+    
     /* Toggle between hiding and showing the active panel */
     var panel = this.nextElementSibling;
     if (panel.style.display === "") {
