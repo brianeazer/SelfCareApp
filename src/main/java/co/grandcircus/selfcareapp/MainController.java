@@ -335,7 +335,7 @@ public class MainController {
 		} else {
 			session.setAttribute("count", (int) (session.getAttribute("count")) + 1);
 			if ((int) session.getAttribute("count") % GIF_COUNT_BETWEEN_CHECKIN == 0) {
-				Integer mostRecentMood = userEmotionDao.getUserEmotions(user).get(userEmotionDao.getUserEmotions(user).size()-1).getEmotionRating();
+				Integer mostRecentMood = userEmotionDao.getUserEmotions(user).get(0).getEmotionRating();
 				redir.addFlashAttribute("message", "You were feeling " + mostRecentMood + "/10. How are you feeling now? Pick a category and make a rating.");
 				return new ModelAndView("redirect:/mood");
 			} else {
