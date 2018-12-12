@@ -99,24 +99,22 @@ public class GifService {
 		}
 		return topLikes;
 	}
-
+	
 	public Map<String, List<String>> categoryMap() {
 		Map<String, List<String>> categories = new HashMap<>();
-
+		
 		categories.put("Food", Arrays.asList("recipe, food", "foodnetwork", "lunch", "meal", "koreanbbq", "bbq", "cook",
 				"dessert", "breakfast", "dinner"));
 		categories.put("Cartoons",
-				Arrays.asList("cartoonnetwork", "spongebob", "nickelodeon", "boomerang", "nickjr", "cartoonmovie"));
+				Arrays.asList("cartoonnetwork","spongebob", "nickelodeon", "boomerang", "nickjr", "cwkids", "cartoonmovie"));
 		categories.put("Holidays", Arrays.asList("happyholidays", "christmas", "thanksgiving", "festive", "holidays",
 				"christmascards", "merrychristmas"));
 		categories.put("Cats", Arrays.asList("kittens", "cute kittens", "cats, aww", "cats", "cat", "meow"));
 		categories.put("Sports", Arrays.asList("sports", "sport", "basketball", "football", "soccer", "hockey",
 				"baseball", "rugby", "volleyball", "golf", "tennis"));
 		categories.put("Fails", Arrays.asList("fail", "epicfail", "fails", "accident"));
-
 		categories.put("Nature",
-				Arrays.asList("nature", "waterfalls",  "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
-
+				Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
 		categories.put("Horror Movie Culture", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
 				"horrorfilm", "chucky", "horroredit"));
 		categories.put("All Movie Culture",
@@ -127,11 +125,11 @@ public class GifService {
 		categories.put("Anime", Arrays.asList("manga", "dbz", "deathnote", "anime", "naruto"));
 
 		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing", "slow motion"));
-
+		
 		categories.put("Drizzy", Arrays.asList("Drake", "Drizzy Drake", "aubrey drake graham"));
 
 		categories.put("Your Top Ten", Arrays.asList(""));
-
+		
 		return categories;
 	}
 
@@ -151,22 +149,24 @@ public class GifService {
 		}
 
 	}
-
+	
 	public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
-		return dateToConvert.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	    return dateToConvert.toInstant()
+	      .atZone(ZoneId.systemDefault())
+	      .toLocalDate();
 	}
 
 	public ArrayList<Double> getAverageMoodRating(Map<LocalDate, List<UserEmotion>> daysOfWeek) {
 		ArrayList<Double> averageMoodRatings = new ArrayList<>();
 		// ld gets the list of UserEmotions for that day
-		for (Entry<LocalDate, List<UserEmotion>> ld : daysOfWeek.entrySet()) {
+		for (Entry<LocalDate, List<UserEmotion>> ld: daysOfWeek.entrySet()) {
 			Double sum = 0.0;
 			Integer count = 0;
 			for (UserEmotion ue : ld.getValue()) {
 				count++;
 				sum += ue.getEmotionRating();
 			}
-			Double averageMoodRating = sum / count;
+			Double averageMoodRating = sum/count;
 			averageMoodRatings.add(averageMoodRating);
 		}
 		return averageMoodRatings;
@@ -174,10 +174,10 @@ public class GifService {
 
 	public ArrayList<String> getTopCategories(Map<LocalDate, List<UserEmotion>> daysOfWeek) {
 		ArrayList<String> topCategories = new ArrayList<>();
-		for (Entry<LocalDate, List<UserEmotion>> ld : daysOfWeek.entrySet()) {
+		for (Entry<LocalDate, List<UserEmotion>> ld: daysOfWeek.entrySet()) {
 			HashMap<String, Integer> topCategoriesByDay = new HashMap<>();
 			for (UserEmotion ue : ld.getValue()) {
-				if (topCategoriesByDay.containsKey(ue.getCategory()) == false) {
+				if (topCategoriesByDay.containsKey(ue.getCategory())== false){
 					topCategoriesByDay.put(ue.getCategory(), 1);
 				} else {
 					Integer currentValue = topCategoriesByDay.get(ue.getCategory());
@@ -188,10 +188,11 @@ public class GifService {
 			Map.Entry<String, Integer> maxEntry = null;
 
 			for (Map.Entry<String, Integer> cat : topCategoriesByDay.entrySet()) {
-				if (maxEntry == null || cat.getValue().compareTo(maxEntry.getValue()) > 0) {
-					maxEntry = cat;
-
-				}
+			    if (maxEntry == null || cat.getValue().compareTo(maxEntry.getValue()) > 0)
+			    {
+			        maxEntry = cat;
+			       
+			    }
 			}
 			topCategories.add(maxEntry.getKey());
 		}

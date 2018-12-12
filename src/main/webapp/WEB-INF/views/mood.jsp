@@ -18,39 +18,31 @@
 		${ message }
 		<h1>Pick a gif category</h1>
 		<form action="/mood-summary" name="mood-tracker" method="get">
-		<div id="category-form">
-			<c:forEach var="category" items="${ categories }">
-				<input required name="category" type="radio" value="${ category }">${ category }<br>
-			</c:forEach>
-		</div>
-			<div class="slidecontainer">
+			<div id="category-form">
+				<c:forEach var="category" items="${ categories }">
+					<input required name="category" type="radio" value="${ category }">${ category }<br>
+				</c:forEach>
+			</div>
+			<div class="slidecontainer" style="margin-top:3%;">
 				<h4>How Are you Feeling?</h4>
 				<input type="range" min="0" max="10" value="5" class="slider"
 					id="myRange" name="slidervalue">
 			</div>
 
-			<div class="drakesadface">
-				<img src="https://i.gifer.com/1AYf.gif" height="300px"
-					;width="300px" ;
-					style="float: left;"Sad">
+			<div style="width: 80%; text-align: center; position: relative;">
+				<img src="https://i.gifer.com/1AYf.gif" height="200px" width="300px" style="float: left" alt="Sad Drake">
+				
+				<img src="https://i.gifer.com/ywJ.gif" height="230px" width="200px"	style="float:right" alt="Happy Drake">
+				
+				tf<div style="width: 100%; text-align: center; position: absolute; top: 0;">
+					<button class="button">Submit</button>
+				</div>
 			</div>
-
-			<div class="drakeface">
-				<img src="https://i.gifer.com/ywJ.gif" height="345px"
-					; width="300px" ;
-					style="float: right;"Happy">
-			</div>
-
-
-
-			<button class="button" style="position: absolute; float: right;">submit</button>
-
-
+			
+			
+			
 		</form>
 	</div>
 
-
-
-
 </body>
-</html>
+</htm
