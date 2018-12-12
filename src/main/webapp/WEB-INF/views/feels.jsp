@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="now" class="java.util.Date" />
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="javax.servlet.*,java.text.*"%>
@@ -25,7 +26,8 @@
 					<th colspan="2"><c:out value="${element.key}" /></th>
 				</tr>
 				<tr>
-					<td>Average mood rating: ${averageMoodRatings[status.index] }</td>
+					<td>Average mood rating: <fmt:formatNumber type = "number" 
+         maxFractionDigits = "2" value = "${averageMoodRatings[status.index] }" /></td>
 					<td>Your most viewed category: ${categories[status.index] }</td>
 				</tr>
 				<tr class="tr">
@@ -34,7 +36,8 @@
 				</tr>
 				<c:forEach var="emotion" items="${element.value}">
 					<tr>
-						<td class="td">${ emotion.date }</td>
+						<td class="td"> <fmt:formatDate type = "time" 
+        				 value = "${ emotion.date }" /></td>
 						<td class="td">${ emotion.emotionRating }</td>
 					</tr>
 				</c:forEach>
