@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="now" class="java.util.Date" />
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="javax.servlet.*,java.text.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +23,7 @@
 		<table class="table">
 			<c:forEach var="element" items="${ daysOfWeek }" varStatus="status">
 				<tr>
-					<th colspan="2"><c:out value="${element.key}" /></th>
+					<th colspan="2"><button class="button">view</button><c:out value="${element.key}" /></th>
 				</tr>
 				<tr>
 					<td>Average mood rating: <fmt:formatNumber type = "number" 
@@ -46,4 +46,7 @@
 		</table>
 	</div>
 </body>
+<script>
+
+</script>
 </html>
