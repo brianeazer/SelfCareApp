@@ -5,10 +5,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -104,7 +102,7 @@ public class GifService {
 		categories.put("Food", Arrays.asList("recipe, food", "foodnetwork", "lunch", "meal", "koreanbbq", "bbq", "cook",
 				"dessert", "breakfast", "dinner"));
 		categories.put("Cartoons",
-				Arrays.asList("cartoonnetwork","spongebob", "nickelodeon", "boomerang", "nickjr", "cwkids", "cartoonmovie"));
+				Arrays.asList("cartoonnetwork","spongebob", "nickelodeon", "boomerang", "nickjr", "cartoonmovie"));
 		categories.put("Holidays", Arrays.asList("happyholidays", "christmas", "thanksgiving", "festive", "holidays",
 				"christmascards", "merrychristmas"));
 		categories.put("Cats", Arrays.asList("kittens", "cute kittens", "cats, aww", "cats", "cat", "meow"));
@@ -112,7 +110,7 @@ public class GifService {
 				"baseball", "rugby", "volleyball", "golf", "tennis"));
 		categories.put("Fails", Arrays.asList("fail", "epicfail", "fails", "accident"));
 		categories.put("Nature",
-				Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
+				Arrays.asList("waterfalls",  "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
 		categories.put("Horror Movie Culture", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
 				"horrorfilm", "chucky", "horroredit"));
 		categories.put("All Movie Culture",
@@ -122,7 +120,9 @@ public class GifService {
 						"csgo", "cod", "system", "xboxdvr", "carepackage", "sharefactory", "killstreak", "ps4share"));
 		categories.put("Anime", Arrays.asList("manga", "dbz", "deathnote", "anime", "naruto"));
 
-		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing"));
+		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing", "slow motion"));
+		
+		categories.put("Drizzy", Arrays.asList("Drake", "Drizzy Drake", "aubrey drake graham"));
 
 		categories.put("Your Top Ten", Arrays.asList(""));
 		
@@ -159,7 +159,6 @@ public class GifService {
 			Double sum = 0.0;
 			Integer count = 0;
 			for (UserEmotion ue : ld.getValue()) {
-				System.out.println(ue.getEmotionRating());
 				count++;
 				sum += ue.getEmotionRating();
 			}

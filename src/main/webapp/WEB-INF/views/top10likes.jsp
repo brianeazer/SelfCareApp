@@ -20,7 +20,7 @@
 			</c:forEach>
 		</div>
 		<form>
-			<p><img src="${gif.gifUrl }"></p>
+			<p ><img src="${gif.gifUrl }"></p>
 			<a href="/top10-store-info?count=1&id=${ gif.gfyId }" class="btn btn-secondary mb-2">Like</a>
 			<a href="/top10-store-info?count=-1&id=${ gif.gfyId }" class="btn btn-secondary mb-2">Dislike</a>
 		</form>

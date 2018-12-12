@@ -1,6 +1,5 @@
 package co.grandcircus.selfcareapp;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,11 +10,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +61,7 @@ public class MainController {
 			@RequestParam(name = "password") String password, RedirectAttributes redir, HttpSession session) {
 		session.setMaxInactiveInterval(20 * 60);
 
-		// checks if user exists in the database and that the username and password are
-		// correct
+		// checks if user exists in the database and that the username/password are correct
 		User user = userDao.findByUsername(username);
 		if (user == null) {
 			redir.addFlashAttribute("message", "Incorrect username or password");
@@ -341,43 +334,7 @@ public class MainController {
 			} else {
 					return new ModelAndView("redirect:/gifs", "category", category);
 				}
-			}
 		}
-		
-
-	@WebServlet("/ErrorHandler")
-	public class ErrorHandler extends HttpServlet {
-		private static final long serialVersionUID = 1L;
-
-		protected void doGet(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			processError(request, response);
-		}
-
-		protected void doPost(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			processError(request, response);
-		}
-
-		private void processError(HttpServletRequest request, HttpServletResponse response)
-				throws IOException, ServletException {
-			// customize error message
-			Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-	        Integer statusCode = (Integer) request
-	                .getAttribute("javax.servlet.error.status_code");
-			String servletName = (String) request.getAttribute("javax.servlet.error.servlet_name");
-			if (servletName == null) {
-				servletName = "Unknown";
-			}
-			String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
-			if (requestUri == null) {
-				requestUri = "Unknown";
-			}
-			request.setAttribute("error", "Servlet " + servletName + " has thrown an exception "
-					+ throwable.getClass().getName() + " : " + throwable.getMessage());
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
-		}
-
 	}
 
 	@RequestMapping("/checkin")

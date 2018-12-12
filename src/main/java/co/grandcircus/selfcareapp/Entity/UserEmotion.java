@@ -1,7 +1,5 @@
 package co.grandcircus.selfcareapp.Entity;
 
-import java.time.Instant;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
