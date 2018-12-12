@@ -5,10 +5,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -112,13 +110,8 @@ public class GifService {
 				"baseball", "rugby", "volleyball", "golf", "tennis"));
 		categories.put("Fails", Arrays.asList("fail", "epicfail", "fails", "accident"));
 		categories.put("Nature",
-<<<<<<< HEAD
 				Arrays.asList("waterfalls",  "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
 		categories.put("Horror Movie Culture", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
-=======
-				Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
-		categories.put("Horror", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
->>>>>>> 623671898a934f335aae5281a7a87b69b029c9ad
 				"horrorfilm", "chucky", "horroredit"));
 		categories.put("All Movie Culture",
 				Arrays.asList("movies", "movie", "kidmovies", "Indiefilms", "animatedmovie"));
@@ -166,7 +159,6 @@ public class GifService {
 			Double sum = 0.0;
 			Integer count = 0;
 			for (UserEmotion ue : ld.getValue()) {
-				System.out.println(ue.getEmotionRating());
 				count++;
 				sum += ue.getEmotionRating();
 			}
