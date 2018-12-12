@@ -22,9 +22,12 @@
 		<h2>You've visited us ${ days } days!</h2>
 		<table class="table">
 			<c:forEach var="element" items="${ daysOfWeek }" varStatus="status">
+			<tbody class="accordion">
 				<tr>
 					<th colspan="2"><button class="button">view</button><c:out value="${element.key}" /></th>
 				</tr>
+				</tbody>
+			<tbody style="display:none">
 				<tr>
 					<td>Average mood rating: <fmt:formatNumber type = "number" 
          maxFractionDigits = "2" value = "${averageMoodRatings[status.index] }" /></td>
@@ -41,12 +44,29 @@
 						<td class="td">${ emotion.emotionRating }</td>
 					</tr>
 				</c:forEach>
+				</tbody>
 			</c:forEach>
-
 		</table>
 	</div>
 </body>
 <script>
+var acc = document.getElementsByClassName("accordion");
+var i;
 
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+    this.classList.toggle("active");
+
+    /* Toggle between hiding and showing the active panel */
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "";
+    }
+  });
+}
 </script>
 </html>
