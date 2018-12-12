@@ -111,7 +111,8 @@ public class GifService {
 		categories.put("Fails", Arrays.asList("fail", "epicfail", "fails", "accident"));
 
 		categories.put("Nature",
-				Arrays.asList("waterfalls",  "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
+				Arrays.asList("nature", "waterfalls",  "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
+
 		categories.put("Horror Movie Culture", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
 				"horrorfilm", "chucky", "horroredit"));
 		categories.put("All Movie Culture",
