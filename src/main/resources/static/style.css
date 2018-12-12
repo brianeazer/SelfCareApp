@@ -1,5 +1,3 @@
-lines (710 sloc) 17.2 KB 
-
 @charset "ISO-8859-1";
 
 
@@ -12,6 +10,10 @@ body {
 
 	padding: 0;
 
+}
+
+#indexbody{
+	background-color:teal;
 }
 
 
