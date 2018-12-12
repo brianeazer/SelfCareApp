@@ -18,10 +18,11 @@
 		${ message }
 		<h1>Pick a gif category</h1>
 		<form action="/mood-summary" name="mood-tracker" method="get">
+		<div id="category-form">
 			<c:forEach var="category" items="${ categories }">
 				<input required name="category" type="radio" value="${ category }">${ category }<br>
 			</c:forEach>
-
+		</div>
 			<div class="slidecontainer">
 				<h4>How Are you Feeling?</h4>
 				<input type="range" min="0" max="10" value="5" class="slider"

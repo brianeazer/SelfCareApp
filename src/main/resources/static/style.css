@@ -1659,4 +1659,7 @@ For the top ten likes page
 	background-color: teal;
 
 }
+#category-form{
+	column-count:2;
+}
 
