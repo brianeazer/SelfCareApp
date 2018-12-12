@@ -112,8 +112,13 @@ public class GifService {
 				"baseball", "rugby", "volleyball", "golf", "tennis"));
 		categories.put("Fails", Arrays.asList("fail", "epicfail", "fails", "accident"));
 		categories.put("Nature",
+<<<<<<< HEAD
 				Arrays.asList("waterfalls",  "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
 		categories.put("Horror Movie Culture", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
+=======
+				Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
+		categories.put("Horror", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
+>>>>>>> 623671898a934f335aae5281a7a87b69b029c9ad
 				"horrorfilm", "chucky", "horroredit"));
 		categories.put("All Movie Culture",
 				Arrays.asList("movies", "movie", "kidmovies", "Indiefilms", "animatedmovie"));
@@ -122,7 +127,9 @@ public class GifService {
 						"csgo", "cod", "system", "xboxdvr", "carepackage", "sharefactory", "killstreak", "ps4share"));
 		categories.put("Anime", Arrays.asList("manga", "dbz", "deathnote", "anime", "naruto"));
 
-		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing"));
+		categories.put("Chill", Arrays.asList("lofi", "chillwave", "meditation", "relaxing", "slow motion"));
+		
+		categories.put("Drizzy", Arrays.asList("Drake", "Drizzy Drake", "aubrey drake graham"));
 
 		categories.put("Your Top Ten", Arrays.asList(""));
 		
