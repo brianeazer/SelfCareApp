@@ -109,7 +109,12 @@ public class GifService {
 		categories.put("Sports", Arrays.asList("sports", "sport", "basketball", "football", "soccer", "hockey",
 				"baseball", "rugby", "volleyball", "golf", "tennis"));
 		categories.put("Fails", Arrays.asList("fail", "epicfail", "fails", "accident"));
+<<<<<<< HEAD
 		categories.put("Nature", Arrays.asList("waterfalls", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
+=======
+		categories.put("Nature",
+				Arrays.asList("nature", "waterfalls",  "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
+>>>>>>> 1d5d53cf5a8cd2db0ab35899af447281c8247ad3
 		categories.put("Horror Movie Culture", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
 				"horrorfilm", "chucky", "horroredit"));
 		categories.put("All Movie Culture",

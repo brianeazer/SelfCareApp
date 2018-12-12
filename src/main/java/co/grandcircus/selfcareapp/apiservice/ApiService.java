@@ -88,6 +88,8 @@ public class ApiService {
 		avoidables.add("sex");
 		avoidables.add("nsfw");
 		avoidables.add("violence");
+		avoidables.add("k-pop");
+		avoidables.add("kpop");
 		for (int i = 0; i < gifs.size(); i++) {
 			if (gifs.get(i).getTags()!=null) {
 				for (String tag : gifs.get(i).getTags()) {
