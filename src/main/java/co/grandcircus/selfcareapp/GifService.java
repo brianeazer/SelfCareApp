@@ -104,7 +104,7 @@ public class GifService {
 		categories.put("Food", Arrays.asList("recipe, food", "foodnetwork", "lunch", "meal", "koreanbbq", "bbq", "cook",
 				"dessert", "breakfast", "dinner"));
 		categories.put("Cartoons",
-				Arrays.asList("cartoonnetwork","spongebob", "nickelodeon", "boomerang", "nickjr", "cwkids", "cartoonmovie"));
+				Arrays.asList("cartoonnetwork","spongebob", "nickelodeon", "boomerang", "nickjr", "cartoonmovie"));
 		categories.put("Holidays", Arrays.asList("happyholidays", "christmas", "thanksgiving", "festive", "holidays",
 				"christmascards", "merrychristmas"));
 		categories.put("Cats", Arrays.asList("kittens", "cute kittens", "cats, aww", "cats", "cat", "meow"));
@@ -112,7 +112,7 @@ public class GifService {
 				"baseball", "rugby", "volleyball", "golf", "tennis"));
 		categories.put("Fails", Arrays.asList("fail", "epicfail", "fails", "accident"));
 		categories.put("Nature",
-				Arrays.asList("waterfalls", "nature", "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
+				Arrays.asList("waterfalls",  "forest, aesthetic", "forest, relaxing", "forest, ASMR"));
 		categories.put("Horror Movie Culture", Arrays.asList("Nightmareonelmstreet", "Texaschainsaw", "leatherface",
 				"horrorfilm", "chucky", "horroredit"));
 		categories.put("All Movie Culture",
