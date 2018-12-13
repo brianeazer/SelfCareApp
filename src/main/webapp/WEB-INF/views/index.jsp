@@ -30,11 +30,7 @@
 				</div>
 			</form>
 			
-			<div id="register-button">
-				<form action="/register">
-					<button type="submit" class="btn btn-dark">Register</button>
-				</form>
-			</div>
+			
 		</div>
 		<%--<div id="christmas">
 		  <div class="flake large f-1"></div>
