@@ -11,7 +11,7 @@
 	<%@include file="partials/header.jsp"%>
 </head>
 
-<body>
+<body id = "flavorbody">
 	<div class="container">
 		<h3 style="text-align:center;">Let's find out what you like:</h3>
 		<form class="center">

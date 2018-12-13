@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="style.css" />
 	<%@include file="partials/header.jsp"%>
 </head>
-<body>
+<body class ="registerbody">
 	<div class="container">
 		<h2>Create new account: </h2>
 		<p class = "message"> ${message}</p>
