@@ -14,22 +14,21 @@
 	<%@include file="partials/header.jsp"%>
 </head>
 <body>
-	<div class="container-fluid">
-		<h1>Please fill out information</h1>
+	<div class="container">
+		<h2>Create new account: </h2>
 		<p class = "message"> ${message}</p>
-		<form action="/flavorprofile" method="get">
-			<!-- GET/POST: Get is default. Post will clear out the URL -->
-			<!-- using min & max sets the requirements on user input -->
-
-			<p>
-				Username:<input type="username" name="username" required>
-			</p>
-			<p>
-				Password:<input name="password" type="password" required>
-			</p>
-			<p>
-				<button class="button">Submit</button>
-			</p>
+		<form id="login-form" action="/flavorprofile" method="get">
+			<div class="row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Username" name="username" required />
+				</div>
+				<div class="col">
+					<input type="password" class="form-control" placeholder="Password" name="password" required />
+				</div>
+			</div>
+			<div id="login-button">
+					<button type="submit" class="btn btn-dark">Submit</button>
+			</div>
 		</form>
 	</div>
 </body>

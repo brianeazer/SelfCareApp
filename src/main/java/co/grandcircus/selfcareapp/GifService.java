@@ -1,9 +1,9 @@
 package co.grandcircus.selfcareapp;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
-// import java.time.temporal.ChronoUnit;
-import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +17,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import ch.qos.logback.core.util.Duration;
 import co.grandcircus.selfcareapp.Dao.LikeDao;
 import co.grandcircus.selfcareapp.Entity.GfyItem;
 import co.grandcircus.selfcareapp.Entity.User;
@@ -79,6 +78,7 @@ public class GifService {
 		for (UserLikes tag : top10) {
 			totalSum = totalSum + tag.getCount();
 		}
+		
 		int index = randomInteger(totalSum);
 		int sum = 0;
 		int i = 0;
@@ -93,6 +93,7 @@ public class GifService {
 		Collections.sort(likes, (l1, l2) -> l1.getCount().compareTo(l2.getCount()));
 		List<UserLikes> topLikes = new ArrayList<>();
 		int count = 0;
+		
 		while (count < 10) {
 			topLikes.add(likes.get(likes.size() - 1 - count));
 			count++;

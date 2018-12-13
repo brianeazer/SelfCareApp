@@ -1,24 +1,186 @@
 @charset "ISO-8859-1";
 
-
-
 body {
-
 	background: #f38181;
-
-	margin: 0;
-
+	margin-left: auto;
+	margin-right: auto;
 	padding: 0;
-
 }
 
-#indexbody{
+#indexbody {
 	background-color:teal;
 }
 
+#index-div {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.container {
+	margin-top: 3%;
+}
+
+/* index CSS */
+
+#login-form {
+	margin-top: 3%;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#intro-message {
+	margin-top: 10%;
+}
+
+#register-button, #login-button {
+	margin-top: 3%;
+}
+
+#register-button {
+	position: absolute;
+	float: left;
+	bottom: 15%;
+}
+
+/* mood page */
+
+#mood-div, #mood-tracker {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#gif-button {
+	margin-top: 2%;
+}
+
+#back-menu {
+	position:absolute;
+	float:left;
+	bottom:5%;
+}
+
+/* slider CSS properties */
+
+.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 50%;
+	text-align: center;
+}
+
+.slidecontainer {
+	width: 80%; /* Width of the outside container */
+	margin-top:3%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align:center;
+	position: relative;
+}
+
+/* The slider itself */
+
+.slider {
+	-webkit-appearance: none; /* Override default CSS styles */
+	appearance: none;
+	width: 100%; /* Full-width */
+	height: 20px; /* Specified height */
+	background: #ffcb97; /* Grey background */
+	outline: none; /* Remove outline */
+	opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+	-webkit-transition: .2s; /* 0.2 seconds transition on hover */
+	transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+
+.slider:hover {
+	opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+
+.slider::-webkit-slider-thumb {
+	-webkit-appearance: none; /* Override default look */
+	appearance: none;
+	width: 30px; /* Set a specific slider handle width */
+	height: 20px; /* Slider handle height */
+	background: tan; /* Green background */
+	cursor: pointer; /* Cursor on hover */
+}
 
 
-#christmas {
+
+.slider::-moz-range-thumb {
+	width: 25px; /* Set a specific slider handle width */
+	height: 25px; /* Slider handle height */
+	background: #400000; /* Green background */
+	cursor: pointer; /* Cursor on hover */
+}
+
+/* Hover for the past feels log page */
+/*
+.td, #customers th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+
+
+.tr {
+	background-color: #f2f2f2;
+}
+
+.tr:hover {
+	background-color: #6f6f6f;
+}
+
+.th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #4CAF50;
+	color: white;
+}
+*/
+
+/* For the top ten likes page */
+
+.orderedlist {
+	width: 40%;
+	margin-right: auto;
+	margin-left: auto;
+	list-style-type: square;
+	color: black;
+}
+
+.orderedlist li {
+	counter-increment: step-counter;
+}
+
+.orderedlist li::before {
+	content: counter(step-counter);
+	margin-right: 5px;
+	font-size: 80%;
+	background-color: red;
+	color: white;
+	font-weight: bold;
+	padding: 3px 8px;
+	border-radius: 3px;
+}
+
+#category-form {
+	column-count: 4;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+/* christmas tree css */
+/*#christmas {
 
 	position: absolute;
 
@@ -1399,267 +1561,4 @@ translateY
 }
 
 }
-
-//
-
-Slider CSS properties
-
-.center {
-
-	display: block;
-
-	margin-left: auto;
-
-	margin-right: auto;
-
-	width: 50%;
-
-	text-align: center;
-
-}
-
-
-
-.slidecontainer {
-
-	width: 80%; /* Width of the outside container */
-
-}
-
-
-
-.container {
-
-	padding-top: 50px;
-
-	padding-right: 50px;
-
-	padding-bottom: 50px;
-
-	padding-left: 50px;
-
-}
-
-
-
-/* The slider itself */
-
-.slider {
-
-	-webkit-appearance: none; /* Override default CSS styles */
-
-	appearance: none;
-
-	width: 100%; /* Full-width */
-
-	height: 20px; /* Specified height */
-
-	background: #ffcb97; /* Grey background */
-
-	outline: none; /* Remove outline */
-
-	opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-
-	-webkit-transition: .2s; /* 0.2 seconds transition on hover */
-
-	transition: opacity .2s;
-
-}
-
-
-
-/* Mouse-over effects */
-
-.slider:hover {
-
-	opacity: 1; /* Fully shown on mouse-over */
-
-}
-
-
-
-/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
-
-.slider::-webkit-slider-thumb {
-
-	-webkit-appearance: none; /* Override default look */
-
-	appearance: none;
-
-	width: 30px; /* Set a specific slider handle width */
-
-	height: 20px; /* Slider handle height */
-
-	background: tan; /* Green background */
-
-	cursor: pointer; /* Cursor on hover */
-
-}
-
-
-
-.slider::-moz-range-thumb {
-
-	width: 25px; /* Set a specific slider handle width */
-
-	height: 25px; /* Slider handle height */
-
-	background: #400000; /* Green background */
-
-	cursor: pointer; /* Cursor on hover */
-
-}
-
-
-
-//
-
-Hover for the past feels log page
-
-.td, #customers th {
-
-	border: 1px solid #ddd;
-
-	padding: 8px;
-
-}
-
-
-
-.tr {
-
-	background-color: #f2f2f2;
-
-}
-
-
-
-.tr:hover {
-
-	background-color: #6f6f6f;
-
-}
-
-
-
-.th {
-
-	padding-top: 12px;
-
-	padding-bottom: 12px;
-
-	text-align: left;
-
-	background-color: #4CAF50;
-
-	color: white;
-
-}
-
-
-
-/* .drakeface {
-
-   height: 300px;
-
-  width: 300px;
-
- 
-
-}
-
-.drakesadface {
-
-  height: 300px;
-
-  width: 300px;
-
-} */
-
-//
-
-For the top ten likes page
-
-.orderedlist {
-
-	margin-left: 0;
-
-	padding-right: 0;
-
-	list-style-type: square;
-
-	color: black;
-
-}
-
-
-
-.orderedlist li {
-
-	counter-increment: step-counter;
-
-}
-
-
-
-.orderedlist li::before {
-
-	content: counter(step-counter);
-
-	margin-right: 5px;
-
-	font-size: 80%;
-
-	background-color: red;
-
-	color: white;
-
-	font-weight: bold;
-
-	padding: 3px 8px;
-
-	border-radius: 3px;
-
-}
-
-
-
-//For buttons 
-
- .button {
-
-  -webkit-transition-duration: 0.4s; Safari
-
-  transition-duration: 0.4s;
-
-}
-
-
-
-.button:hover {
-
-  background-color: #6cdfe6; Green
-
-  color: #0080c0;
-
-} 
-
-
-
-/* #moodbody{
-
-	background-image: url("http://toolkit.salvos.org.au/scribe/sites/toolkit.salvos.org.au/files/resources-uploads/895892992-background-balance-beach-289586.jpg");
-
-	
-
-} */
-
-#moodbody{
-
-	background-color: teal;
-
-}
-#category-form{
-	column-count:3;
-}
-
+*/

@@ -1,4 +1,4 @@
-package co.grandcircus.selfcareapp.model;
+ package co.grandcircus.selfcareapp.model;
 
 import java.util.List;
 
@@ -16,17 +16,17 @@ public class GifResponse {
 		this.gfycats = gfycats;
 	}
 
-	@Override
-	public String toString() {
-		return "GifResponse [gfycats=" + gfycats + "]";
-	}
-
 	public GfyItem getGfyItem() {
 		return gfyItem;
 	}
 
 	public void setGfyItem(GfyItem gfyItem) {
 		this.gfyItem = gfyItem;
+	}
+
+	@Override
+	public String toString() {
+		return "GifResponse [gfycats=" + gfycats + "]";
 	}
 
 }

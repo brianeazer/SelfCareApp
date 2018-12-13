@@ -103,9 +103,7 @@ public class MainController {
 
 		// pulls list of user's past emotions from the database
 		User user = (User) session.getAttribute("user");
-		System.out.println(user.getId());
 		List<UserEmotion> userEmotions = userEmotionDao.getUserEmotions(user);
-		System.out.println(userEmotions);
 
 		Map<LocalDate, List<UserEmotion>> daysOfWeek = new TreeMap<>(Comparator.reverseOrder());
 		Integer howManyDays = 0;
@@ -128,7 +126,6 @@ public class MainController {
 		// find the most liked category on a certain day
 		ArrayList<String> categories = gifService.getTopCategories(daysOfWeek);
 		Integer consecutiveDays = gifService.getConsecutiveDays(daysOfWeek.keySet());
-		System.out.println(consecutiveDays);
 		mav.addObject("categories", categories);
 		mav.addObject("averageMoodRatings", averageMoodRatings);
 		if (consecutiveDays >1) {
@@ -298,7 +295,6 @@ public class MainController {
 			@RequestParam(name = "id") String gifId, HttpSession session) {
 		GfyItem gfyItem = new GfyItem();
 		gfyItem = apiService.getAGif(gifId).getGfyItem();
-		System.out.println(gfyItem.getGifUrl());
 		ArrayList<String> tags = (ArrayList<String>) gfyItem.getTags();
 		for (String tag : tags) {
 			gifService.updateUserLikeTable(tag, (User) session.getAttribute("user"), count);

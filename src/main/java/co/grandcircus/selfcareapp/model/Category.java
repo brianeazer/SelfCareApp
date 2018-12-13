@@ -1,6 +1,7 @@
 package co.grandcircus.selfcareapp.model;
 
 public class Category {
+	
 	private String cursor;
 
 	public Category(String cursor) {

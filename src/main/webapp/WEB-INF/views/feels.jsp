@@ -8,14 +8,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
-<link rel="stylesheet" href="style.css" />
-<%@include file="partials/header.jsp"%>
+	<meta charset="UTF-8">
+	<title>Past Feelings</title>
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+		crossorigin="anonymous">
+	<link rel="stylesheet" href="style.css" />
+	<%@include file="partials/header.jsp"%>
 </head>
 <body>
 	<div class="container">
@@ -25,22 +25,23 @@
 			<c:forEach var="element" items="${ daysOfWeek }" varStatus="status">
 			<tbody class="accordion">
 				<tr>
-					<th colspan="1"><button class="buttons" >view</button></th><th><c:out value="${element.key}"  /></th>
+					<th colspan="1"><button type="button" class="btn btn-dark btn-sm">view</button></th>
+					<th><c:out value="${element.key}" /></th>
 				</tr>
 				</tbody>
 			<tbody style="display:none">
 				<tr>
-					<td>Average mood rating: <fmt:formatNumber type = "number" 
-         maxFractionDigits = "2" value = "${averageMoodRatings[status.index] }" /></td>
-					<td>Your most viewed category: ${categories[status.index] }</td>
+					<td><strong>Average mood rating: </strong><fmt:formatNumber type="number" maxFractionDigits="2" value="${averageMoodRatings[status.index] }" />
+					</td>
+					<td><strong>Your most viewed category: </strong>${categories[status.index] }</td>
 				</tr>
 				<tr class="tr">
-					<th>Time</th>
-					<th>Mood(0-10)</th>
+					<th scope="col">Time</th>
+					<th scope="col">Mood(0-10)</th>
 				</tr>
 				<c:forEach var="emotion" items="${element.value}">
 					<tr>
-						<td class="td"> <fmt:formatDate type = "time" 
+						<td scope="row"> <fmt:formatDate type = "time" 
         				 value = "${ emotion.date }" /></td>
 						<td class="td">${ emotion.emotionRating }</td>
 					</tr>
@@ -51,33 +52,30 @@
 	</div>
 </body>
 <script>
-var acc = document.getElementsByClassName("accordion");
-var buttons = document.getElementsByClassName("buttons");
-console.log(buttons);
-var i;
-
-
-
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-	if (this.childNodes[1].childNodes[1].childNodes[0].innerHTML === "view"){
-		this.childNodes[1].childNodes[1].childNodes[0].innerHTML = "close";
-	} else{
-		this.childNodes[1].childNodes[1].childNodes[0].innerHTML = "view"
+	var acc = document.getElementsByClassName("accordion");
+	var buttons = document.getElementsByClassName("btn btn-dark btn-sm");
+	var i;
+	
+	for (i = 0; i < acc.length; i++) {
+	  acc[i].addEventListener("click", function() {
+		if (this.childNodes[1].childNodes[1].childNodes[0].innerHTML === "view"){
+			this.childNodes[1].childNodes[1].childNodes[0].innerHTML = "close";
+		} else{
+			this.childNodes[1].childNodes[1].childNodes[0].innerHTML = "view"
+		}
+	    /* Toggle between adding and removing the "active" class,
+	    to highlight the button that controls the panel */
+		if (buttons[0].innerHTML==="view"){
+			buttons.innerHTML = "close";
+		}
+	    /* Toggle between hiding and showing the active panel */
+	    var panel = this.nextElementSibling;
+	    if (panel.style.display === "") {
+	      panel.style.display = "none";
+	    } else {
+	      panel.style.display = "";
+	    }
+	  });
 	}
-    /* Toggle between adding and removing the "active" class,
-    to highlight the button that controls the panel */
-	if (buttons[0].innerHTML==="view"){
-		buttons.innerHTML = "close";
-	}
-    /* Toggle between hiding and showing the active panel */
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "";
-    }
-  });
-}
 </script>
 </html>
