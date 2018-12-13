@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="style.css" />
 	<%@include file="partials/header.jsp"%>
 </head>
-<body>
+<body class = "gifsbody">
 	<div class="container">
 		<form method="get" class="center">
 			<h2>Category: ${ category }</h2>

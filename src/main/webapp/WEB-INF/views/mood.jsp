@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="style.css" />
 	<%@include file="partials/header.jsp"%>
 </head>
-<body>
+<body class ="moodbody">
 	<div class="container" id="mood-div">
 		${ message }
 		<h2 style="text-align:center;">Pick a Category:</h2>

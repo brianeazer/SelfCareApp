@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="style.css" />
 	<%@include file="partials/header.jsp"%>
 </head>
-<body>
+<body class ="toptenbody">
 	<div class="container" style="text-align:center;">
 		<h3>Your top 10 liked tags of all time:</h3>
 		<div class = "orderedlist">
